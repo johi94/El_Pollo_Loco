@@ -1,29 +1,8 @@
 class World {
   character = new Character(); // creates a new JavaScript image object (virtuale, not visible on the page)
-  enemies = [new Chicken(), new Chicken(), new Chicken()]; // array with enemies
-  clouds = [new Cloud()]; // array for clouds
-  backgroundObjects = [
-    new BackgroundObject("img/5_background/layers/air.png", -720),
-    new BackgroundObject("img/5_background/layers/3_third_layer/2.png", -720),
-    new BackgroundObject("img/5_background/layers/2_second_layer/2.png", -720),
-    new BackgroundObject("img/5_background/layers/1_first_layer/2.png", -720),
-    new BackgroundObject("img/5_background/layers/air.png", 0),
-    new BackgroundObject("img/5_background/layers/3_third_layer/1.png", 0),
-    new BackgroundObject("img/5_background/layers/2_second_layer/1.png", 0),
-    new BackgroundObject("img/5_background/layers/1_first_layer/1.png", 0),
-    new BackgroundObject("img/5_background/layers/air.png", 720),
-    new BackgroundObject("img/5_background/layers/3_third_layer/2.png", 720),
-    new BackgroundObject("img/5_background/layers/2_second_layer/2.png", 720),
-    new BackgroundObject("img/5_background/layers/1_first_layer/2.png", 720), 
-    new BackgroundObject("img/5_background/layers/air.png", 1440),
-    new BackgroundObject("img/5_background/layers/3_third_layer/1.png", 1440),
-    new BackgroundObject("img/5_background/layers/2_second_layer/1.png", 1440),
-    new BackgroundObject("img/5_background/layers/1_first_layer/1.png", 1440),
-    new BackgroundObject("img/5_background/layers/air.png", 2160),
-    new BackgroundObject("img/5_background/layers/3_third_layer/2.png", 2160),
-    new BackgroundObject("img/5_background/layers/2_second_layer/2.png", 2160),
-    new BackgroundObject("img/5_background/layers/1_first_layer/2.png", 2160)
-  ];
+  enemies = level1.enemies; // array with enemies
+  clouds = level1.clouds; // array for clouds
+  backgroundObjects = level1.backgroundObjects;
 
   canvas;
   ctx; // ctx = context, variable for context / used to render shapes and images
