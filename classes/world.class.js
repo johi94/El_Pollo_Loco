@@ -1,8 +1,6 @@
 class World {
   character = new Character(); // creates a new JavaScript image object (virtuale, not visible on the page)
-  enemies = level1.enemies; // array with enemies
-  clouds = level1.clouds; // array for clouds
-  backgroundObjects = level1.backgroundObjects;
+  level = level1;
 
   canvas;
   ctx; // ctx = context, variable for context / used to render shapes and images
@@ -24,13 +22,11 @@ class World {
 
   draw() {
     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height); // clears canvas at the beginning, before anything is drawn onto it
-
     this.ctx.translate(this.camera_x, 0);
-
-    this.addObjectsToMap(this.backgroundObjects); // add background to map
+    this.addObjectsToMap(this.level.backgroundObjects); // add background to map
     this.addToMap(this.character); // add character to map
-    this.addObjectsToMap(this.enemies); // add enemies to map
-    this.addObjectsToMap(this.clouds); // add clouds to map
+    this.addObjectsToMap(this.level.enemies); // add enemies to map
+    this.addObjectsToMap(this.level.clouds); // add clouds to map
     this.ctx.translate(-this.camera_x, 0);
                                                                   // draw gets called over and over again with this part
     let self = this;                                             // variable to use this. in function
