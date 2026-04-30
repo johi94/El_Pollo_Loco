@@ -10,6 +10,7 @@ class MovableObject {
   otherDirection = false;
   speedY = 0;
   acceleration = 2.5;
+  energy = 100;
 
   applyGravity() {
     setInterval(() => {
@@ -41,6 +42,25 @@ class MovableObject {
       ctx.rect(this.x, this.y, this.width, this.height);
       ctx.stroke();
     }
+  }
+
+  // offset hinzufügen Modul 12 Video zwischen 11 und 12
+  isColliding(movableObject) {
+    return this.x + this.width > movableObject.x &&
+           this.y + this.height > movableObject.y &&
+           this.x < movableObject.x &&
+           this.y < movableObject.y + movableObject.height;
+  }
+
+  hit() {
+    this.energy -= 5;
+    if(this.energy < 0) {
+      this.energy = 0;
+    }
+  }
+
+  isDead() {
+    return this.energy == 0;
   }
 
   loadImages(array) {
