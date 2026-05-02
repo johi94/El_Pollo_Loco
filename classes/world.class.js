@@ -1,11 +1,12 @@
 class World {
   character = new Character(); // creates a new JavaScript image object (virtuale, not visible on the page)
   level = level1;
-
   canvas;
   ctx; // ctx = context, variable for context / used to render shapes and images
   keyboard;
   camera_x = 0;
+  statusBar = new StatusBar();
+  throwableObjects = [];
 
   constructor(canvas, keyboard) {
     this.ctx = canvas.getContext("2d"); // asks canvas for its 2D rendering context / with this it's possible to draw on the screen
@@ -13,31 +14,48 @@ class World {
     this.keyboard = keyboard;
     this.draw();
     this.setWorld();
-    this.checkCollisions();
+    this.run();
   }
 
   setWorld() {
     this.character.world = this;
   }
 
-  checkCollisions() {
+  run() {
     setInterval(() => {
-      this.level.enemies.forEach( (enemy) => {
-       if (this.character.isColliding(enemy) ) {
-        this.character.hit();
-        console.log('Collision with Character, energy', this.character.energy);
-       }
-      });
+      this.checkCollisions();
+      this.checkThrowObjects();
     }, 200);
+  }
+
+  checkCollisions() {
+    this.level.enemies.forEach((enemy) => {
+      if (this.character.isColliding(enemy)) {
+        this.character.hit();
+        this.statusBar.setPercentage(this.character.energy);
+      }
+    });
+  }
+
+  checkThrowObjects() {
+    if(this.keyboard.D) {
+      let bottle = new ThrowableObject(this.character.x + 100, this.character.y +11);
+      this.throwableObjects.push(bottle);
+    }
   }
 
   draw() {
     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height); // clears canvas at the beginning, before anything is drawn onto it
     this.ctx.translate(this.camera_x, 0);
     this.addObjectsToMap(this.level.backgroundObjects); // add background to map
+    this.ctx.translate(-this.camera_x, 0);
+    // SPACE FOR FIXED OBJECTS / STATUS BARS
+    this.addToMap(this.statusBar);
+    this.ctx.translate(this.camera_x, 0);
     this.addToMap(this.character); // add character to map
     this.addObjectsToMap(this.level.enemies); // add enemies to map
     this.addObjectsToMap(this.level.clouds); // add clouds to map
+    this.addObjectsToMap(this.throwableObjects);
     this.ctx.translate(-this.camera_x, 0);
     // draw gets called over and over again with this part
     let self = this; // variable to use this. in function
