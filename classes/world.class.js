@@ -6,6 +6,7 @@ class World {
   keyboard;
   camera_x = 0;
   statusBar = new StatusBar();
+  statusBarCoins = new StatusBarCoins();
   throwableObjects = [];
 
   constructor(canvas, keyboard) {
@@ -35,6 +36,13 @@ class World {
         this.statusBar.setPercentage(this.character.energy);
       }
     });
+    this.level.coins.forEach((coin, index) => {
+    if (this.character.isColliding(coin)) {
+      this.character.coins += 20;                               
+      this.statusBarCoins.setPercentage(this.character.coins);  
+      this.level.coins.splice(index, 1);                        
+    }
+  });
   }
 
   checkThrowObjects() {
@@ -51,11 +59,13 @@ class World {
     this.ctx.translate(-this.camera_x, 0);
     // SPACE FOR FIXED OBJECTS / STATUS BARS
     this.addToMap(this.statusBar);
+    this.addToMap(this.statusBarCoins);
     this.ctx.translate(this.camera_x, 0);
     this.addToMap(this.character); // add character to map
     this.addObjectsToMap(this.level.enemies); // add enemies to map
     this.addObjectsToMap(this.level.clouds); // add clouds to map
     this.addObjectsToMap(this.throwableObjects);
+    this.addObjectsToMap(this.level.coins); // add coins to map
     this.ctx.translate(-this.camera_x, 0);
     // draw gets called over and over again with this part
     let self = this; // variable to use this. in function
