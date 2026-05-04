@@ -1,9 +1,16 @@
 body {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-image: url("./img/background.png");
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  height: 100dvh;
+  background-color: #000;
 }
 
 canvas {
-    background: black;
+  background: black;
 }
