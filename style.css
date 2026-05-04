@@ -3,12 +3,12 @@ body {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  background-image: url("./img/background.png");
-  background-size: contain;
+  background-image: url("./img/background_new.png");
+  background-size: cover;
   background-repeat: no-repeat;
   background-position: center;
-  height: 100dvh;
-  background-color: #000;
+  min-height: 100dvh;
+  background-attachment: fixed;
 }
 
 canvas {
