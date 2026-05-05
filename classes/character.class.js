@@ -5,13 +5,15 @@ class Character extends MovableObject {
   speed = 10;
   coins = 0;
   bottles = 0;
-  
+  wasInAir = false; // after "landing" picture idle
+  lastMovement = new Date().getTime(); // getTime for IDLE
+
   offset = {
-  top: 120,     // sombrero
-  bottom: 10,
-  left: 30,     // left side
-  right: 30     // right side
-};
+    top: 120, // sombrero
+    bottom: 10,
+    left: 25, // left side
+    right: 25, // right side
+  };
 
   IMAGES_WALKING = [
     "img/2_character_pepe/2_walk/W-21.png",
@@ -39,12 +41,12 @@ class Character extends MovableObject {
     "img/2_character_pepe/5_dead/D-54.png",
     "img/2_character_pepe/5_dead/D-55.png",
     "img/2_character_pepe/5_dead/D-56.png",
-    "img/2_character_pepe/5_dead/D-57.png"
-  ]; 
+    "img/2_character_pepe/5_dead/D-57.png",
+  ];
   IMAGES_HURT = [
     "img/2_character_pepe/4_hurt/H-41.png",
     "img/2_character_pepe/4_hurt/H-42.png",
-    "img/2_character_pepe/4_hurt/H-43.png"
+    "img/2_character_pepe/4_hurt/H-43.png",
   ];
   IMAGES_IDLE = [
     "img/2_character_pepe/1_idle/idle/I-1.png",
@@ -69,7 +71,7 @@ class Character extends MovableObject {
     "img/2_character_pepe/1_idle/long_idle/I-18.png",
     "img/2_character_pepe/1_idle/long_idle/I-19.png",
     "img/2_character_pepe/1_idle/long_idle/I-20.png",
-  ]
+  ];
   world;
 
   constructor() {
@@ -89,30 +91,42 @@ class Character extends MovableObject {
       if (this.world.keyboard.RIGHT && this.x < this.world.level.level_end_x) {
         this.moveRight();
         this.otherDirection = false;
+        this.lastMovement = new Date().getTime();
       }
       if (this.world.keyboard.LEFT && this.x > -0) {
         // posible to go into minus here because we have more background
         this.moveLeft();
         this.otherDirection = true;
+        this.lastMovement = new Date().getTime();
       }
       if (this.world.keyboard.SPACE && !this.isAboveGround()) {
         this.jump();
+        this.lastMovement = new Date().getTime();
       }
+      if (this.wasInAir && !this.isAboveGround()) {
+        this.img = this.imageCache["img/2_character_pepe/1_idle/idle/I-1.png"];
+        this.currentImage = 0;
+      }
+      this.wasInAir = this.isAboveGround();
       this.world.camera_x = -this.x + 100;
     }, 1000 / 60);
 
     setInterval(() => {
-      if(this.isDead()) {
+      if (this.isDead()) {
         this.playAnimation(this.IMAGES_DEAD);
       } else if (this.isHurt()) {
         this.playAnimation(this.IMAGES_HURT);
-      }
-      else if (this.isAboveGround()) {
+      } else if (this.isAboveGround()) {
         this.playAnimation(this.IMAGES_JUMPING);
+      } else if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT) {
+        this.playAnimation(this.IMAGES_WALKING);
       } else {
-        if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT) {
-          // walk animation aus movableObject
-          this.playAnimation(this.IMAGES_WALKING);
+        // Idle-Logik
+        let idleTime = (new Date().getTime() - this.lastMovement) / 1000;
+        if (idleTime > 20) {
+          this.playAnimation(this.IMAGES_LONGIDLE);
+        } else if (idleTime > 10) {
+          this.playAnimation(this.IMAGES_IDLE);
         }
       }
     }, 50);
