@@ -14,13 +14,13 @@ body {
 }
 
 .h1 {
-  height: 340px;
-  width: 350px;
+  height: 300px;
+  width: 360px;
 }
 
 .description {
-  height: 350px;
-  width: 350px;
+  height: 300px;
+  width: 300px;
 }
 
 main {
@@ -35,13 +35,19 @@ canvas {
   display: block;
 }
 
+.character {
+  margin-top: 5px;
+  height: 300px;
+  width: 300px;
+}
+
 @media only screen and (max-width: 720px) {
   canvas {
     width: 100%;
   }
   .h1 {
     height: 300px;
-    width: 300px;
+    width: 350px;
   }
   .description {
     height: 300px;

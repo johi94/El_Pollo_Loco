@@ -9,6 +9,7 @@ class World {
   statusBarCoins = new StatusBarCoins();
   statusBarBottles = new StatusBarBottles();
   throwableObjects = [];
+  
 
   constructor(canvas, keyboard) {
     this.ctx = canvas.getContext("2d"); // asks canvas for its 2D rendering context / with this it's possible to draw on the screen
@@ -21,8 +22,8 @@ class World {
 
   setWorld() {
     this.character.world = this;
-     this.level.enemies.forEach(enemy => {
-        enemy.world = this;  
+    this.level.enemies.forEach((enemy) => {
+      enemy.world = this;
     });
   }
 
@@ -34,12 +35,20 @@ class World {
   }
 
   checkCollisions() {
-    this.level.enemies.forEach((enemy) => {
-      if (this.character.isColliding(enemy)) {
-        this.character.hit();
-        this.statusBar.setPercentage(this.character.energy);
+    this.level.enemies.forEach((enemy, index) => {
+      if (this.character.isColliding(enemy) && !enemy.chickenDead) {
+        if (this.character.isAboveGround() && this.character.speedY < 0) {
+          enemy.die();
+          this.character.speedY = 15; 
+        } else {
+          this.character.hit(); 
+          this.statusBar.setPercentage(this.character.energy);
+        }
       }
     });
+    this.level.enemies = this.level.enemies.filter(
+      (enemy) => !enemy.markedForDeletion,
+    );
     this.level.coins.forEach((coin, index) => {
       if (this.character.isColliding(coin)) {
         this.character.coins += 20;
