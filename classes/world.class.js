@@ -9,7 +9,7 @@ class World {
   statusBarCoins = new StatusBarCoins();
   statusBarBottles = new StatusBarBottles();
   throwableObjects = [];
-  
+  bottleThrown = false;
 
   constructor(canvas, keyboard) {
     this.ctx = canvas.getContext("2d"); // asks canvas for its 2D rendering context / with this it's possible to draw on the screen
@@ -39,9 +39,9 @@ class World {
       if (this.character.isColliding(enemy) && !enemy.chickenDead) {
         if (this.character.isAboveGround() && this.character.speedY < 0) {
           enemy.die();
-          this.character.speedY = 15; 
+          this.character.speedY = 15;
         } else {
-          this.character.hit(); 
+          this.character.hit();
           this.statusBar.setPercentage(this.character.energy);
         }
       }
@@ -50,15 +50,21 @@ class World {
       (enemy) => !enemy.markedForDeletion,
     );
     this.level.coins.forEach((coin, index) => {
-      if (this.character.isColliding(coin)) {
+      if (this.character.isColliding(coin) && this.character.coins < 100) {
         this.character.coins += 20;
+        if (this.character.coins > 100) {
+          this.character.coins = 100;
+        }
         this.statusBarCoins.setPercentage(this.character.coins);
         this.level.coins.splice(index, 1);
       }
     });
     this.level.bottles.forEach((bottle, index) => {
-      if (this.character.isColliding(bottle)) {
+      if (this.character.isColliding(bottle) && this.character.bottles < 100) {
         this.character.bottles += 20;
+        if (this.character.bottles > 100) {
+          this.character.bottles = 100;
+        }
         this.statusBarBottles.setPercentage(this.character.bottles);
         this.level.bottles.splice(index, 1);
       }
@@ -66,12 +72,18 @@ class World {
   }
 
   checkThrowObjects() {
-    if (this.keyboard.D) {
+    if (this.keyboard.D && this.character.bottles > 0 && !this.bottleThrown) {
       let bottle = new ThrowableObject(
         this.character.x + 100,
         this.character.y + 11,
       );
       this.throwableObjects.push(bottle);
+      this.character.bottles -= 20;
+      this.statusBarBottles.setPercentage(this.character.bottles);
+      this.bottleThrown = true;
+      setTimeout(() => {
+        this.bottleThrown = false;
+      }, 500);
     }
   }
 
