@@ -144,7 +144,7 @@ class Character extends MovableObject {
       if (this.isHurt()) {
         this.playAnimation(this.IMAGES_HURT);
       }
-    }, 200);
+    }, 500);
   }
 
   animateIdle() {
@@ -156,6 +156,6 @@ class Character extends MovableObject {
       } else if (idleTime > 10) {
         this.playAnimation(this.IMAGES_IDLE);
       }
-    }, 500);
+    }, 600);
   }
 }

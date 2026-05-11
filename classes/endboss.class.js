@@ -3,12 +3,14 @@ class Endboss extends MovableObject {
   width = 200;
   y = 140;
   hadfirstContact = false;
+  energy = 100;
+
   offset = {
-  top: 80,
-  bottom: 10,
-  left: 20,
-  right: 20
-};
+    top: 80,
+    bottom: 10,
+    left: 20,
+    right: 20,
+  };
 
   IMAGES_WALKING = [
     "img/4_enemie_boss_chicken/1_walk/G1.png",
@@ -51,11 +53,10 @@ class Endboss extends MovableObject {
     "img/4_enemie_boss_chicken/5_dead/G26.png",
   ];
 
-
   constructor() {
     super().loadImage("img/4_enemie_boss_chicken/1_walk/G1.png");
     this.loadImages(this.IMAGES_WALKING);
-     this.loadImages(this.IMAGES_ALERTNESS);
+    this.loadImages(this.IMAGES_ALERTNESS);
     this.loadImages(this.IMAGES_ATTACK);
     this.loadImages(this.IMAGES_HURT);
     this.loadImages(this.IMAGES_DEAD);
@@ -63,21 +64,50 @@ class Endboss extends MovableObject {
     this.animate();
   }
 
-animate() {
+  animate() {
     let i = 0;
     setInterval(() => {
-        if (this.world) {  
-            if (this.world.character.x > 2000 && !this.hadfirstContact) {
-                i = 0;
-                this.hadfirstContact = true;
-            }
+      if (this.world) {
+        if (this.world.character.x > 2000 && !this.hadfirstContact) {
+          i = 0;
+          this.hadfirstContact = true;
         }
-        if (i < 10) {
-            this.playAnimation(this.IMAGES_WALKING);
-        } else {
-            this.playAnimation(this.IMAGES_ALERTNESS);
-        }
-        i++;
+      }
+      if (this.isDead()) return;
+      if (i < 10) {
+        this.playAnimation(this.IMAGES_WALKING);
+      } else {
+        this.playAnimation(this.IMAGES_ALERTNESS);
+      }
+      i++;
     }, 200);
-}
+    this.animateHurt();
+    this.animateDead();
+  }
+
+  hit() {
+    this.energy -= 20; 
+    if (this.energy < 0) {
+      this.energy = 0;
+    } else {
+      this.lastHit = new Date().getTime();
+    }
+  }
+
+  animateHurt() {
+    let hurtInterval = setInterval(() => {
+      if (this.isDead()) return;
+      if (this.isHurt()) {
+        this.playAnimation(this.IMAGES_HURT);
+      }
+    }, 600);
+  }
+
+  animateDead() {
+    setInterval(() => {
+      if (this.isDead()) {
+        this.playAnimation(this.IMAGES_DEAD);
+      }
+    }, 400);
+  }
 }

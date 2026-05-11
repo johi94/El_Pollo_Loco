@@ -69,6 +69,14 @@ class World {
         this.level.bottles.splice(index, 1);
       }
     });
+    this.throwableObjects.forEach((bottle, bottleIndex) => {
+      this.level.enemies.forEach((enemy) => {
+        if (bottle.isColliding(enemy) && enemy instanceof Endboss) {
+          enemy.hit();
+          this.throwableObjects.splice(bottleIndex, 1);
+        }
+      });
+    });
   }
 
   checkThrowObjects() {
