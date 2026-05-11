@@ -35,7 +35,15 @@ class World {
   }
 
   checkCollisions() {
-    this.level.enemies.forEach((enemy, index) => {
+    this.checkEnemyCollisions();
+    this.cleanUpEnemies();
+    this.checkCoinCollisions();
+    this.checkBottleCollisions();
+    this.checkThrowableCollisions();
+  }
+
+  checkEnemyCollisions() {
+    this.level.enemies.forEach((enemy) => {
       if (this.character.isColliding(enemy) && !enemy.chickenDead) {
         if (this.character.isAboveGround() && this.character.speedY < 0) {
           enemy.die();
@@ -46,9 +54,15 @@ class World {
         }
       }
     });
+  }
+
+  cleanUpEnemies() {
     this.level.enemies = this.level.enemies.filter(
       (enemy) => !enemy.markedForDeletion,
     );
+  }
+
+  checkCoinCollisions() {
     this.level.coins.forEach((coin, index) => {
       if (this.character.isColliding(coin) && this.character.coins < 100) {
         this.character.coins += 20;
@@ -59,6 +73,9 @@ class World {
         this.level.coins.splice(index, 1);
       }
     });
+  }
+
+  checkBottleCollisions() {
     this.level.bottles.forEach((bottle, index) => {
       if (this.character.isColliding(bottle) && this.character.bottles < 100) {
         this.character.bottles += 20;
@@ -68,14 +85,6 @@ class World {
         this.statusBarBottles.setPercentage(this.character.bottles);
         this.level.bottles.splice(index, 1);
       }
-    });
-    this.throwableObjects.forEach((bottle, bottleIndex) => {
-      this.level.enemies.forEach((enemy) => {
-        if (bottle.isColliding(enemy) && enemy instanceof Endboss) {
-          enemy.hit();
-          this.throwableObjects.splice(bottleIndex, 1);
-        }
-      });
     });
   }
 
@@ -93,6 +102,17 @@ class World {
         this.bottleThrown = false;
       }, 500);
     }
+  }
+
+  checkThrowableCollisions() {
+    this.throwableObjects.forEach((bottle, bottleIndex) => {
+      this.level.enemies.forEach((enemy) => {
+        if (bottle.isColliding(enemy) && enemy instanceof Endboss) {
+          enemy.hit();
+          this.throwableObjects.splice(bottleIndex, 1);
+        }
+      });
+    });
   }
 
   draw() {

@@ -4,6 +4,7 @@ class Endboss extends MovableObject {
   y = 140;
   hadfirstContact = false;
   energy = 100;
+  markedForDeletion = false;
 
   offset = {
     top: 80,
@@ -107,7 +108,11 @@ class Endboss extends MovableObject {
     setInterval(() => {
       if (this.isDead()) {
         this.playAnimation(this.IMAGES_DEAD);
-      }
+         setTimeout(() => {
+        this.markedForDeletion = true; 
+      }, 1000); 
+    }
     }, 400);
+    
   }
 }
