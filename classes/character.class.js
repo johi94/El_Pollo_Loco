@@ -9,10 +9,10 @@ class Character extends MovableObject {
   lastMovement = new Date().getTime(); // getTime for IDLE
 
   offset = {
-    top: 120, // sombrero
-    bottom: 10,
-    left: 25, // left side
-    right: 25, // right side
+    top: 120, 
+    bottom: 15,
+    left: 30, 
+    right: 30, 
   };
 
   IMAGES_WALKING = [

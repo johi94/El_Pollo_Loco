@@ -6,8 +6,8 @@ class Chicken extends MovableObject {
   markedForDeletion = false; 
 
   offset = {
-  top: 5,
-  bottom: 5,
+  top: 0,
+  bottom: 0,
   left: 5,
   right: 5
 };
