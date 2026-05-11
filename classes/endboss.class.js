@@ -113,6 +113,5 @@ class Endboss extends MovableObject {
       }, 1000); 
     }
     }, 400);
-    
   }
 }
