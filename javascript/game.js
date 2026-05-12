@@ -2,12 +2,6 @@ let canvas; // willhold reference to HTML-element
 let world;
 let keyboard = new Keyboard();
 
-function startGame() {
-  document.getElementById('startScreen').style.display = 'none'; 
-  initLevel();
-  init(); 
-}
-
 // calls method to reach out to canvas and unite it with a variable
 // 2 variables are getting called with init function: canvas and world
 function init() {
@@ -61,14 +55,38 @@ document.addEventListener("keyup", (event) => {
   }
 });
 
+function startGame() {
+  document.getElementById('resetBtn').style.display = 'block';
+  hideAllScreens();
+  initLevel();
+  init();
+}
+
+function resetGame() {
+  document.getElementById('gameOverScreen').style.display = 'none';
+  document.getElementById('winScreen').style.display = 'none';
+  document.getElementById('startScreen').style.display = 'block';  
+  document.getElementById('resetBtn').style.display = 'none';      
+}
+
 function showGameOver() {
   document.getElementById('gameOverScreen').style.display = 'block';
 }
 
+function showWin() {
+  document.getElementById('winScreen').style.display = 'block';
+}
+
 function restartGame() {
-  document.getElementById('gameOverScreen').style.display = 'none';
+  hideAllScreens();
   initLevel();
   init();
+}
+
+function hideAllScreens() {
+  document.getElementById('startScreen').style.display = 'none';
+  document.getElementById('gameOverScreen').style.display = 'none';
+  document.getElementById('winScreen').style.display = 'none';
 }
 
 

@@ -11,6 +11,7 @@ class World {
   throwableObjects = [];
   bottleThrown = false;
   gameOverShown = false;
+  winShown = false;
 
   constructor(canvas, keyboard) {
     this.ctx = canvas.getContext("2d"); // asks canvas for its 2D rendering context / with this it's possible to draw on the screen
@@ -33,6 +34,7 @@ class World {
       this.checkCollisions();
       this.checkThrowObjects();
       this.checkGameOver();
+      this.checkWin();
     }, 50);
   }
 
@@ -198,10 +200,20 @@ class World {
 
   checkGameOver() {
     if (this.character.isDead() && !this.gameOverShown) {
-      this.gameOverShown = true; 
+      this.gameOverShown = true;
       setTimeout(() => {
         showGameOver();
       }, 1000);
+    }
+  }
+
+  checkWin() {
+    const endbossDefeated = this.level.enemies.every(
+      (enemy) => !(enemy instanceof Endboss) || enemy.isDead(),
+    );
+    if (endbossDefeated && !this.winShown) {
+      this.winShown = true;
+      setTimeout(() => showWin(), 1000);
     }
   }
 }

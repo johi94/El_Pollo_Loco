@@ -5,9 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="style.css" />
     <link rel="stylesheet" href="./fonts/fonts.css" />
-    <link rel="stylesheet" href="./CSS/startscreen.css">
-    <link rel="stylesheet" href="./CSS/gameover.css">
-    <link rel="shortcut icon" href="./img/pepe.png">
+    <link rel="stylesheet" href="./CSS/startscreen.css" />
+    <link rel="stylesheet" href="./CSS/gameover.css" />
+    <link rel="stylesheet" href="./CSS/assets.css">
+    <link rel="shortcut icon" href="./img/pepe.png" />
     <title>El pollo loco</title>
     <script src="./classes/drawable-object.class.js"></script>
     <script src="./classes/movable-object.class.js"></script>
@@ -32,33 +33,44 @@
   </head>
   <body onload="">
     <header class="headline">
-       <img class="h1" src="./img/h1.png" alt="titel">
-      <img class="description" src="./img/h2.png" alt="description">
+      <img class="h1" src="./img/h1.png" alt="titel" />
+      <img class="description" src="./img/h2.png" alt="description" />
     </header>
-     <main>
+    <main>
       <div class="canvas-container">
-       <canvas id="canvas" width="720" height="480"> </canvas>
-       <button class="fullscreen-btn"  onclick="fullscreen()">⛶</button>
+        <canvas id="canvas" width="720" height="480"> </canvas>
+        <button class="fullscreen-btn" onclick="fullscreen()">⛶</button>
+        <button class="reset-btn" id="resetBtn" onclick="resetGame()" style="display:none">↩</button>
         <div class="start-screen" id="startScreen">
-         <img src="./img/9_intro_outro_screens/start/startscreen_1.png" alt="Start Screen">
+          <img
+            src="./img/9_intro_outro_screens/start/startscreen_1.png"
+            alt="Start Screen"
+          />
           <button class="start-btn" onclick="startGame()">Start Game</button>
         </div>
-        <div class="game-over-screen" id="gameOverScreen"> 
-         <img src="./img/9_intro_outro_screens/game_over/game over.png" alt="Game Over">
+        <div class="game-over-screen" id="gameOverScreen">
+          <img
+            src="./img/9_intro_outro_screens/game_over/game over.png"
+            alt="Game Over"
+          />
+          <button class="start-btn" onclick="restartGame()">Play Again</button>
+        </div>
+        <div class="win-screen" id="winScreen">
+          <img src="./img/You won, you lost/You Win A.png" alt="You Win" />
           <button class="start-btn" onclick="restartGame()">Play Again</button>
         </div>
       </div>
       <section class="controls-section">
-       <div class="controls_1">
-        <p>&#8594; walk right</p>
-        <p>&#8592; walk left</p>
-       </div>
-        <img class="character" src="./img/pepe.png" alt="character">
-       <div class="controls_2">
-        <p>SPACE = jump</p>
-        <p>D = throw bottle</p>
-       </div>
+        <div class="controls_1">
+          <p>&#8594; walk right</p>
+          <p>&#8592; walk left</p>
+        </div>
+        <img class="character" src="./img/pepe.png" alt="character" />
+        <div class="controls_2">
+          <p>SPACE = jump</p>
+          <p>D = throw bottle</p>
+        </div>
       </section>
-     </main>
+    </main>
   </body>
 </html>
