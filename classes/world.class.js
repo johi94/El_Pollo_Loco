@@ -10,6 +10,7 @@ class World {
   statusBarBottles = new StatusBarBottles();
   throwableObjects = [];
   bottleThrown = false;
+  gameOverShown = false;
 
   constructor(canvas, keyboard) {
     this.ctx = canvas.getContext("2d"); // asks canvas for its 2D rendering context / with this it's possible to draw on the screen
@@ -31,6 +32,7 @@ class World {
     setInterval(() => {
       this.checkCollisions();
       this.checkThrowObjects();
+      this.checkGameOver();
     }, 50);
   }
 
@@ -133,9 +135,9 @@ class World {
 
   draw() {
     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-    this.drawBackground(); 
-    this.drawGameObjects(); 
-    this.drawStatusBars(); 
+    this.drawBackground();
+    this.drawGameObjects();
+    this.drawStatusBars();
     requestAnimationFrame(() => this.draw());
   }
 
@@ -192,5 +194,14 @@ class World {
   flipImageBack(movableObject) {
     movableObject.x = movableObject.x * -1;
     this.ctx.restore();
+  }
+
+  checkGameOver() {
+    if (this.character.isDead() && !this.gameOverShown) {
+      this.gameOverShown = true; 
+      setTimeout(() => {
+        showGameOver();
+      }, 1000);
+    }
   }
 }

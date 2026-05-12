@@ -109,6 +109,7 @@ class Character extends MovableObject {
   }
 
   movementCharacter() {
+    if (this.isDead()) return;
     if (this.isMovingRight()) {
       this.moveRight();
     }

@@ -4,6 +4,7 @@ let keyboard = new Keyboard();
 
 function startGame() {
   document.getElementById('startScreen').style.display = 'none'; 
+  initLevel();
   init(); 
 }
 
@@ -59,5 +60,15 @@ document.addEventListener("keyup", (event) => {
     keyboard.D = false;
   }
 });
+
+function showGameOver() {
+  document.getElementById('gameOverScreen').style.display = 'block';
+}
+
+function restartGame() {
+  document.getElementById('gameOverScreen').style.display = 'none';
+  initLevel();
+  init();
+}
 
 
