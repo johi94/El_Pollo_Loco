@@ -7,8 +7,6 @@ let keyboard = new Keyboard();
 function init() {
   canvas = document.getElementById("canvas"); // "grabs" element with id="canvas" and stores it in canvas variable
   world = new World(canvas, keyboard); // world gets canvas as argument / new Object world gets canvas as variable
-
-  console.log("My Character is", world.character, 100, 100);
 }
 
 document.addEventListener("keydown", (event) => {
@@ -55,5 +53,4 @@ document.addEventListener("keyup", (event) => {
   if (event.keyCode == 68) {
     keyboard.D = false;
   }
-  console.log(event);
 });

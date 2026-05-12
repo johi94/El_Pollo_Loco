@@ -133,9 +133,9 @@ class World {
 
   draw() {
     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-    this.drawBackground(); // ← auslagern
-    this.drawGameObjects(); // ← auslagern
-    this.drawStatusBars(); // ← auslagern
+    this.drawBackground(); 
+    this.drawGameObjects(); 
+    this.drawStatusBars(); 
     requestAnimationFrame(() => this.draw());
   }
 
