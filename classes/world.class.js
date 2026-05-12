@@ -89,19 +89,35 @@ class World {
   }
 
   checkThrowObjects() {
-    if (this.keyboard.D && this.character.bottles > 0 && !this.bottleThrown) {
-      let bottle = new ThrowableObject(
-        this.character.x + 100,
-        this.character.y + 11,
-      );
-      this.throwableObjects.push(bottle);
-      this.character.bottles -= 20;
-      this.statusBarBottles.setPercentage(this.character.bottles);
-      this.bottleThrown = true;
-      setTimeout(() => {
-        this.bottleThrown = false;
-      }, 500);
+    if (this.canThrowBottle()) {
+      this.throwBottle();
     }
+  }
+
+  canThrowBottle() {
+    return this.keyboard.D && this.character.bottles > 0 && !this.bottleThrown;
+  }
+
+  throwBottle() {
+    let bottle = new ThrowableObject(
+      this.character.x + 100,
+      this.character.y + 11,
+    );
+    this.throwableObjects.push(bottle);
+    this.updateBottleStatus();
+    this.setCooldown();
+  }
+
+  updateBottleStatus() {
+    this.character.bottles -= 20;
+    this.statusBarBottles.setPercentage(this.character.bottles);
+  }
+
+  setCooldown() {
+    this.bottleThrown = true;
+    setTimeout(() => {
+      this.bottleThrown = false;
+    }, 500);
   }
 
   checkThrowableCollisions() {
@@ -116,28 +132,34 @@ class World {
   }
 
   draw() {
-    this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height); // clears canvas at the beginning, before anything is drawn onto it
+    this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+    this.drawBackground(); // ← auslagern
+    this.drawGameObjects(); // ← auslagern
+    this.drawStatusBars(); // ← auslagern
+    requestAnimationFrame(() => this.draw());
+  }
+
+  drawBackground() {
     this.ctx.translate(this.camera_x, 0);
-    this.addObjectsToMap(this.level.backgroundObjects); // add background to map
+    this.addObjectsToMap(this.level.backgroundObjects);
     this.ctx.translate(-this.camera_x, 0);
+  }
+
+  drawGameObjects() {
     this.ctx.translate(this.camera_x, 0);
-    this.addObjectsToMap(this.level.clouds); // add clouds to map
-    this.addToMap(this.character); // add character to map
-    this.addObjectsToMap(this.level.enemies); // add enemies to map
+    this.addObjectsToMap(this.level.clouds);
+    this.addObjectsToMap(this.level.coins);
     this.addObjectsToMap(this.level.bottles);
+    this.addToMap(this.character);
+    this.addObjectsToMap(this.level.enemies);
     this.addObjectsToMap(this.throwableObjects);
-    this.addObjectsToMap(this.level.coins); // add coins to map
     this.ctx.translate(-this.camera_x, 0);
-    // SPACE FOR FIXED OBJECTS / STATUS BARS
+  }
+
+  drawStatusBars() {
     this.addToMap(this.statusBar);
     this.addToMap(this.statusBarCoins);
     this.addToMap(this.statusBarBottles);
-    // draw gets called over and over again with this part
-    let self = this; // variable to use this. in function
-    requestAnimationFrame(function () {
-      // function is obligatory to draw character over and over again
-      self.draw();
-    });
   }
 
   // function to add Objects to Map

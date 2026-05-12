@@ -3,3 +3,10 @@
     src: url('./zabars.ttf') format('truetype'); 
 }
 
+body {
+    font-family: zabras;
+    font-size: 30px;
+    font-weight: 300;
+    font-style: oblique;
+    letter-spacing: 2px;
+}

@@ -14,13 +14,13 @@ body {
 }
 
 .h1 {
-  height: 300px;
-  width: 360px;
+  height: 200px;
+  width: 260px;
 }
 
 .description {
-  height: 300px;
-  width: 300px;
+  height: 200px;
+  width: 200px;
 }
 
 main {
@@ -57,23 +57,33 @@ canvas {
   background: rgba(0, 0, 0, 0.8);
 }
 
+.controls-section {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.controls_1 {
+ background: white;
+ padding: 8px;
+ border-radius: 12px;
+}
+
+.controls_2 {
+ background: white;
+ padding: 8px;
+ border-radius: 12px;
+}
+
 .character {
   margin-top: 5px;
-  height: 300px;
-  width: 300px;
+  height: 200px;
+  width: 200px;
 }
 
 @media only screen and (max-width: 720px) {
   canvas {
     width: 100%;
-  }
-  .h1 {
-    height: 300px;
-    width: 350px;
-  }
-  .description {
-    height: 300px;
-    width: 300px;
   }
 }
 

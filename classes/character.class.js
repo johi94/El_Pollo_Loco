@@ -94,38 +94,62 @@ class Character extends MovableObject {
 
   animate() {
     setInterval(() => {
-     this.movement();
-     this.landing();
+      this.movementCharacter();
+      this.landingCharacter();
       this.world.camera_x = -this.x + 100;
     }, 1000 / 60);
 
     setInterval(() => {
       if (this.isDead()) return;
-      this.animation();
+      this.animationCharacter();
     }, 100);
     this.animateDead();
     this.animateHurt();
     this.animateIdle();
   }
 
-  movement() {
-    if (this.world.keyboard.RIGHT && this.x < this.world.level.level_end_x) {
+  movementCharacter() {
+    if (this.isMovingRight()) {
       this.moveRight();
-      this.otherDirection = false;
-      this.lastMovement = new Date().getTime();
     }
-    if (this.world.keyboard.LEFT && this.x > 0) {
+    if (this.isMovingLeft()) {
       this.moveLeft();
-      this.otherDirection = true;
-      this.lastMovement = new Date().getTime();
     }
-    if (this.world.keyboard.SPACE && !this.isAboveGround()) {
+    if (this.isJumping()) {
       this.jump();
-      this.lastMovement = new Date().getTime();
     }
   }
 
-  landing() {
+  isMovingRight() {
+    return this.world.keyboard.RIGHT && this.x < this.world.level.level_end_x;
+  }
+
+  moveRight() {
+    super.moveRight();
+    this.otherDirection = false;
+    this.lastMovement = new Date().getTime();
+  }
+
+  isMovingLeft() {
+    return this.world.keyboard.LEFT && this.x > 0;
+  }
+
+  moveLeft() {
+    super.moveLeft();
+    this.otherDirection = true;
+    this.lastMovement = new Date().getTime();
+  }
+
+  isJumping() {
+    return this.world.keyboard.SPACE && !this.isAboveGround();
+  }
+
+  jump() {
+    super.jump();
+    this.lastMovement = new Date().getTime();
+  }
+
+  landingCharacter() {
     if (this.wasInAir && !this.isAboveGround()) {
       this.img = this.imageCache["img/2_character_pepe/1_idle/idle/I-1.png"];
       this.currentImage = 0;
@@ -133,12 +157,12 @@ class Character extends MovableObject {
     this.wasInAir = this.isAboveGround();
   }
 
-  animation() {
-      if (this.isAboveGround()) {
-    this.playAnimation(this.IMAGES_JUMPING);
-  } else if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT) {
-    this.playAnimation(this.IMAGES_WALKING);
-  }
+  animationCharacter() {
+    if (this.isAboveGround()) {
+      this.playAnimation(this.IMAGES_JUMPING);
+    } else if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT) {
+      this.playAnimation(this.IMAGES_WALKING);
+    }
   }
 
   animateDead() {
