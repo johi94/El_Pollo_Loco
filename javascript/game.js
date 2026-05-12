@@ -2,6 +2,11 @@ let canvas; // willhold reference to HTML-element
 let world;
 let keyboard = new Keyboard();
 
+function startGame() {
+  document.getElementById('startScreen').style.display = 'none'; 
+  init(); 
+}
+
 // calls method to reach out to canvas and unite it with a variable
 // 2 variables are getting called with init function: canvas and world
 function init() {
@@ -54,3 +59,5 @@ document.addEventListener("keyup", (event) => {
     keyboard.D = false;
   }
 });
+
+
