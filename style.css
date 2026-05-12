@@ -35,6 +35,28 @@ canvas {
   display: block;
 }
 
+.canvas-container {
+  position: relative;
+  display: inline-block;
+}
+
+.fullscreen-btn {
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  background: rgba(0, 0, 0, 0.5);
+  color: white;
+  border: none;
+  padding: 2px 5px;
+  cursor: pointer;
+  font-size: 25px;
+  border-radius: 12px;
+}
+
+.fullscreen-btn:hover {
+  background: rgba(0, 0, 0, 0.8);
+}
+
 .character {
   margin-top: 5px;
   height: 300px;

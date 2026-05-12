@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="style.css" />
     <link rel="stylesheet" href="./fonts/fonts.css" />
+    <link rel="shortcut icon" href="./img/pepe.png">
     <title>El pollo loco</title>
     <script src="./classes/drawable-object.class.js"></script>
     <script src="./classes/movable-object.class.js"></script>
@@ -25,18 +26,21 @@
     <script src="./classes/world.class.js"></script>
     <script src="./javascript/levels/level1.js"></script>
     <script src="./javascript/game.js"></script>
+    <script src="./javascript/fullscreen.js"></script>
   </head>
   <body onload="init()">
     <header class="headline">
        <img class="h1" src="./img/h1.png" alt="titel">
       <img class="description" src="./img/h2.png" alt="description">
     </header>
-    <main>
-    <!--container with x- and y-axis. it's possible to put imgs to coordinates -->
-    <canvas id="canvas" width="720" height="480"> </canvas>
-    <section>
-      <img class="character" src="./img/pepe.png" alt="character">
-    </section>
-    </main>
+     <main>
+      <div class="canvas-container">
+       <canvas id="canvas" width="720" height="480"> </canvas>
+       <button class="fullscreen-btn"  onclick="fullscreen()">⛶</button>
+      </div>
+      <section>
+       <img class="character" src="./img/pepe.png" alt="character">
+      </section>
+     </main>
   </body>
 </html>
