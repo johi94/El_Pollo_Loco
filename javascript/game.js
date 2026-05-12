@@ -29,6 +29,9 @@ document.addEventListener("keydown", (event) => {
   }
   if (event.keyCode == 68) {
     keyboard.D = true;
+     if (world.character) {
+      world.character.lastMovement = new Date().getTime();
+    }
   }
 });
 

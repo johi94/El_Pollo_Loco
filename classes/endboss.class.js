@@ -5,6 +5,7 @@ class Endboss extends MovableObject {
   hadfirstContact = false;
   energy = 100;
   markedForDeletion = false;
+  animationIndex = 0;
 
   offset = {
     top: 80,
@@ -68,26 +69,32 @@ class Endboss extends MovableObject {
   animate() {
     let i = 0;
     setInterval(() => {
-      if (this.world) {
-        if (this.world.character.x > 2000 && !this.hadfirstContact) {
-          i = 0;
-          this.hadfirstContact = true;
-        }
-      }
+      this.checkFirstContact(i);
       if (this.isDead()) return;
-      if (i < 10) {
-        this.playAnimation(this.IMAGES_WALKING);
-      } else {
-        this.playAnimation(this.IMAGES_ALERTNESS);
-      }
-      i++;
+      this.walkingAnimation(i);
+      this.animationIndex++;
     }, 200);
     this.animateHurt();
     this.animateDead();
   }
 
+  checkFirstContact(i) {
+    if (this.world && this.world.character.x > 2000 && !this.hadfirstContact) {
+      this.animationIndex = 0;
+      this.hadfirstContact = true;
+    }
+  }
+
+  walkingAnimation(i) {
+    if (this.animationIndex < 10) {
+    this.playAnimation(this.IMAGES_WALKING);
+  } else {
+    this.playAnimation(this.IMAGES_ALERTNESS);
+  }
+  }
+
   hit() {
-    this.energy -= 20; 
+    this.energy -= 20;
     if (this.energy < 0) {
       this.energy = 0;
     } else {
@@ -108,10 +115,10 @@ class Endboss extends MovableObject {
     setInterval(() => {
       if (this.isDead()) {
         this.playAnimation(this.IMAGES_DEAD);
-         setTimeout(() => {
-        this.markedForDeletion = true; 
-      }, 1000); 
-    }
+        setTimeout(() => {
+          this.markedForDeletion = true;
+        }, 1000);
+      }
     }, 400);
   }
 }

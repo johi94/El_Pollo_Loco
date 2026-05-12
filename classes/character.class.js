@@ -9,10 +9,10 @@ class Character extends MovableObject {
   lastMovement = new Date().getTime(); // getTime for IDLE
 
   offset = {
-    top: 120, 
-    bottom: 15,
-    left: 30, 
-    right: 30, 
+    top: 120,
+    bottom: 5,
+    left: 30,
+    right: 30,
   };
 
   IMAGES_WALKING = [
@@ -94,40 +94,51 @@ class Character extends MovableObject {
 
   animate() {
     setInterval(() => {
-      if (this.world.keyboard.RIGHT && this.x < this.world.level.level_end_x) {
-        this.moveRight();
-        this.otherDirection = false;
-        this.lastMovement = new Date().getTime();
-      }
-      if (this.world.keyboard.LEFT && this.x > -0) {
-        // posible to go into minus here because we have more background
-        this.moveLeft();
-        this.otherDirection = true;
-        this.lastMovement = new Date().getTime();
-      }
-      if (this.world.keyboard.SPACE && !this.isAboveGround()) {
-        this.jump();
-        this.lastMovement = new Date().getTime();
-      }
-      if (this.wasInAir && !this.isAboveGround()) {
-        this.img = this.imageCache["img/2_character_pepe/1_idle/idle/I-1.png"];
-        this.currentImage = 0;
-      }
-      this.wasInAir = this.isAboveGround();
+     this.movement();
+     this.landing();
       this.world.camera_x = -this.x + 100;
     }, 1000 / 60);
 
     setInterval(() => {
       if (this.isDead()) return;
-      if (this.isAboveGround()) {
-        this.playAnimation(this.IMAGES_JUMPING);
-      } else if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT) {
-        this.playAnimation(this.IMAGES_WALKING);
-      }
+      this.animation();
     }, 100);
     this.animateDead();
     this.animateHurt();
     this.animateIdle();
+  }
+
+  movement() {
+    if (this.world.keyboard.RIGHT && this.x < this.world.level.level_end_x) {
+      this.moveRight();
+      this.otherDirection = false;
+      this.lastMovement = new Date().getTime();
+    }
+    if (this.world.keyboard.LEFT && this.x > 0) {
+      this.moveLeft();
+      this.otherDirection = true;
+      this.lastMovement = new Date().getTime();
+    }
+    if (this.world.keyboard.SPACE && !this.isAboveGround()) {
+      this.jump();
+      this.lastMovement = new Date().getTime();
+    }
+  }
+
+  landing() {
+    if (this.wasInAir && !this.isAboveGround()) {
+      this.img = this.imageCache["img/2_character_pepe/1_idle/idle/I-1.png"];
+      this.currentImage = 0;
+    }
+    this.wasInAir = this.isAboveGround();
+  }
+
+  animation() {
+      if (this.isAboveGround()) {
+    this.playAnimation(this.IMAGES_JUMPING);
+  } else if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT) {
+    this.playAnimation(this.IMAGES_WALKING);
+  }
   }
 
   animateDead() {
