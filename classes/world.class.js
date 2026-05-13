@@ -307,6 +307,10 @@ class World {
     this.character.soundJump.currentTime = 0;
     this.character.soundWalk.pause();
     this.character.soundWalk.currentTime = 0;
+    this.character.soundIdle.pause();
+    this.character.soundIdle.currentTime = 0;
+    this.character.soundLongIdle.pause();
+    this.character.soundLongIdle.currentTime = 0;
     this.soundBottleThrow.pause();
     this.throwableObjects.forEach((bottle) => {
       if (bottle.soundSplash) {

@@ -2,17 +2,17 @@ class Chicken extends MovableObject {
   y = 360;
   width = 60;
   height = 60;
-  chickenDead = false; 
-  markedForDeletion = false; 
-  sound = new Audio('audio/chicken_sound.mp3');
-  soundDead = new Audio('audio/chicken_dead.mp3');
+  chickenDead = false;
+  markedForDeletion = false;
+  sound = new Audio("audio/chicken_sound.mp3");
+  soundDead = new Audio("audio/chicken_dead.mp3");
 
   offset = {
-  top: 0,
-  bottom: 0,
-  left: 5,
-  right: 5
-};
+    top: 0,
+    bottom: 0,
+    left: 5,
+    right: 5,
+  };
 
   IMAGES_WALKING = [
     "img/3_enemies_chicken/chicken_normal/1_walk/1_w.png",
@@ -21,7 +21,7 @@ class Chicken extends MovableObject {
   ];
 
   IMAGE_DEAD = "img/3_enemies_chicken/chicken_normal/2_dead/dead.png";
-  
+
   constructor() {
     super().loadImage(this.IMAGES_WALKING[0]);
     this.loadImages(this.IMAGES_WALKING);
@@ -34,30 +34,47 @@ class Chicken extends MovableObject {
     this.animate();
   }
 
-   die() {
+  die() {
     this.chickenDead = true;
-    this.loadImage(this.IMAGE_DEAD); 
+    this.loadImage(this.IMAGE_DEAD);
     this.speed = 0;
-    this.sound.pause(); 
-    this.sound.currentTime = 0;  
+    this.sound.pause();
+    this.sound.currentTime = 0;
     this.soundDead.volume = 0.5;
-    this.soundDead.muted = soundEffectsMuted; 
-    this.soundDead.play();                                 
+    this.soundDead.muted = soundEffectsMuted;
+    this.soundDead.play();
     setTimeout(() => {
       this.markedForDeletion = true; // remove from Array
     }, 500);
   }
 
   animate() {
-    addInterval(() => {  
-    if (!this.chickenDead) {
-      this.moveLeft();
-    }
-  }, 1000 / 60);
     addInterval(() => {
-        if (!this.chickenDead) {
+      if (!this.chickenDead) {
+        this.moveLeft();
+      }
+      this.updateSound();
+    }, 1000 / 60);
+    addInterval(() => {
+      if (!this.chickenDead) {
         this.playAnimation(this.IMAGES_WALKING);
       }
     }, 200);
+  }
+
+  updateSound() {
+    if (this.isVisible() && !this.chickenDead) {
+      if (this.sound.paused) {
+        this.sound.play();
+      }
+    } else {
+      this.sound.pause();
+    }
+  }
+
+  isVisible() {
+    if (!world) return false;
+    const cameraX = -world.camera_x;
+    return this.x > cameraX - 100 && this.x < cameraX + 820;
   }
 }

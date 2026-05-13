@@ -10,6 +10,8 @@ class Character extends MovableObject {
   lastMovement = new Date().getTime(); // getTime for IDLE
   soundJump = new Audio("audio/jump.mp3");
   soundWalk = new Audio("audio/pepe_walk.mp3");
+  soundIdle = new Audio("audio/pepe_idle_humming.mp3");
+  soundLongIdle = new Audio("audio/pepe_snoring.mp3");
 
   offset = {
     top: 120,
@@ -210,16 +212,33 @@ class Character extends MovableObject {
   }
 
   animateIdle() {
-    setInterval(() => {
-      if (this.isDead()) return;
-      let idleTime = (new Date().getTime() - this.lastMovement) / 1000;
-      if (idleTime > 20) {
-        this.playAnimation(this.IMAGES_LONGIDLE);
-      } else if (idleTime > 10) {
-        this.playAnimation(this.IMAGES_IDLE);
+  addInterval(() => {
+    if (this.isDead()) return;
+    let idleTime = (new Date().getTime() - this.lastMovement) / 1000;
+    if (idleTime > 20) {
+      this.playAnimation(this.IMAGES_LONGIDLE);
+      this.soundIdle.pause();                    
+      this.soundIdle.currentTime = 0;
+      if (this.soundLongIdle.paused) {           
+        this.soundLongIdle.volume = 0.3;
+        this.soundLongIdle.muted = soundEffectsMuted;
+        this.soundLongIdle.play();
       }
-    }, 600);
-  }
+    } else if (idleTime > 10) {
+      this.playAnimation(this.IMAGES_IDLE);
+      if (this.soundIdle.paused) {               
+        this.soundIdle.volume = 0.3;
+        this.soundIdle.muted = soundEffectsMuted;
+        this.soundIdle.play();
+      }
+    } else {
+      this.soundIdle.pause();                    
+      this.soundIdle.currentTime = 0;
+      this.soundLongIdle.pause();
+      this.soundLongIdle.currentTime = 0;
+    }
+  }, 600);
+}
 
   playWalkSound() {
     if (this.soundWalk.paused && !this.isAboveGround()) {

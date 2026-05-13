@@ -30,7 +30,6 @@ class Smallchicken extends MovableObject {
     this.sound.loop = true;
     this.sound.volume = 0.2;
     this.sound.muted = soundEffectsMuted;
-    this.sound.play();
     this.animate();
   }
 
@@ -49,15 +48,32 @@ class Smallchicken extends MovableObject {
   }
 
   animate() {
-    setInterval(() => {
+    addInterval(() => {
       if (!this.chickenDead) {
         this.moveLeft();
       }
+      this.updateSound();
     }, 1000 / 60);
-    setInterval(() => {
+    addInterval(() => {
       if (!this.chickenDead) {
         this.playAnimation(this.IMAGES_WALKING);
       }
     }, 200);
   }
+
+  updateSound() {
+  if (this.isVisible() && !this.chickenDead) {
+    if (this.sound.paused) {
+      this.sound.play();
+    }
+  } else {
+    this.sound.pause();
+  }
+}
+
+isVisible() {
+  if (!world) return false;
+  const cameraX = -world.camera_x; 
+  return this.x > cameraX - 100 && this.x < cameraX + 820; 
+}
 }
