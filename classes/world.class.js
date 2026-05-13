@@ -67,7 +67,7 @@ class World {
   handleEnemyCollision(enemy) {
     if (this.character.isAboveGround() && this.character.speedY < 0) {
       this.killEnemy(enemy);
-    } else {
+    } else if (!this.character.isInvincible) {
       this.damageCharacter();
     }
   }
@@ -108,6 +108,7 @@ class World {
   killEnemy(enemy) {
     enemy.die();
     this.character.speedY = 15;
+    this.character.setInvincible();
   }
 
   damageCharacter() {
@@ -299,10 +300,10 @@ class World {
         enemy.soundDead.pause();
         enemy.soundDead.currentTime = 0;
       }
-      if (enemy.soundRoar) {        
-      enemy.soundRoar.pause();
-      enemy.soundRoar.currentTime = 0;
-    }
+      if (enemy.soundRoar) {
+        enemy.soundRoar.pause();
+        enemy.soundRoar.currentTime = 0;
+      }
       if (enemy.soundAlert) {
         enemy.soundAlert.pause();
         enemy.soundAlert.currentTime = 0;

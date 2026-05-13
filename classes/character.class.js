@@ -8,6 +8,7 @@ class Character extends MovableObject {
   bottles = 0;
   wasInAir = false; // after "landing" picture idle
   markedForDeletion = false;
+  isInvincible = false;
   lastMovement = new Date().getTime(); // getTime for IDLE
   soundJump = new Audio("audio/jump.mp3");
   soundWalk = new Audio("audio/pepe_walk.mp3");
@@ -218,28 +219,40 @@ class Character extends MovableObject {
       if (this.isDead()) return;
       let idleTime = (new Date().getTime() - this.lastMovement) / 1000;
       if (idleTime > 15) {
-        this.playAnimation(this.IMAGES_LONGIDLE);
-        this.soundIdle.pause();
-        this.soundIdle.currentTime = 0;
-        if (this.soundLongIdle.paused) {
-          this.soundLongIdle.volume = 0.3;
-          this.soundLongIdle.muted = soundEffectsMuted;
-          this.soundLongIdle.play();
-        }
+        this.playLongIdle();
       } else if (idleTime > 0) {
-        this.playAnimation(this.IMAGES_IDLE);
-        if (this.soundIdle.paused) {
-          this.soundIdle.volume = 0.3;
-          this.soundIdle.muted = soundEffectsMuted;
-          this.soundIdle.play();
-        }
+        this.playIdle();
       } else {
-        this.soundIdle.pause();
-        this.soundIdle.currentTime = 0;
-        this.soundLongIdle.pause();
-        this.soundLongIdle.currentTime = 0;
+        this.stopIdleSounds();
       }
     }, 600);
+  }
+
+  playLongIdle() {
+    this.playAnimation(this.IMAGES_LONGIDLE);
+    this.soundIdle.pause();
+    this.soundIdle.currentTime = 0;
+    if (this.soundLongIdle.paused) {
+      this.soundLongIdle.volume = 0.3;
+      this.soundLongIdle.muted = soundEffectsMuted;
+      this.soundLongIdle.play();
+    }
+  }
+
+  playIdle() {
+    this.playAnimation(this.IMAGES_IDLE);
+    if (this.soundIdle.paused) {
+      this.soundIdle.volume = 0.3;
+      this.soundIdle.muted = soundEffectsMuted;
+      this.soundIdle.play();
+    }
+  }
+
+  stopIdleSounds() {
+    this.soundIdle.pause();
+    this.soundIdle.currentTime = 0;
+    this.soundLongIdle.pause();
+    this.soundLongIdle.currentTime = 0;
   }
 
   playWalkSound() {
@@ -248,5 +261,12 @@ class Character extends MovableObject {
       this.soundWalk.muted = soundEffectsMuted;
       this.soundWalk.play();
     }
+  }
+
+  setInvincible() {
+    this.isInvincible = true;
+    setTimeout(() => {
+      this.isInvincible = false;
+    }, 500);
   }
 }
