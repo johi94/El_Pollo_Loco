@@ -1,5 +1,5 @@
 function enterFullscreen() {
-  const canvas = document.getElementById('canvas');
+  const canvas = document.getElementById('canvas-container');
   if (canvas.requestFullscreen) {
     canvas.requestFullscreen();
   } else if (canvas.webkitRequestFullscreen) { // Safari

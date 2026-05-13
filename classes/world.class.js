@@ -12,6 +12,8 @@ class World {
   bottleThrown = false;
   gameOverShown = false;
   winShown = false;
+  intervals = [];
+  animationFrame;
 
   constructor(canvas, keyboard) {
     this.ctx = canvas.getContext("2d"); // asks canvas for its 2D rendering context / with this it's possible to draw on the screen
@@ -30,7 +32,7 @@ class World {
   }
 
   run() {
-    setInterval(() => {
+    this.addInterval(() => {
       this.checkCollisions();
       this.checkThrowObjects();
       this.checkGameOver();
@@ -140,7 +142,7 @@ class World {
     this.drawBackground();
     this.drawGameObjects();
     this.drawStatusBars();
-    requestAnimationFrame(() => this.draw());
+    this.animationFrame = requestAnimationFrame(() => this.draw());
   }
 
   drawBackground() {
@@ -215,5 +217,17 @@ class World {
       this.winShown = true;
       setTimeout(() => showWin(), 1000);
     }
+  }
+
+  addInterval(fn, time) {
+    let id = setInterval(fn, time);
+    this.intervals.push(id);
+    return id;
+  }
+
+  stopGame() {
+    this.intervals.forEach((id) => clearInterval(id));
+    this.intervals = [];
+    cancelAnimationFrame(this.animationFrame);
   }
 }

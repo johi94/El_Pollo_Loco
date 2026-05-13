@@ -63,6 +63,9 @@ function startGame() {
 }
 
 function resetGame() {
+  if (world) {
+    world.stopGame(); 
+  }
   document.getElementById('gameOverScreen').style.display = 'none';
   document.getElementById('winScreen').style.display = 'none';
   document.getElementById('startScreen').style.display = 'block';  
