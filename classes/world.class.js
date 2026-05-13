@@ -239,6 +239,10 @@ class World {
       enemy.sound.pause();
       enemy.sound.currentTime = 0;
     }
+    if (enemy.soundDead) {        
+      enemy.soundDead.pause();
+      enemy.soundDead.currentTime = 0;
+    }
   });
 }
 }
