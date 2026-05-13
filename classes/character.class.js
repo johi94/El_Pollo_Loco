@@ -8,6 +8,7 @@ class Character extends MovableObject {
   bottles = 0;
   wasInAir = false; // after "landing" picture idle
   lastMovement = new Date().getTime(); // getTime for IDLE
+  soundJump = new Audio('audio/jump.mp3');
 
   offset = {
     top: 120,
@@ -150,6 +151,10 @@ class Character extends MovableObject {
   jump() {
     super.jump();
     this.lastMovement = new Date().getTime();
+    this.soundJump.volume = 0.3;
+    this.soundJump.muted = soundEffectsMuted; 
+    this.soundJump.currentTime = 0;           
+    this.soundJump.play();
   }
 
   landingCharacter() {
