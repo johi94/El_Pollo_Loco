@@ -1,5 +1,6 @@
 const backgroundMusic = new Audio("audio/El Gallo Bravo.mp3");
 const soundGameOver = new Audio("audio/game_over_bell.mp3");
+const soundGameWon = new Audio("audio/you_win.mp3");
 let soundEffectsMuted = false;
 
 // #start-region background-music
@@ -48,5 +49,10 @@ function toggleSoundEffects() {
 function playGameOverSound() {
   soundGameOver.muted = soundEffectsMuted;
   soundGameOver.play();
+}
+
+function playGameWonSound() {
+  soundGameWon.muted = soundEffectsMuted;
+  soundGameWon.play();
 }
 // #end-region sound-effects

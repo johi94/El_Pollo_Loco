@@ -2,6 +2,8 @@ let canvas; // willhold reference to HTML-element
 let world;
 let keyboard = new Keyboard();
 
+
+
 // calls method to reach out to canvas and unite it with a variable
 // 2 variables are getting called with init function: canvas and world
 function init() {
@@ -9,6 +11,7 @@ function init() {
   world = new World(canvas, keyboard); // world gets canvas as argument / new Object world gets canvas as variable
 }
 
+// #start-region EventListeners
 document.addEventListener("keydown", (event) => {
   if (event.keyCode == 32) {
     keyboard.SPACE = true;
@@ -27,7 +30,7 @@ document.addEventListener("keydown", (event) => {
   }
   if (event.keyCode == 68) {
     keyboard.D = true;
-     if (world.character) {
+    if (world.character) {
       world.character.lastMovement = new Date().getTime();
     }
   }
@@ -54,9 +57,11 @@ document.addEventListener("keyup", (event) => {
     keyboard.D = false;
   }
 });
+// #end-region EventListeners
 
 function startGame() {
-  document.getElementById('resetBtn').style.display = 'block';
+  clearAllIntervals();
+  document.getElementById("resetBtn").style.display = "block";
   hideAllScreens();
   initLevel();
   init();
@@ -64,30 +69,38 @@ function startGame() {
 }
 
 function resetGame() {
+  clearAllIntervals();
   if (world) {
     world.stopAllSounds();
-    world.stopGame(); 
+    world.stopGame();
   }
   stopBackgroundMusic();
-  document.getElementById('gameOverScreen').style.display = 'none';
-  document.getElementById('winScreen').style.display = 'none';
-  document.getElementById('startScreen').style.display = 'block';  
-  document.getElementById('resetBtn').style.display = 'none';      
+  document.getElementById("gameOverScreen").style.display = "none";
+  document.getElementById("winScreen").style.display = "none";
+  document.getElementById("startScreen").style.display = "block";
+  document.getElementById("resetBtn").style.display = "none";
 }
 
 function showGameOver() {
-  stopBackgroundMusic();  
-  playGameOverSound();     
-  document.getElementById('gameOverScreen').style.display = 'block';
+  clearAllIntervals(); 
+  if (world) world.stopGame();
+  stopBackgroundMusic();
+  playGameOverSound();
+  document.getElementById("gameOverScreen").style.display = "block";
 }
 
 function showWin() {
-  document.getElementById('winScreen').style.display = 'block';
+  clearAllIntervals(); 
+  if (world) world.stopGame();
+  stopBackgroundMusic();
+  playGameWonSound();
+  document.getElementById("winScreen").style.display = "block";
 }
 
 function restartGame() {
+  clearAllIntervals();
   if (world) {
-    world.stopAllSounds(); 
+    world.stopAllSounds();
     world.stopGame();
   }
   hideAllScreens();
@@ -96,9 +109,9 @@ function restartGame() {
 }
 
 function hideAllScreens() {
-  document.getElementById('startScreen').style.display = 'none';
-  document.getElementById('gameOverScreen').style.display = 'none';
-  document.getElementById('winScreen').style.display = 'none';
+  document.getElementById("startScreen").style.display = "none";
+  document.getElementById("gameOverScreen").style.display = "none";
+  document.getElementById("winScreen").style.display = "none";
 }
 
 

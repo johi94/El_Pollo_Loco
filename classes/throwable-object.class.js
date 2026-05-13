@@ -1,5 +1,6 @@
 class ThrowableObject extends MovableObject {
   splashing = false;
+  soundSplash = new Audio("audio/bottle_splash.mp3");
 
   BOTTLE_ROTATION = [
     "img/6_salsa_bottle/bottle_rotation/1_bottle_rotation.png",
@@ -46,6 +47,9 @@ class ThrowableObject extends MovableObject {
 
 splash() {          
     this.splashing = true;
-    this.currentImage = 0; 
+    this.currentImage = 0;
+    this.soundSplash.volume = 0.5;
+    this.soundSplash.muted = soundEffectsMuted;
+    this.soundSplash.play(); 
   }
 }

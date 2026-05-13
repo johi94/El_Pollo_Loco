@@ -10,7 +10,6 @@ class Character extends MovableObject {
   lastMovement = new Date().getTime(); // getTime for IDLE
   soundJump = new Audio("audio/jump.mp3");
   soundWalk = new Audio("audio/pepe_walk.mp3");
-  
 
   offset = {
     top: 120,
@@ -120,12 +119,14 @@ class Character extends MovableObject {
     }
     if (this.isMovingLeft()) {
       this.moveLeft();
-    } 
-    if (!this.isMovingRight() && !this.isMovingLeft()) { 
-    this.soundWalk.pause();
-    this.soundWalk.currentTime = 0;
-  }
+    }
+    if (!this.isMovingRight() && !this.isMovingLeft()) {
+      this.soundWalk.pause();
+      this.soundWalk.currentTime = 0;
+    }
     if (this.isJumping()) {
+      this.soundWalk.pause();
+      this.soundWalk.currentTime = 0;
       this.jump();
     }
   }
@@ -221,10 +222,10 @@ class Character extends MovableObject {
   }
 
   playWalkSound() {
-  if (this.soundWalk.paused) {     
-    this.soundWalk.volume = 0.3;
-    this.soundWalk.muted = soundEffectsMuted;
-    this.soundWalk.play();
+    if (this.soundWalk.paused && !this.isAboveGround()) {
+      this.soundWalk.volume = 0.3;
+      this.soundWalk.muted = soundEffectsMuted;
+      this.soundWalk.play();
+    }
   }
-}
 }

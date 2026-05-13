@@ -47,6 +47,7 @@ class World {
     }, 50);
   }
 
+  // #start-region-collisions
   checkCollisions() {
     this.checkEnemyCollisions();
     this.cleanUpEnemies();
@@ -69,41 +70,6 @@ class World {
     } else {
       this.damageCharacter();
     }
-  }
-
-  killEnemy(enemy) {
-    enemy.die();
-    this.character.speedY = 15;
-  }
-
-  damageCharacter() {
-    this.character.hit();
-    this.statusBar.setPercentage(this.character.energy);
-    if (this.character.isDead()) {
-      this.playDeadSound();
-    } else {
-      this.playHurtSound();
-    }
-  }
-
-  playDeadSound() {
-    if (!this.deadSoundPlayed) {
-      this.deadSoundPlayed = true;
-      this.soundDead.muted = soundEffectsMuted;
-      this.soundDead.play();
-    }
-  }
-
-  playHurtSound() {
-    this.soundHurt.currentTime = 0;
-    this.soundHurt.muted = soundEffectsMuted;
-    this.soundHurt.play();
-  }
-
-  cleanUpEnemies() {
-    this.level.enemies = this.level.enemies.filter(
-      (enemy) => !enemy.markedForDeletion,
-    );
   }
 
   checkCoinCollisions() {
@@ -136,6 +102,28 @@ class World {
         this.soundBottleCollect.play();
       }
     });
+  }
+  // #end-region-collisions
+
+  killEnemy(enemy) {
+    enemy.die();
+    this.character.speedY = 15;
+  }
+
+  damageCharacter() {
+    this.character.hit();
+    this.statusBar.setPercentage(this.character.energy);
+    if (this.character.isDead()) {
+      this.playDeadSound();
+    } else {
+      this.playHurtSound();
+    }
+  }
+
+  cleanUpEnemies() {
+    this.level.enemies = this.level.enemies.filter(
+      (enemy) => !enemy.markedForDeletion,
+    );
   }
 
   checkThrowObjects() {
@@ -176,12 +164,16 @@ class World {
   checkThrowableCollisions() {
     this.throwableObjects.forEach((bottle, bottleIndex) => {
       this.level.enemies.forEach((enemy) => {
-        if (bottle.isColliding(enemy) && enemy instanceof Endboss && !bottle.splashing) {
+        if (
+          bottle.isColliding(enemy) &&
+          enemy instanceof Endboss &&
+          !bottle.splashing
+        ) {
           enemy.hit();
           bottle.splash();
           setTimeout(() => {
-          this.throwableObjects.splice(bottleIndex, 1); 
-        }, 600);
+            this.throwableObjects.splice(bottleIndex, 1);
+          }, 600);
         }
       });
     });
@@ -282,7 +274,20 @@ class World {
     this.intervals = [];
     cancelAnimationFrame(this.animationFrame);
   }
+  // #start-region sounds
+  playDeadSound() {
+    if (!this.deadSoundPlayed) {
+      this.deadSoundPlayed = true;
+      this.soundDead.muted = soundEffectsMuted;
+      this.soundDead.play();
+    }
+  }
 
+  playHurtSound() {
+    this.soundHurt.currentTime = 0;
+    this.soundHurt.muted = soundEffectsMuted;
+    this.soundHurt.play();
+  }
   stopAllSounds() {
     this.level.enemies.forEach((enemy) => {
       if (enemy.sound) {
@@ -303,5 +308,13 @@ class World {
     this.character.soundWalk.pause();
     this.character.soundWalk.currentTime = 0;
     this.soundBottleThrow.pause();
+    this.throwableObjects.forEach((bottle) => {
+      if (bottle.soundSplash) {
+        bottle.soundSplash.pause();
+        bottle.soundSplash.currentTime = 0;
+      }
+    });
   }
+
+  // #end-region sounds
 }
