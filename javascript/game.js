@@ -65,6 +65,7 @@ function startGame() {
 
 function resetGame() {
   if (world) {
+    world.stopAllSounds();
     world.stopGame(); 
   }
   stopBackgroundMusic();
@@ -83,6 +84,10 @@ function showWin() {
 }
 
 function restartGame() {
+  if (world) {
+    world.stopAllSounds(); 
+    world.stopGame();
+  }
   hideAllScreens();
   initLevel();
   init();

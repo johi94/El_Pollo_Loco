@@ -232,4 +232,13 @@ class World {
     this.intervals = [];
     cancelAnimationFrame(this.animationFrame);
   }
+
+  stopAllSounds() {
+  this.level.enemies.forEach((enemy) => {
+    if (enemy.sound) {        
+      enemy.sound.pause();
+      enemy.sound.currentTime = 0;
+    }
+  });
+}
 }

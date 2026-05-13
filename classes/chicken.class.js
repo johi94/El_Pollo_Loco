@@ -4,6 +4,7 @@ class Chicken extends MovableObject {
   height = 60;
   chickenDead = false; 
   markedForDeletion = false; 
+  sound = new Audio('audio/chicken_sound.mp3');
 
   offset = {
   top: 0,
@@ -25,13 +26,19 @@ class Chicken extends MovableObject {
     this.loadImages(this.IMAGES_WALKING);
     this.x = 200 + Math.random() * 500;
     this.speed = 0.15 + Math.random() * 0.25;
+    this.sound.loop = true;
+    this.sound.volume = 0.5;
+    this.sound.muted = soundEffectsMuted;
+    this.sound.play();
     this.animate();
   }
 
    die() {
     this.chickenDead = true;
     this.loadImage(this.IMAGE_DEAD); 
-    this.speed = 0;                  
+    this.speed = 0;
+    this.sound.pause(); 
+    this.sound.currentTime = 0;                
     setTimeout(() => {
       this.markedForDeletion = true; // remove from Array
     }, 500);
