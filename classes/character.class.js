@@ -8,7 +8,9 @@ class Character extends MovableObject {
   bottles = 0;
   wasInAir = false; // after "landing" picture idle
   lastMovement = new Date().getTime(); // getTime for IDLE
-  soundJump = new Audio('audio/jump.mp3');
+  soundJump = new Audio("audio/jump.mp3");
+  soundWalk = new Audio("audio/pepe_walk.mp3");
+  
 
   offset = {
     top: 120,
@@ -118,7 +120,11 @@ class Character extends MovableObject {
     }
     if (this.isMovingLeft()) {
       this.moveLeft();
-    }
+    } 
+    if (!this.isMovingRight() && !this.isMovingLeft()) { 
+    this.soundWalk.pause();
+    this.soundWalk.currentTime = 0;
+  }
     if (this.isJumping()) {
       this.jump();
     }
@@ -132,6 +138,7 @@ class Character extends MovableObject {
     super.moveRight();
     this.otherDirection = false;
     this.lastMovement = new Date().getTime();
+    this.playWalkSound();
   }
 
   isMovingLeft() {
@@ -142,6 +149,7 @@ class Character extends MovableObject {
     super.moveLeft();
     this.otherDirection = true;
     this.lastMovement = new Date().getTime();
+    this.playWalkSound();
   }
 
   isJumping() {
@@ -152,8 +160,8 @@ class Character extends MovableObject {
     super.jump();
     this.lastMovement = new Date().getTime();
     this.soundJump.volume = 0.3;
-    this.soundJump.muted = soundEffectsMuted; 
-    this.soundJump.currentTime = 0;           
+    this.soundJump.muted = soundEffectsMuted;
+    this.soundJump.currentTime = 0;
     this.soundJump.play();
   }
 
@@ -176,19 +184,20 @@ class Character extends MovableObject {
   }
 
   animateDead() {
-  let deadFrame = 0;
-  let deadInterval = setInterval(() => {
-    if (this.isDead()) {
-      if (deadFrame < this.IMAGES_DEAD.length) {
-        this.img = this.imageCache[this.IMAGES_DEAD[deadFrame]];
-        deadFrame++;
-      } else {
-        this.img = this.imageCache[this.IMAGES_DEAD[this.IMAGES_DEAD.length - 1]];
-        clearInterval(deadInterval);
+    let deadFrame = 0;
+    let deadInterval = setInterval(() => {
+      if (this.isDead()) {
+        if (deadFrame < this.IMAGES_DEAD.length) {
+          this.img = this.imageCache[this.IMAGES_DEAD[deadFrame]];
+          deadFrame++;
+        } else {
+          this.img =
+            this.imageCache[this.IMAGES_DEAD[this.IMAGES_DEAD.length - 1]];
+          clearInterval(deadInterval);
+        }
       }
-    }
-  }, 300);
-}
+    }, 300);
+  }
 
   animateHurt() {
     setInterval(() => {
@@ -210,4 +219,12 @@ class Character extends MovableObject {
       }
     }, 600);
   }
+
+  playWalkSound() {
+  if (this.soundWalk.paused) {     
+    this.soundWalk.volume = 0.3;
+    this.soundWalk.muted = soundEffectsMuted;
+    this.soundWalk.play();
+  }
+}
 }

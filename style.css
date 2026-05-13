@@ -2,9 +2,10 @@ body {
   background-image: url("./img/background.png");
   background-size: cover;
   background-repeat: no-repeat;
-  background-position: center;
+  background-position: bottom;
   min-height: 100dvh;
   background-attachment: fixed;
+  overflow: hidden;
 }
 
 .headline {
@@ -62,15 +63,15 @@ canvas {
 }
 
 .controls_1 {
- background: white;
- padding: 8px;
- border-radius: 12px;
+  background: white;
+  padding: 8px;
+  border-radius: 12px;
 }
 
 .controls_2 {
- background: white;
- padding: 8px;
- border-radius: 12px;
+  background: white;
+  padding: 8px;
+  border-radius: 12px;
 }
 
 .character {

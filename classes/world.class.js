@@ -13,8 +13,14 @@ class World {
   gameOverShown = false;
   winShown = false;
   gameWon = false;
+  deadSoundPlayed = false;
   intervals = [];
   animationFrame;
+  soundBottleCollect = new Audio("audio/bottle_pickup.mp3");
+  soundCoinCollect = new Audio("audio/collect_coin.mp3");
+  soundHurt = new Audio("audio/pepe_hurt.mp3");
+  soundDead = new Audio("audio/pepe_dead.mp3");
+  soundBottleThrow = new Audio("audio/throw_bottle.mp3");
 
   constructor(canvas, keyboard) {
     this.ctx = canvas.getContext("2d"); // asks canvas for its 2D rendering context / with this it's possible to draw on the screen
@@ -52,15 +58,46 @@ class World {
   checkEnemyCollisions() {
     this.level.enemies.forEach((enemy) => {
       if (this.character.isColliding(enemy) && !enemy.chickenDead) {
-        if (this.character.isAboveGround() && this.character.speedY < 0) {
-          enemy.die();
-          this.character.speedY = 15;
-        } else {
-          this.character.hit();
-          this.statusBar.setPercentage(this.character.energy);
-        }
+        this.handleEnemyCollision(enemy);
       }
     });
+  }
+
+  handleEnemyCollision(enemy) {
+    if (this.character.isAboveGround() && this.character.speedY < 0) {
+      this.killEnemy(enemy);
+    } else {
+      this.damageCharacter();
+    }
+  }
+
+  killEnemy(enemy) {
+    enemy.die();
+    this.character.speedY = 15;
+  }
+
+  damageCharacter() {
+    this.character.hit();
+    this.statusBar.setPercentage(this.character.energy);
+    if (this.character.isDead()) {
+      this.playDeadSound();
+    } else {
+      this.playHurtSound();
+    }
+  }
+
+  playDeadSound() {
+    if (!this.deadSoundPlayed) {
+      this.deadSoundPlayed = true;
+      this.soundDead.muted = soundEffectsMuted;
+      this.soundDead.play();
+    }
+  }
+
+  playHurtSound() {
+    this.soundHurt.currentTime = 0;
+    this.soundHurt.muted = soundEffectsMuted;
+    this.soundHurt.play();
   }
 
   cleanUpEnemies() {
@@ -78,6 +115,9 @@ class World {
         }
         this.statusBarCoins.setPercentage(this.character.coins);
         this.level.coins.splice(index, 1);
+        this.soundCoinCollect.currentTime = 0;
+        this.soundCoinCollect.muted = soundEffectsMuted;
+        this.soundCoinCollect.play();
       }
     });
   }
@@ -91,6 +131,9 @@ class World {
         }
         this.statusBarBottles.setPercentage(this.character.bottles);
         this.level.bottles.splice(index, 1);
+        this.soundBottleCollect.currentTime = 0;
+        this.soundBottleCollect.muted = soundEffectsMuted;
+        this.soundBottleCollect.play();
       }
     });
   }
@@ -113,6 +156,9 @@ class World {
     this.throwableObjects.push(bottle);
     this.updateBottleStatus();
     this.setCooldown();
+    this.soundBottleThrow.currentTime = 0;
+    this.soundBottleThrow.muted = soundEffectsMuted;
+    this.soundBottleThrow.play();
   }
 
   updateBottleStatus() {
@@ -205,6 +251,7 @@ class World {
     if (this.character.isDead() && !this.gameOverShown) {
       this.gameOverShown = true;
       setTimeout(() => {
+        this.stopAllSounds();
         showGameOver();
       }, 1000);
     }
@@ -212,11 +259,11 @@ class World {
 
   checkWin() {
     const endbossDefeated = this.level.enemies.every(
-      (enemy) => !(enemy instanceof Endboss) || enemy.isDead()
+      (enemy) => !(enemy instanceof Endboss) || enemy.isDead(),
     );
     if (endbossDefeated && !this.winShown) {
       this.winShown = true;
-      this.gameWon = true; 
+      this.gameWon = true;
       setTimeout(() => showWin(), 1000);
     }
   }
@@ -234,15 +281,24 @@ class World {
   }
 
   stopAllSounds() {
-  this.level.enemies.forEach((enemy) => {
-    if (enemy.sound) {        
-      enemy.sound.pause();
-      enemy.sound.currentTime = 0;
-    }
-    if (enemy.soundDead) {        
-      enemy.soundDead.pause();
-      enemy.soundDead.currentTime = 0;
-    }
-  });
-}
+    this.level.enemies.forEach((enemy) => {
+      if (enemy.sound) {
+        enemy.sound.pause();
+        enemy.sound.currentTime = 0;
+      }
+      if (enemy.soundDead) {
+        enemy.soundDead.pause();
+        enemy.soundDead.currentTime = 0;
+      }
+    });
+    this.soundHurt.pause();
+    this.soundHurt.currentTime = 0;
+    this.soundDead.pause();
+    this.soundDead.currentTime = 0;
+    this.character.soundJump.pause();
+    this.character.soundJump.currentTime = 0;
+    this.character.soundWalk.pause();
+    this.character.soundWalk.currentTime = 0;
+    this.soundBottleThrow.pause();
+  }
 }

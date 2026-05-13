@@ -76,6 +76,8 @@ function resetGame() {
 }
 
 function showGameOver() {
+  stopBackgroundMusic();  
+  playGameOverSound();     
   document.getElementById('gameOverScreen').style.display = 'block';
 }
 
