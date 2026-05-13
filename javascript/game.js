@@ -60,12 +60,14 @@ function startGame() {
   hideAllScreens();
   initLevel();
   init();
+  playBackgroundMusic();
 }
 
 function resetGame() {
   if (world) {
     world.stopGame(); 
   }
+  stopBackgroundMusic();
   document.getElementById('gameOverScreen').style.display = 'none';
   document.getElementById('winScreen').style.display = 'none';
   document.getElementById('startScreen').style.display = 'block';  

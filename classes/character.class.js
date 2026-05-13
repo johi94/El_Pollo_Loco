@@ -3,6 +3,7 @@ class Character extends MovableObject {
   width = 130;
   height = 250;
   speed = 10;
+  energy = 100;
   coins = 0;
   bottles = 0;
   wasInAir = false; // after "landing" picture idle
@@ -110,6 +111,7 @@ class Character extends MovableObject {
 
   movementCharacter() {
     if (this.isDead()) return;
+    if (this.world.gameWon) return;
     if (this.isMovingRight()) {
       this.moveRight();
     }
@@ -151,6 +153,7 @@ class Character extends MovableObject {
   }
 
   landingCharacter() {
+    if (this.isDead()) return;
     if (this.wasInAir && !this.isAboveGround()) {
       this.img = this.imageCache["img/2_character_pepe/1_idle/idle/I-1.png"];
       this.currentImage = 0;
@@ -159,6 +162,7 @@ class Character extends MovableObject {
   }
 
   animationCharacter() {
+    if (this.world.gameWon) return;
     if (this.isAboveGround()) {
       this.playAnimation(this.IMAGES_JUMPING);
     } else if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT) {
@@ -167,12 +171,19 @@ class Character extends MovableObject {
   }
 
   animateDead() {
-    setInterval(() => {
-      if (this.isDead()) {
-        this.playAnimation(this.IMAGES_DEAD);
+  let deadFrame = 0;
+  let deadInterval = setInterval(() => {
+    if (this.isDead()) {
+      if (deadFrame < this.IMAGES_DEAD.length) {
+        this.img = this.imageCache[this.IMAGES_DEAD[deadFrame]];
+        deadFrame++;
+      } else {
+        this.img = this.imageCache[this.IMAGES_DEAD[this.IMAGES_DEAD.length - 1]];
+        clearInterval(deadInterval);
       }
-    }, 300);
-  }
+    }
+  }, 300);
+}
 
   animateHurt() {
     setInterval(() => {

@@ -12,6 +12,7 @@ class World {
   bottleThrown = false;
   gameOverShown = false;
   winShown = false;
+  gameWon = false;
   intervals = [];
   animationFrame;
 
@@ -211,10 +212,11 @@ class World {
 
   checkWin() {
     const endbossDefeated = this.level.enemies.every(
-      (enemy) => !(enemy instanceof Endboss) || enemy.isDead(),
+      (enemy) => !(enemy instanceof Endboss) || enemy.isDead()
     );
     if (endbossDefeated && !this.winShown) {
       this.winShown = true;
+      this.gameWon = true; 
       setTimeout(() => showWin(), 1000);
     }
   }

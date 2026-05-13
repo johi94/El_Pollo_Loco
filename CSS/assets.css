@@ -48,3 +48,16 @@
 .reset-btn:hover {
   background: rgba(0, 0, 0, 0.8);
 }
+
+.mute-btn {
+  position: absolute;
+  bottom: 10px;
+  left: 10px;
+  background: rgba(0, 0, 0, 0.5);
+  color: white;
+  border: none;
+  padding: 8px 10px;
+  cursor: pointer;
+  font-size: 20px;
+  border-radius: 5px;
+}
