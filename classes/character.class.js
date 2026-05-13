@@ -7,6 +7,7 @@ class Character extends MovableObject {
   coins = 0;
   bottles = 0;
   wasInAir = false; // after "landing" picture idle
+  markedForDeletion = false;
   lastMovement = new Date().getTime(); // getTime for IDLE
   soundJump = new Audio("audio/jump.mp3");
   soundWalk = new Audio("audio/pepe_walk.mp3");
@@ -196,6 +197,7 @@ class Character extends MovableObject {
         } else {
           this.img =
             this.imageCache[this.IMAGES_DEAD[this.IMAGES_DEAD.length - 1]];
+          this.markedForDeletion = true;
           clearInterval(deadInterval);
         }
       }
@@ -212,33 +214,33 @@ class Character extends MovableObject {
   }
 
   animateIdle() {
-  addInterval(() => {
-    if (this.isDead()) return;
-    let idleTime = (new Date().getTime() - this.lastMovement) / 1000;
-    if (idleTime > 20) {
-      this.playAnimation(this.IMAGES_LONGIDLE);
-      this.soundIdle.pause();                    
-      this.soundIdle.currentTime = 0;
-      if (this.soundLongIdle.paused) {           
-        this.soundLongIdle.volume = 0.3;
-        this.soundLongIdle.muted = soundEffectsMuted;
-        this.soundLongIdle.play();
+    addInterval(() => {
+      if (this.isDead()) return;
+      let idleTime = (new Date().getTime() - this.lastMovement) / 1000;
+      if (idleTime > 20) {
+        this.playAnimation(this.IMAGES_LONGIDLE);
+        this.soundIdle.pause();
+        this.soundIdle.currentTime = 0;
+        if (this.soundLongIdle.paused) {
+          this.soundLongIdle.volume = 0.3;
+          this.soundLongIdle.muted = soundEffectsMuted;
+          this.soundLongIdle.play();
+        }
+      } else if (idleTime > 10) {
+        this.playAnimation(this.IMAGES_IDLE);
+        if (this.soundIdle.paused) {
+          this.soundIdle.volume = 0.3;
+          this.soundIdle.muted = soundEffectsMuted;
+          this.soundIdle.play();
+        }
+      } else {
+        this.soundIdle.pause();
+        this.soundIdle.currentTime = 0;
+        this.soundLongIdle.pause();
+        this.soundLongIdle.currentTime = 0;
       }
-    } else if (idleTime > 10) {
-      this.playAnimation(this.IMAGES_IDLE);
-      if (this.soundIdle.paused) {               
-        this.soundIdle.volume = 0.3;
-        this.soundIdle.muted = soundEffectsMuted;
-        this.soundIdle.play();
-      }
-    } else {
-      this.soundIdle.pause();                    
-      this.soundIdle.currentTime = 0;
-      this.soundLongIdle.pause();
-      this.soundLongIdle.currentTime = 0;
-    }
-  }, 600);
-}
+    }, 600);
+  }
 
   playWalkSound() {
     if (this.soundWalk.paused && !this.isAboveGround()) {

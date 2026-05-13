@@ -6,6 +6,8 @@ class Endboss extends MovableObject {
   energy = 100;
   markedForDeletion = false;
   animationIndex = 0;
+  soundRoar = new Audio("audio/endboss_roar.mp3");
+  roarSoundPlayed = false;
 
   offset = {
     top: 80,
@@ -79,18 +81,25 @@ class Endboss extends MovableObject {
   }
 
   checkFirstContact() {
-    if (this.world && this.world.character.x > 2000 && !this.hadfirstContact) {
-      this.animationIndex = 0;
-      this.hadfirstContact = true;
-    }
+  if (this.world && this.world.character.x > 2000 && !this.hadfirstContact) {
+    this.animationIndex = 0;
+    this.hadfirstContact = true;
   }
+  // ← außerhalb der ersten if-Bedingung
+  if (this.world && this.world.character.x > 1650 && !this.roarSoundPlayed) {
+    this.roarSoundPlayed = true;
+    this.soundRoar.volume = 0.5;
+    this.soundRoar.muted = soundEffectsMuted;
+    this.soundRoar.play();
+  }
+}
 
   walkingAnimation() {
     if (this.animationIndex < 10) {
-    this.playAnimation(this.IMAGES_WALKING);
-  } else {
-    this.playAnimation(this.IMAGES_ALERTNESS);
-  }
+      this.playAnimation(this.IMAGES_WALKING);
+    } else {
+      this.playAnimation(this.IMAGES_ALERTNESS);
+    }
   }
 
   hit() {
@@ -116,11 +125,11 @@ class Endboss extends MovableObject {
     setInterval(() => {
       if (this.isDead()) {
         this.playAnimation(this.IMAGES_DEAD);
-        if (!this.markedForDeletion) {        
-        setTimeout(() => {
-          this.markedForDeletion = true;
-        }, 1000);
-      }
+        if (!this.markedForDeletion) {
+          setTimeout(() => {
+            this.markedForDeletion = true;
+          }, 1000);
+        }
       }
     }, 400);
   }

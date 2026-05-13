@@ -22,10 +22,10 @@ class Smallchicken extends MovableObject {
 
   IMAGE_DEAD = "img/3_enemies_chicken/chicken_small/2_dead/dead.png";
 
-  constructor() {
+  constructor(x = 1000 + Math.random() * 200) {
     super().loadImage(this.IMAGES_WALKING[0]);
     this.loadImages(this.IMAGES_WALKING);
-    this.x = 1000 + Math.random() * 500;
+    this.x = x;
     this.speed = 0.15 + Math.random() * 0.25;
     this.sound.loop = true;
     this.sound.volume = 0.2;

@@ -106,6 +106,7 @@ function restartGame() {
   hideAllScreens();
   initLevel();
   init();
+  playBackgroundMusic();
 }
 
 function hideAllScreens() {

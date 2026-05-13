@@ -243,7 +243,7 @@ class World {
   }
 
   checkGameOver() {
-    if (this.character.isDead() && !this.gameOverShown) {
+    if (this.character.markedForDeletion && !this.gameOverShown) {
       this.gameOverShown = true;
       setTimeout(() => {
         this.stopAllSounds();
@@ -254,7 +254,7 @@ class World {
 
   checkWin() {
     const endbossDefeated = this.level.enemies.every(
-      (enemy) => !(enemy instanceof Endboss) || enemy.isDead(),
+      (enemy) => !(enemy instanceof Endboss) || enemy.markedForDeletion,
     );
     if (endbossDefeated && !this.winShown) {
       this.winShown = true;
@@ -288,6 +288,7 @@ class World {
     this.soundHurt.muted = soundEffectsMuted;
     this.soundHurt.play();
   }
+
   stopAllSounds() {
     this.level.enemies.forEach((enemy) => {
       if (enemy.sound) {
@@ -297,6 +298,10 @@ class World {
       if (enemy.soundDead) {
         enemy.soundDead.pause();
         enemy.soundDead.currentTime = 0;
+      }
+      if (enemy.soundAlert) {
+        enemy.soundAlert.pause();
+        enemy.soundAlert.currentTime = 0;
       }
     });
     this.soundHurt.pause();
