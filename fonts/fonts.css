@@ -17,3 +17,23 @@ body {
     font-weight: 500;
     letter-spacing: 3px;
 }
+
+.home-btn {
+    font-size: 20px;
+}
+
+.fullscreen-btn {
+    font-size: 25px;
+}
+
+.reset-btn {
+    font-size: 20px;
+}
+
+.mute-music {
+    font-size: 20px;
+}
+
+.mute-sound-effects {
+    font-size: 20px;
+}

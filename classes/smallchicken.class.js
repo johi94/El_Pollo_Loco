@@ -26,7 +26,7 @@ class Smallchicken extends MovableObject {
     super().loadImage(this.IMAGES_WALKING[0]);
     this.loadImages(this.IMAGES_WALKING);
     this.x = x;
-    this.speed = 0.15 + Math.random() * 0.25;
+    this.speed = 1 + Math.random() * 0.25;
     this.sound.loop = true;
     this.sound.volume = 0.2;
     this.sound.muted = soundEffectsMuted;

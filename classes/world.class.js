@@ -299,6 +299,10 @@ class World {
         enemy.soundDead.pause();
         enemy.soundDead.currentTime = 0;
       }
+      if (enemy.soundRoar) {        
+      enemy.soundRoar.pause();
+      enemy.soundRoar.currentTime = 0;
+    }
       if (enemy.soundAlert) {
         enemy.soundAlert.pause();
         enemy.soundAlert.currentTime = 0;

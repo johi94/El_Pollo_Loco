@@ -217,7 +217,7 @@ class Character extends MovableObject {
     addInterval(() => {
       if (this.isDead()) return;
       let idleTime = (new Date().getTime() - this.lastMovement) / 1000;
-      if (idleTime > 20) {
+      if (idleTime > 15) {
         this.playAnimation(this.IMAGES_LONGIDLE);
         this.soundIdle.pause();
         this.soundIdle.currentTime = 0;
@@ -226,7 +226,7 @@ class Character extends MovableObject {
           this.soundLongIdle.muted = soundEffectsMuted;
           this.soundLongIdle.play();
         }
-      } else if (idleTime > 10) {
+      } else if (idleTime > 0) {
         this.playAnimation(this.IMAGES_IDLE);
         if (this.soundIdle.paused) {
           this.soundIdle.volume = 0.3;

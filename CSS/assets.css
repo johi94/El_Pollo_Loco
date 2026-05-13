@@ -1,6 +1,6 @@
 .start-btn {
   position: absolute;
-  top: 10%;
+  top: 5%;
   left: 50%;
   transform: translateX(-50%);
   padding: 15px 40px;
@@ -15,6 +15,22 @@
   background-color: #e09000;
 }
 
+.home-btn {
+  position: absolute;
+  bottom: 5%;
+  left: 38%;
+  padding: 15px 40px;
+  background-color: #4a90d9;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.home-btn:hover {
+  background-color: #357abd;
+}
+
 .fullscreen-btn {
   position: absolute;
   bottom: 10px;
@@ -24,7 +40,6 @@
   border: none;
   padding: 1px 5px;
   cursor: pointer;
-  font-size: 25px;
   border-radius: 12px;
 }
 
@@ -41,7 +56,6 @@
   border: none;
   padding: 8px 10px;
   cursor: pointer;
-  font-size: 20px;
   border-radius: 5px;
 }
 
@@ -58,7 +72,6 @@
   border: none;
   padding: 8px 10px;
   cursor: pointer;
-  font-size: 20px;
   border-radius: 5px;
 }
 
@@ -71,6 +84,5 @@
   border: none;
   padding: 8px 10px;
   cursor: pointer;
-  font-size: 20px;
   border-radius: 5px;
 }
