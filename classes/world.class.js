@@ -176,9 +176,12 @@ class World {
   checkThrowableCollisions() {
     this.throwableObjects.forEach((bottle, bottleIndex) => {
       this.level.enemies.forEach((enemy) => {
-        if (bottle.isColliding(enemy) && enemy instanceof Endboss) {
+        if (bottle.isColliding(enemy) && enemy instanceof Endboss && !bottle.splashing) {
           enemy.hit();
-          this.throwableObjects.splice(bottleIndex, 1);
+          bottle.splash();
+          setTimeout(() => {
+          this.throwableObjects.splice(bottleIndex, 1); 
+        }, 600);
         }
       });
     });

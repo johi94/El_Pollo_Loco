@@ -69,23 +69,23 @@ class Endboss extends MovableObject {
   animate() {
     let i = 0;
     setInterval(() => {
-      this.checkFirstContact(i);
+      this.checkFirstContact();
       if (this.isDead()) return;
-      this.walkingAnimation(i);
+      this.walkingAnimation();
       this.animationIndex++;
     }, 200);
     this.animateHurt();
     this.animateDead();
   }
 
-  checkFirstContact(i) {
+  checkFirstContact() {
     if (this.world && this.world.character.x > 2000 && !this.hadfirstContact) {
       this.animationIndex = 0;
       this.hadfirstContact = true;
     }
   }
 
-  walkingAnimation(i) {
+  walkingAnimation() {
     if (this.animationIndex < 10) {
     this.playAnimation(this.IMAGES_WALKING);
   } else {
@@ -94,6 +94,7 @@ class Endboss extends MovableObject {
   }
 
   hit() {
+    if (this.isHurt()) return;
     this.energy -= 20;
     if (this.energy < 0) {
       this.energy = 0;
@@ -115,9 +116,11 @@ class Endboss extends MovableObject {
     setInterval(() => {
       if (this.isDead()) {
         this.playAnimation(this.IMAGES_DEAD);
+        if (!this.markedForDeletion) {        
         setTimeout(() => {
           this.markedForDeletion = true;
         }, 1000);
+      }
       }
     }, 400);
   }
