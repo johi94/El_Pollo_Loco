@@ -6,6 +6,7 @@ class Character extends MovableObject {
   energy = 100;
   coins = 0;
   bottles = 0;
+  hurtDuration = 1;
   wasInAir = false; // after "landing" picture idle
   markedForDeletion = false;
   isInvincible = false;
@@ -147,7 +148,7 @@ class Character extends MovableObject {
   }
 
   isMovingLeft() {
-    return this.world.keyboard.LEFT && this.x > 0;
+    return this.world.keyboard.LEFT && this.x > -600;
   }
 
   moveLeft() {
