@@ -83,7 +83,7 @@ class World {
         }
         this.statusBarCoins.setPercentage(this.character.coins);
         this.level.coins.splice(index, 1);
-        this.soundCoinCollect.volume = 0.3; // NEU EINGEBUNDEN FEHLER
+        this.soundCoinCollect.volume = 0.3; 
         this.soundCoinCollect.currentTime = 0;
         this.soundCoinCollect.muted = soundEffectsMuted;
         this.soundCoinCollect.play();
@@ -100,7 +100,7 @@ class World {
         }
         this.statusBarBottles.setPercentage(this.character.bottles);
         this.level.bottles.splice(index, 1);
-        this.soundBottleCollect.volume = 0.3; // NEU EINGEBUNDEN FEHLER
+        this.soundBottleCollect.volume = 0.3; 
         this.soundBottleCollect.currentTime = 0;
         this.soundBottleCollect.muted = soundEffectsMuted;
         this.soundBottleCollect.play();

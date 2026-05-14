@@ -157,12 +157,12 @@
 @media (max-width: 720px) {
 
   .restart-btn {
-    width: 200px;
+    width: 250px;
     height: 70px;
   }
 
   .home-btn {
-    width: 200px;
+    width: 250px;
     height: 70px;
   }
 
@@ -191,17 +191,30 @@
   }
 }
 
-@media (max-width: 480px) {
+@media (max-width: 600px) {
 
   .restart-btn {
-    width: 130px;
-    height: 50px;
+    width: 200px;
+    height: 60px;
     padding: 0;
   }
 
   .home-btn {
-    width: 130px;
-    height: 50px;
+    width: 200px;
+    height: 60px;
     padding: 0;
+  }
+}
+
+@media (max-width: 480px) {
+
+  .restart-btn {
+    width: 130px;
+    height: 40px;
+  }
+
+  .home-btn {
+    width: 130px;
+    height: 40px;
   }
 }
