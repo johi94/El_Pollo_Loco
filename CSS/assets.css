@@ -1,4 +1,4 @@
-.start-btn {
+.start-game-btn {
   position: absolute;
   top: 5%;
   left: 50%;
@@ -11,19 +11,45 @@
   cursor: pointer;
 }
 
-.start-btn:hover {
+.start-game-btn:hover {
+  background-color: #e09000;
+}
+
+.btn-container {
+  position: absolute;
+  top: 5%;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 20px;
+}
+
+.restart-btn {
+  width: 280px;
+  height: 70px;
+  position: static;
+  transform: none;
+  padding: 15px 40px;
+  background-color: #f8a000;
+  color: white;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+}
+
+.restart-btn:hover {
   background-color: #e09000;
 }
 
 .home-btn {
-  position: absolute;
-  bottom: 5%;
-  left: 38%;
+  width: 280px;
+  height: 70px;
+  position: static;
   padding: 15px 40px;
   background-color: #4a90d9;
   color: white;
   border: none;
-  border-radius: 10px;
+  border-radius: 12px;
   cursor: pointer;
 }
 
@@ -96,5 +122,58 @@
   color: white;
   padding: 10px 14px;
   border-radius: 12px;
-  pointer-events: none; 
+  pointer-events: none;
+}
+
+.mobile-controls {
+  display: none;
+  position: absolute;
+  bottom: 10px;
+  width: 100%;
+  justify-content: space-between;
+  padding: 0 10px;
+  box-sizing: border-box;
+}
+
+.mobile-controls-left,
+.mobile-controls-right {
+  display: flex;
+  gap: 10px;
+}
+
+.mobile-btn {
+  width: 60px;
+  height: 60px;
+  background: rgba(255, 255, 255, 0.4);
+  border: 2px solid white;
+  border-radius: 50%;
+  font-size: 24px;
+  cursor: pointer;
+  color: white;
+}
+
+@media (max-width: 720px) {
+  .mobile-controls {
+    display: flex;
+  }
+
+  .mute-music {
+    position: absolute;
+    top: 60px; 
+    right: 10px;
+    left: auto; 
+    bottom: auto; 
+  }
+
+  .mute-sound-effects {
+    position: absolute;
+    top: 110px; 
+    right: 10px;
+    left: auto;
+    bottom: auto;
+  }
+
+  .fullscreen-btn {
+    display: none; 
+  }
 }

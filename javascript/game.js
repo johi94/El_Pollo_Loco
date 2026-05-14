@@ -66,6 +66,7 @@ function startGame() {
   initLevel();
   init();
   playBackgroundMusic();
+  showMobileControls();
 }
 
 function resetGame() {
@@ -75,6 +76,7 @@ function resetGame() {
     world.stopGame();
   }
   stopBackgroundMusic();
+   document.getElementById("mobileControls").style.display = "none";
   document.getElementById("gameOverScreen").style.display = "none";
   document.getElementById("winScreen").style.display = "none";
   document.getElementById("startScreen").style.display = "block";
@@ -86,6 +88,10 @@ function showGameOver() {
   if (world) world.stopGame();
   stopBackgroundMusic();
   playGameOverSound();
+  document.getElementById("resetBtn").style.display = "none";
+  document.getElementById("muteMusicBtn").style.display = "none";
+  document.getElementById("muteSndBtn").style.display = "none";
+  document.getElementById("mobileControls").style.display = "none";
   document.getElementById("gameOverScreen").style.display = "block";
 }
 
@@ -94,6 +100,10 @@ function showWin() {
   if (world) world.stopGame();
   stopBackgroundMusic();
   playGameWonSound();
+  document.getElementById("resetBtn").style.display = "none";
+  document.getElementById("muteMusicBtn").style.display = "none";
+  document.getElementById("muteSndBtn").style.display = "none";
+  document.getElementById("mobileControls").style.display = "none";
   document.getElementById("winScreen").style.display = "block";
 }
 
@@ -107,12 +117,56 @@ function restartGame() {
   initLevel();
   init();
   playBackgroundMusic();
+  showMobileControls();
 }
 
 function hideAllScreens() {
   document.getElementById("startScreen").style.display = "none";
   document.getElementById("gameOverScreen").style.display = "none";
   document.getElementById("winScreen").style.display = "none";
+}
+
+// #start-region mobile controls
+function showMobileControls() {
+  if (window.innerWidth <= 720) {
+    document.getElementById("mobileControls").style.display = "flex";
+  }
+}
+
+function initMobileControls() {
+  document.getElementById("mobileControls").style.display = "none";
+  document.getElementById('btnLeft').addEventListener('touchstart', (e) => {
+    e.preventDefault();
+    keyboard.LEFT = true;
+  });
+  document.getElementById('btnLeft').addEventListener('touchend', () => {
+    keyboard.LEFT = false;
+  });
+
+  document.getElementById('btnRight').addEventListener('touchstart', (e) => {
+    e.preventDefault();
+    keyboard.RIGHT = true;
+  });
+  document.getElementById('btnRight').addEventListener('touchend', () => {
+    keyboard.RIGHT = false;
+  });
+
+  document.getElementById('btnJump').addEventListener('touchstart', (e) => {
+    e.preventDefault();
+    keyboard.SPACE = true;
+  });
+  document.getElementById('btnJump').addEventListener('touchend', () => {
+    keyboard.SPACE = false;
+  });
+
+  document.getElementById('btnThrow').addEventListener('touchstart', (e) => {
+    e.preventDefault();
+    keyboard.D = true;
+  });
+  document.getElementById('btnThrow').addEventListener('touchend', () => {
+    keyboard.D = false;
+  });
+// #end-region mobile controls
 }
 
 

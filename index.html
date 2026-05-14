@@ -33,7 +33,7 @@
     <script src="./javascript/fullscreen.js"></script>
     <script src="./javascript/sound.js"></script>
   </head>
-  <body onload="loadSoundSettings()">
+  <body onload="loadSoundSettings(); initMobileControls();">
     <header class="headline">
       <img class="h1" src="./img/h1.png" alt="titel" />
       <img class="description" src="./img/h2.png" alt="description" />
@@ -65,25 +65,43 @@
             src="./img/9_intro_outro_screens/start/startscreen_1.png"
             alt="Start Screen"
           />
-          <button class="start-btn" onclick="startGame()">Start Game</button>
+          <button class="start-game-btn" onclick="startGame()">
+            Start Game
+          </button>
         </div>
         <div class="game-over-screen" id="gameOverScreen">
           <img
             src="./img/9_intro_outro_screens/game_over/game over.png"
             alt="Game Over"
           />
-          <button class="start-btn" onclick="restartGame()">
-            &#128128;Try Again&#128128;
-          </button>
-          <button class="home-btn" onclick="resetGame()">🏠 Home</button>
+          <div class="btn-container">
+            <button class="restart-btn" onclick="restartGame()">
+              &#128128;Try Again&#128128;
+            </button>
+            <button class="home-btn" onclick="resetGame()">🏠 Home</button>
+          </div>
         </div>
         <div class="win-screen" id="winScreen">
           <img src="./img/You won, you lost/You Win A.png" alt="You Win" />
-          <button class="start-btn" onclick="restartGame()">Play Again</button>
-          <button class="home-btn" onclick="resetGame()">🏠 Home</button>
+          <div class="btn-container">
+            <button class="restart-btn" onclick="restartGame()">
+              Play Again
+            </button>
+            <button class="home-btn" onclick="resetGame()">🏠 Home</button>
+          </div>
         </div>
         <div id="fullscreenHint" class="fullscreen-hint" style="display: none">
           Press ESC to exit fullscreen
+        </div>
+        <div class="mobile-controls" id="mobileControls">
+          <div class="mobile-controls-left">
+            <button class="mobile-btn" id="btnLeft">&#8592;</button>
+            <button class="mobile-btn" id="btnRight">&#8594;</button>
+          </div>
+          <div class="mobile-controls-right">
+            <button class="mobile-btn" id="btnJump">&#8679;</button>
+            <button class="mobile-btn" id="btnThrow">🍶</button>
+          </div>
         </div>
       </div>
       <section class="controls-section">
