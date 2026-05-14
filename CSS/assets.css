@@ -86,3 +86,15 @@
   cursor: pointer;
   border-radius: 5px;
 }
+
+.fullscreen-hint {
+  position: absolute;
+  top: 15px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(0, 0, 0, 0.6);
+  color: white;
+  padding: 10px 14px;
+  border-radius: 12px;
+  pointer-events: none; 
+}

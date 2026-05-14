@@ -26,3 +26,20 @@ function fullscreen() {
     exitFullscreen();
   }
 }
+
+// fullscreen hint
+function fullscreen() {
+  document.activeElement.blur();
+  if (!document.fullscreenElement) {
+    enterFullscreen();
+    setTimeout(() => {
+      document.getElementById('fullscreenHint').style.display = 'block'; 
+      setTimeout(() => {
+        document.getElementById('fullscreenHint').style.display = 'none'; 
+      }, 5000);
+    }, 5000); 
+  } else {
+    exitFullscreen();
+    document.getElementById('fullscreenHint').style.display = 'none';
+  }
+}
