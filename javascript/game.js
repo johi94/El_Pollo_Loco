@@ -2,8 +2,6 @@ let canvas; // willhold reference to HTML-element
 let world;
 let keyboard = new Keyboard();
 
-
-
 // calls method to reach out to canvas and unite it with a variable
 // 2 variables are getting called with init function: canvas and world
 function init() {
@@ -76,15 +74,17 @@ function resetGame() {
     world.stopGame();
   }
   stopBackgroundMusic();
-   document.getElementById("mobileControls").style.display = "none";
+  document.getElementById("mobileControls").style.display = "none";
   document.getElementById("gameOverScreen").style.display = "none";
   document.getElementById("winScreen").style.display = "none";
   document.getElementById("startScreen").style.display = "block";
   document.getElementById("resetBtn").style.display = "none";
+  document.getElementById("muteMusicBtn").style.display = "block"; 
+  document.getElementById("muteSndBtn").style.display = "block"; 
 }
 
 function showGameOver() {
-  clearAllIntervals(); 
+  clearAllIntervals();
   if (world) world.stopGame();
   stopBackgroundMusic();
   playGameOverSound();
@@ -96,7 +96,7 @@ function showGameOver() {
 }
 
 function showWin() {
-  clearAllIntervals(); 
+  clearAllIntervals();
   if (world) world.stopGame();
   stopBackgroundMusic();
   playGameWonSound();
@@ -118,6 +118,9 @@ function restartGame() {
   init();
   playBackgroundMusic();
   showMobileControls();
+  document.getElementById("resetBtn").style.display = "block";
+  document.getElementById("muteMusicBtn").style.display = "block";
+  document.getElementById("muteSndBtn").style.display = "block";
 }
 
 function hideAllScreens() {
@@ -135,38 +138,36 @@ function showMobileControls() {
 
 function initMobileControls() {
   document.getElementById("mobileControls").style.display = "none";
-  document.getElementById('btnLeft').addEventListener('touchstart', (e) => {
+  document.getElementById("btnLeft").addEventListener("touchstart", (e) => {
     e.preventDefault();
     keyboard.LEFT = true;
   });
-  document.getElementById('btnLeft').addEventListener('touchend', () => {
+  document.getElementById("btnLeft").addEventListener("touchend", () => {
     keyboard.LEFT = false;
   });
 
-  document.getElementById('btnRight').addEventListener('touchstart', (e) => {
+  document.getElementById("btnRight").addEventListener("touchstart", (e) => {
     e.preventDefault();
     keyboard.RIGHT = true;
   });
-  document.getElementById('btnRight').addEventListener('touchend', () => {
+  document.getElementById("btnRight").addEventListener("touchend", () => {
     keyboard.RIGHT = false;
   });
 
-  document.getElementById('btnJump').addEventListener('touchstart', (e) => {
+  document.getElementById("btnJump").addEventListener("touchstart", (e) => {
     e.preventDefault();
     keyboard.SPACE = true;
   });
-  document.getElementById('btnJump').addEventListener('touchend', () => {
+  document.getElementById("btnJump").addEventListener("touchend", () => {
     keyboard.SPACE = false;
   });
 
-  document.getElementById('btnThrow').addEventListener('touchstart', (e) => {
+  document.getElementById("btnThrow").addEventListener("touchstart", (e) => {
     e.preventDefault();
     keyboard.D = true;
   });
-  document.getElementById('btnThrow').addEventListener('touchend', () => {
+  document.getElementById("btnThrow").addEventListener("touchend", () => {
     keyboard.D = false;
   });
-// #end-region mobile controls
+  // #end-region mobile controls
 }
-
-

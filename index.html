@@ -41,80 +41,53 @@
     <main>
       <div id="canvas-container">
         <canvas id="canvas" width="720" height="480"> </canvas>
-        <button class="mute-music" id="muteMusicBtn" onclick="toggleMusic()">
-          🎶
-        </button>
-        <button
-          class="mute-sound-effects"
-          id="muteSndBtn"
-          onclick="toggleSoundEffects()"
-        >
-          🔊
-        </button>
-        <button class="fullscreen-btn" onclick="fullscreen()">⛶</button>
-        <button
-          class="reset-btn"
-          id="resetBtn"
-          onclick="resetGame()"
-          style="display: none"
-        >
-          ↩
-        </button>
-        <div class="start-screen" id="startScreen">
-          <img
-            src="./img/9_intro_outro_screens/start/startscreen_1.png"
-            alt="Start Screen"
-          />
-          <button class="start-game-btn" onclick="startGame()">
-            Start Game
-          </button>
-        </div>
-        <div class="game-over-screen" id="gameOverScreen">
-          <img
-            src="./img/9_intro_outro_screens/game_over/game over.png"
-            alt="Game Over"
-          />
-          <div class="btn-container">
-            <button class="restart-btn" onclick="restartGame()">
-              &#128128;Try Again&#128128;
-            </button>
-            <button class="home-btn" onclick="resetGame()">🏠 Home</button>
+         <button class="mute-music" id="muteMusicBtn" onclick="toggleMusic()">🎶</button>
+         <button class="mute-sound-effects" id="muteSndBtn" onclick="toggleSoundEffects()">🔊</button>
+         <button class="fullscreen-btn" onclick="fullscreen()">⛶</button>
+         <button class="reset-btn" id="resetBtn" onclick="resetGame()">↩</button>
+          <div class="start-screen" id="startScreen">
+           <img src="./img/9_intro_outro_screens/start/startscreen_1.png" alt="Start Screen"/>
+            <button class="start-game-btn" onclick="startGame()">Start Game</button>
           </div>
-        </div>
-        <div class="win-screen" id="winScreen">
-          <img src="./img/You won, you lost/You Win A.png" alt="You Win" />
-          <div class="btn-container">
-            <button class="restart-btn" onclick="restartGame()">
-              Play Again
-            </button>
-            <button class="home-btn" onclick="resetGame()">🏠 Home</button>
+          <div class="game-over-screen" id="gameOverScreen">
+           <img src="./img/9_intro_outro_screens/game_over/game over.png" alt="Game Over"/>
+            <div class="btn-container">
+             <button class="restart-btn" onclick="restartGame()">&#128128;Try Again&#128128;</button>
+             <button class="home-btn" onclick="resetGame()">🏠 Home</button>
+            </div>
           </div>
-        </div>
-        <div id="fullscreenHint" class="fullscreen-hint" style="display: none">
-          Press ESC to exit fullscreen
-        </div>
-        <div class="mobile-controls" id="mobileControls">
-          <div class="mobile-controls-left">
-            <button class="mobile-btn" id="btnLeft">&#8592;</button>
-            <button class="mobile-btn" id="btnRight">&#8594;</button>
+          <div class="win-screen" id="winScreen">
+           <img src="./img/You won, you lost/You Win A.png" alt="You Win" />
+            <div class="btn-container">
+             <button class="restart-btn" onclick="restartGame()">Play Again</button>
+             <button class="home-btn" onclick="resetGame()">🏠 Home</button>
+            </div>
           </div>
-          <div class="mobile-controls-right">
-            <button class="mobile-btn" id="btnJump">&#8679;</button>
-            <button class="mobile-btn" id="btnThrow">🍶</button>
-          </div>
-        </div>
+           <div id="fullscreenHint" class="fullscreen-hint">
+            Press ESC to exit fullscreen
+           </div>
+            <div class="mobile-controls" id="mobileControls">
+             <div class="mobile-controls-left">
+              <button class="mobile-btn" id="btnLeft">&#8592;</button>
+              <button class="mobile-btn" id="btnRight">&#8594;</button>
+             </div>
+             <div class="mobile-controls-right">
+              <button class="mobile-btn" id="btnJump">&#8679;</button>
+              <button class="mobile-btn" id="btnThrow">🍶</button>
+             </div>
+            </div>
       </div>
-      <section class="controls-section">
+       <section class="controls-section">
         <div class="controls_1">
-          <p>&#8594; walk right</p>
-          <p>&#8592; walk left</p>
+         <p>&#8594; walk right</p>
+         <p>&#8592; walk left</p>
         </div>
-        <img class="character" src="./img/pepe.png" alt="character" />
+         <img class="character" src="./img/pepe.png" alt="character" />
         <div class="controls_2">
-          <p>SPACE = jump</p>
-          <p>D = throw bottle</p>
+         <p>SPACE = jump</p>
+         <p>D = throw bottle</p>
         </div>
-      </section>
+       </section>
     </main>
   </body>
 </html>

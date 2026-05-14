@@ -81,34 +81,25 @@ class Endboss extends MovableObject {
   }
 
   checkFirstContact() {
-  if (this.world && this.world.character.x > 2000 && !this.hadfirstContact) {
-    this.animationIndex = 0;
-    this.hadfirstContact = true;
+    if (this.world && this.world.character.x > 2000 && !this.hadfirstContact) {
+      this.animationIndex = 0;
+      this.hadfirstContact = true;
+    }
+    // ← außerhalb der ersten if-Bedingung
+    if (this.world && this.world.character.x > 1650 && !this.roarSoundPlayed) {
+      this.roarSoundPlayed = true;
+      this.soundRoar.volume = 0.5;
+      this.soundRoar.muted = soundEffectsMuted;
+      this.soundRoar.play();
+    }
   }
-  // ← außerhalb der ersten if-Bedingung
-  if (this.world && this.world.character.x > 1650 && !this.roarSoundPlayed) {
-    this.roarSoundPlayed = true;
-    this.soundRoar.volume = 0.5;
-    this.soundRoar.muted = soundEffectsMuted;
-    this.soundRoar.play();
-  }
-}
 
+  // #start-region animation endboss
   walkingAnimation() {
     if (this.animationIndex < 10) {
       this.playAnimation(this.IMAGES_WALKING);
     } else {
       this.playAnimation(this.IMAGES_ALERTNESS);
-    }
-  }
-
-  hit() {
-    if (this.isHurt()) return;
-    this.energy -= 20;
-    if (this.energy < 0) {
-      this.energy = 0;
-    } else {
-      this.lastHit = new Date().getTime();
     }
   }
 
@@ -132,5 +123,16 @@ class Endboss extends MovableObject {
         }
       }
     }, 400);
+  }
+  // #end-region animation endboss
+
+  hit() {
+    if (this.isHurt()) return;
+    this.energy -= 20;
+    if (this.energy < 0) {
+      this.energy = 0;
+    } else {
+      this.lastHit = new Date().getTime();
+    }
   }
 }

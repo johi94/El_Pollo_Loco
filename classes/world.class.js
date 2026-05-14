@@ -81,6 +81,7 @@ class World {
         }
         this.statusBarCoins.setPercentage(this.character.coins);
         this.level.coins.splice(index, 1);
+        this.soundCoinCollect.volume = 0.3; // NEU EINGEBUNDEN FEHLER
         this.soundCoinCollect.currentTime = 0;
         this.soundCoinCollect.muted = soundEffectsMuted;
         this.soundCoinCollect.play();
@@ -97,10 +98,29 @@ class World {
         }
         this.statusBarBottles.setPercentage(this.character.bottles);
         this.level.bottles.splice(index, 1);
+        this.soundBottleCollect.volume = 0.3; // NEU EINGEBUNDEN FEHLER
         this.soundBottleCollect.currentTime = 0;
         this.soundBottleCollect.muted = soundEffectsMuted;
         this.soundBottleCollect.play();
       }
+    });
+  }
+
+  checkThrowableCollisions() {
+    this.throwableObjects.forEach((bottle, bottleIndex) => {
+      this.level.enemies.forEach((enemy) => {
+        if (
+          bottle.isColliding(enemy) &&
+          enemy instanceof Endboss &&
+          !bottle.splashing
+        ) {
+          enemy.hit();
+          bottle.splash();
+          setTimeout(() => {
+            this.throwableObjects.splice(bottleIndex, 1);
+          }, 600);
+        }
+      });
     });
   }
   // #end-region-collisions
@@ -127,6 +147,7 @@ class World {
     );
   }
 
+  // #start-region throwable-object
   checkThrowObjects() {
     if (this.canThrowBottle()) {
       this.throwBottle();
@@ -161,25 +182,9 @@ class World {
       this.bottleThrown = false;
     }, 500);
   }
+  // #end-region throwable-object
 
-  checkThrowableCollisions() {
-    this.throwableObjects.forEach((bottle, bottleIndex) => {
-      this.level.enemies.forEach((enemy) => {
-        if (
-          bottle.isColliding(enemy) &&
-          enemy instanceof Endboss &&
-          !bottle.splashing
-        ) {
-          enemy.hit();
-          bottle.splash();
-          setTimeout(() => {
-            this.throwableObjects.splice(bottleIndex, 1);
-          }, 600);
-        }
-      });
-    });
-  }
-
+  // #start-region draw objects on canvas
   draw() {
     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
     this.drawBackground();
@@ -210,16 +215,15 @@ class World {
     this.addToMap(this.statusBarCoins);
     this.addToMap(this.statusBarBottles);
   }
+  // #end-region draw objects on canvas
 
-  // function to add Objects to Map
-  // forEach works like the for-loop / used to itterate through the arrays / Like that every array gets drawImage
+  // #start-region add objects to map
   addObjectsToMap(objects) {
     objects.forEach((object) => {
       this.addToMap(object);
     });
   }
 
-  // function to add movable objects to canvas / with img, x- and y-coordinate, width and heigth
   addToMap(movableObject) {
     if (movableObject.otherDirection) {
       this.flipImage(movableObject);
@@ -230,6 +234,7 @@ class World {
       this.flipImageBack(movableObject);
     }
   }
+  // #end-region add objects to map
 
   flipImage(movableObject) {
     this.ctx.save();
@@ -275,6 +280,7 @@ class World {
     this.intervals = [];
     cancelAnimationFrame(this.animationFrame);
   }
+
   // #start-region sounds
   playDeadSound() {
     if (!this.deadSoundPlayed) {
@@ -329,6 +335,5 @@ class World {
       }
     });
   }
-
   // #end-region sounds
 }

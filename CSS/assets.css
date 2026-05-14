@@ -83,6 +83,7 @@
   padding: 8px 10px;
   cursor: pointer;
   border-radius: 5px;
+  display: none;
 }
 
 .reset-btn:hover {
@@ -114,6 +115,7 @@
 }
 
 .fullscreen-hint {
+  display: none;
   position: absolute;
   top: 15px;
   left: 50%;
@@ -153,6 +155,17 @@
 }
 
 @media (max-width: 720px) {
+
+  .restart-btn {
+    width: 200px;
+    height: 70px;
+  }
+
+  .home-btn {
+    width: 200px;
+    height: 70px;
+  }
+
   .mobile-controls {
     display: flex;
   }
@@ -175,5 +188,20 @@
 
   .fullscreen-btn {
     display: none; 
+  }
+}
+
+@media (max-width: 480px) {
+
+  .restart-btn {
+    width: 130px;
+    height: 50px;
+    padding: 0;
+  }
+
+  .home-btn {
+    width: 130px;
+    height: 50px;
+    padding: 0;
   }
 }

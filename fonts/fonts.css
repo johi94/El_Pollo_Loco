@@ -54,3 +54,24 @@ body {
     letter-spacing: 3px;
 }
 
+@media (max-width: 720px) {
+
+  .restart-btn {
+    font-size: 20px;
+  }
+
+  .home-btn {
+    font-size: 20px;
+  }
+}
+
+@media (max-width: 480px) {
+    .restart-btn {
+    font-size: 16px;
+  }
+
+  .home-btn {
+    font-size: 16px;
+  }
+}
+

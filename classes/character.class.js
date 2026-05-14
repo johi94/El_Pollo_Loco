@@ -100,6 +100,7 @@ class Character extends MovableObject {
     this.animate();
   }
 
+  // #start-region animation
   animate() {
     setInterval(() => {
       this.movementCharacter();
@@ -176,6 +177,7 @@ class Character extends MovableObject {
     if (this.wasInAir && !this.isAboveGround()) {
       this.img = this.imageCache["img/2_character_pepe/1_idle/idle/I-1.png"];
       this.currentImage = 0;
+      this.lastMovement = new Date().getTime();
     }
     this.wasInAir = this.isAboveGround();
   }
@@ -221,14 +223,16 @@ class Character extends MovableObject {
       let idleTime = (new Date().getTime() - this.lastMovement) / 1000;
       if (idleTime > 15) {
         this.playLongIdle();
-      } else if (idleTime > 0) {
+      } else if (idleTime > 1) {
         this.playIdle();
       } else {
         this.stopIdleSounds();
       }
     }, 600);
   }
+  // #end-region animation
 
+  //  #start-region soundeffetcs character
   playLongIdle() {
     this.playAnimation(this.IMAGES_LONGIDLE);
     this.soundIdle.pause();
@@ -263,6 +267,7 @@ class Character extends MovableObject {
       this.soundWalk.play();
     }
   }
+  //  #send-region soundeffetcs character
 
   setInvincible() {
     this.isInvincible = true;
