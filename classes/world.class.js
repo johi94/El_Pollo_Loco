@@ -8,6 +8,8 @@ class World {
   statusBar = new StatusBar();
   statusBarCoins = new StatusBarCoins();
   statusBarBottles = new StatusBarBottles();
+  statusBarEndboss = new StatusBarEndboss(); 
+  endbossBarVisible = false;
   throwableObjects = [];
   bottleThrown = false;
   gameOverShown = false;
@@ -107,21 +109,19 @@ class World {
   }
 
   checkThrowableCollisions() {
-    this.throwableObjects.forEach((bottle, bottleIndex) => {
-      this.level.enemies.forEach((enemy) => {
-        if (
-          bottle.isColliding(enemy) &&
-          enemy instanceof Endboss &&
-          !bottle.splashing
-        ) {
-          enemy.hit();
-          bottle.splash();
-          setTimeout(() => {
-            this.throwableObjects.splice(bottleIndex, 1);
-          }, 600);
-        }
-      });
+  this.throwableObjects.forEach((bottle, bottleIndex) => {
+    this.level.enemies.forEach((enemy) => {
+      if (bottle.isColliding(enemy) && enemy instanceof Endboss && !bottle.splashing) {
+        enemy.hit();
+        this.endbossBarVisible = true;                              
+        this.statusBarEndboss.setPercentage(enemy.energy);         
+        bottle.splash();
+        setTimeout(() => {
+          this.throwableObjects.splice(bottleIndex, 1);
+        }, 600);
+      }
     });
+  });
   }
   // #end-region-collisions
 
@@ -214,6 +214,9 @@ class World {
     this.addToMap(this.statusBar);
     this.addToMap(this.statusBarCoins);
     this.addToMap(this.statusBarBottles);
+    if (this.endbossBarVisible) {              
+    this.addToMap(this.statusBarEndboss);
+  }
   }
   // #end-region draw objects on canvas
 

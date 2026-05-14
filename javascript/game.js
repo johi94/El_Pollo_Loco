@@ -81,6 +81,7 @@ function resetGame() {
   document.getElementById("resetBtn").style.display = "none";
   document.getElementById("muteMusicBtn").style.display = "block"; 
   document.getElementById("muteSndBtn").style.display = "block"; 
+  document.getElementById("enter-fullscreen").style.display = "block";
 }
 
 function showGameOver() {
@@ -89,6 +90,7 @@ function showGameOver() {
   stopBackgroundMusic();
   playGameOverSound();
   document.getElementById("resetBtn").style.display = "none";
+  document.getElementById("enter-fullscreen").style.display = "none";
   document.getElementById("muteMusicBtn").style.display = "none";
   document.getElementById("muteSndBtn").style.display = "none";
   document.getElementById("mobileControls").style.display = "none";
@@ -101,6 +103,7 @@ function showWin() {
   stopBackgroundMusic();
   playGameWonSound();
   document.getElementById("resetBtn").style.display = "none";
+  document.getElementById("enter-fullscreen").style.display = "none";
   document.getElementById("muteMusicBtn").style.display = "none";
   document.getElementById("muteSndBtn").style.display = "none";
   document.getElementById("mobileControls").style.display = "none";
@@ -119,6 +122,7 @@ function restartGame() {
   playBackgroundMusic();
   showMobileControls();
   document.getElementById("resetBtn").style.display = "block";
+  document.getElementById("enter-fullscreen").style.display = "block";
   document.getElementById("muteMusicBtn").style.display = "block";
   document.getElementById("muteSndBtn").style.display = "block";
 }

@@ -27,6 +27,7 @@
     <script src="./classes/status-bar.class.js"></script>
     <script src="./classes/status-bar-coins.class.js"></script>
     <script src="./classes/status-bar-bottles.class.js"></script>
+    <script src="./classes/status-bar-endboss.class.js"></script>
     <script src="./classes/world.class.js"></script>
     <script src="./javascript/levels/level1.js"></script>
     <script src="./javascript/game.js"></script>
@@ -43,7 +44,7 @@
         <canvas id="canvas" width="720" height="480"> </canvas>
          <button class="mute-music" id="muteMusicBtn" onclick="toggleMusic()">🎶</button>
          <button class="mute-sound-effects" id="muteSndBtn" onclick="toggleSoundEffects()">🔊</button>
-         <button class="fullscreen-btn" onclick="fullscreen()">⛶</button>
+         <button class="fullscreen-btn" id= "enter-fullscreen" onclick="fullscreen()">⛶</button>
          <button class="reset-btn" id="resetBtn" onclick="resetGame()">↩</button>
           <div class="start-screen" id="startScreen">
            <img src="./img/9_intro_outro_screens/start/startscreen_1.png" alt="Start Screen"/>

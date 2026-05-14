@@ -84,8 +84,8 @@ class Endboss extends MovableObject {
     if (this.world && this.world.character.x > 2000 && !this.hadfirstContact) {
       this.animationIndex = 0;
       this.hadfirstContact = true;
+      this.world.endbossBarVisible = true;
     }
-    // ← außerhalb der ersten if-Bedingung
     if (this.world && this.world.character.x > 1650 && !this.roarSoundPlayed) {
       this.roarSoundPlayed = true;
       this.soundRoar.volume = 0.5;
