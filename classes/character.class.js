@@ -102,13 +102,13 @@ class Character extends MovableObject {
 
   // #start-region animation
   animate() {
-    setInterval(() => {
+    addInterval(() => {
       this.movementCharacter();
       this.landingCharacter();
       this.world.camera_x = -this.x + 100;
     }, 1000 / 60);
 
-    setInterval(() => {
+    addInterval(() => {
       if (this.isDead()) return;
       this.animationCharacter();
     }, 100);
@@ -193,7 +193,7 @@ class Character extends MovableObject {
 
   animateDead() {
     let deadFrame = 0;
-    let deadInterval = setInterval(() => {
+    let deadInterval = addInterval(() => {
       if (this.isDead()) {
         if (deadFrame < this.IMAGES_DEAD.length) {
           this.img = this.imageCache[this.IMAGES_DEAD[deadFrame]];
@@ -209,7 +209,7 @@ class Character extends MovableObject {
   }
 
   animateHurt() {
-    setInterval(() => {
+    addInterval(() => {
       if (this.isDead()) return;
       if (this.isHurt()) {
         this.playAnimation(this.IMAGES_HURT);

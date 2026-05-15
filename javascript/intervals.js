@@ -1,7 +1,10 @@
 let intervals = [];
+let gamePaused = false;
 
 function addInterval(fn, time) {
-  let id = setInterval(fn, time);
+  let id = setInterval(() => {
+    if (!gamePaused) fn(); 
+  }, time);
   intervals.push(id);
   return id;
 }

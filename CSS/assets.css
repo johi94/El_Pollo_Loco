@@ -67,6 +67,7 @@
   padding: 1px 5px;
   cursor: pointer;
   border-radius: 12px;
+  display: block;
 }
 
 .fullscreen-btn:hover {
@@ -87,6 +88,23 @@
 }
 
 .reset-btn:hover {
+  background: rgba(0, 0, 0, 0.8);
+}
+
+.pause-btn {
+  position: absolute;
+  top: 60px;
+  right: 10px;   
+  background: rgba(0, 0, 0, 0.5);
+  color: white;
+  border: none;
+  padding: 8px 10px;
+  cursor: pointer;
+  border-radius: 5px;
+  display: none;
+}
+
+.pause-btn:hover {
   background: rgba(0, 0, 0, 0.8);
 }
 
@@ -172,7 +190,7 @@
 
   .mute-music {
     position: absolute;
-    top: 60px; 
+    top: 110px; 
     right: 10px;
     left: auto; 
     bottom: auto; 
@@ -180,7 +198,7 @@
 
   .mute-sound-effects {
     position: absolute;
-    top: 110px; 
+    top: 160px; 
     right: 10px;
     left: auto;
     bottom: auto;

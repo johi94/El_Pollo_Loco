@@ -2,6 +2,7 @@ let canvas; // willhold reference to HTML-element
 let world;
 let keyboard = new Keyboard();
 
+
 // calls method to reach out to canvas and unite it with a variable
 // 2 variables are getting called with init function: canvas and world
 function init() {
@@ -60,6 +61,7 @@ document.addEventListener("keyup", (event) => {
 function startGame() {
   clearAllIntervals();
   document.getElementById("resetBtn").style.display = "block";
+  document.getElementById("pauseBtn").style.display = "block";
   hideAllScreens();
   initLevel();
   init();
@@ -72,6 +74,8 @@ function resetGame() {
   if (world) {
     world.stopAllSounds();
     world.stopGame();
+    document.getElementById("pauseBtn").style.display = "none";
+    gamePaused = false;
   }
   stopBackgroundMusic();
   document.getElementById("mobileControls").style.display = "none";
@@ -82,6 +86,19 @@ function resetGame() {
   document.getElementById("muteMusicBtn").style.display = "block"; 
   document.getElementById("muteSndBtn").style.display = "block"; 
   document.getElementById("enter-fullscreen").style.display = "block";
+}
+
+function togglePause() {
+  document.activeElement.blur();
+  gamePaused = !gamePaused;
+  if (gamePaused) {
+    document.getElementById("pauseBtn").textContent = "▶";
+    backgroundMusic.pause();
+    if (world) world.stopAllSounds();
+  } else {
+    document.getElementById("pauseBtn").textContent = "⏸";
+    playBackgroundMusic();
+  }
 }
 
 function showGameOver() {
@@ -95,6 +112,7 @@ function showGameOver() {
   document.getElementById("muteSndBtn").style.display = "none";
   document.getElementById("mobileControls").style.display = "none";
   document.getElementById("gameOverScreen").style.display = "block";
+  document.getElementById("pauseBtn").style.display = "none";
 }
 
 function showWin() {
@@ -108,6 +126,7 @@ function showWin() {
   document.getElementById("muteSndBtn").style.display = "none";
   document.getElementById("mobileControls").style.display = "none";
   document.getElementById("winScreen").style.display = "block";
+  document.getElementById("pauseBtn").style.display = "none";
 }
 
 function restartGame() {
@@ -125,6 +144,8 @@ function restartGame() {
   document.getElementById("enter-fullscreen").style.display = "block";
   document.getElementById("muteMusicBtn").style.display = "block";
   document.getElementById("muteSndBtn").style.display = "block";
+  document.getElementById("pauseBtn").style.display = "block";
+  gamePaused = false;
 }
 
 function hideAllScreens() {
@@ -144,7 +165,7 @@ function initMobileControls() {
   document.getElementById("mobileControls").style.display = "none";
   document.getElementById("btnLeft").addEventListener("touchstart", (e) => {
     e.preventDefault();
-    keyboard.LEFT = true;
+    if (!gamePaused) keyboard.LEFT = true;
   });
   document.getElementById("btnLeft").addEventListener("touchend", () => {
     keyboard.LEFT = false;
@@ -152,7 +173,7 @@ function initMobileControls() {
 
   document.getElementById("btnRight").addEventListener("touchstart", (e) => {
     e.preventDefault();
-    keyboard.RIGHT = true;
+    if (!gamePaused) keyboard.RIGHT = true;
   });
   document.getElementById("btnRight").addEventListener("touchend", () => {
     keyboard.RIGHT = false;
@@ -160,7 +181,7 @@ function initMobileControls() {
 
   document.getElementById("btnJump").addEventListener("touchstart", (e) => {
     e.preventDefault();
-    keyboard.SPACE = true;
+    if (!gamePaused) keyboard.SPACE = true;
   });
   document.getElementById("btnJump").addEventListener("touchend", () => {
     keyboard.SPACE = false;
@@ -168,7 +189,7 @@ function initMobileControls() {
 
   document.getElementById("btnThrow").addEventListener("touchstart", (e) => {
     e.preventDefault();
-    keyboard.D = true;
+    if (!gamePaused) keyboard.D = true;
   });
   document.getElementById("btnThrow").addEventListener("touchend", () => {
     keyboard.D = false;

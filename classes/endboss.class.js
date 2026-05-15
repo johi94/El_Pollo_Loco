@@ -70,7 +70,7 @@ class Endboss extends MovableObject {
 
   animate() {
     let i = 0;
-    setInterval(() => {
+    addInterval(() => {
       this.checkFirstContact();
       if (this.isDead()) return;
       this.walkingAnimation();
@@ -104,7 +104,7 @@ class Endboss extends MovableObject {
   }
 
   animateHurt() {
-    let hurtInterval = setInterval(() => {
+    let hurtInterval = addInterval(() => {
       if (this.isDead()) return;
       if (this.isHurt()) {
         this.playAnimation(this.IMAGES_HURT);
@@ -113,7 +113,7 @@ class Endboss extends MovableObject {
   }
 
   animateDead() {
-    setInterval(() => {
+    addInterval(() => {
       if (this.isDead()) {
         this.playAnimation(this.IMAGES_DEAD);
         if (!this.markedForDeletion) {
