@@ -1,7 +1,7 @@
 let canvas; // willhold reference to HTML-element
 let world;
 let keyboard = new Keyboard();
-
+let infoOpen = false;
 
 // calls method to reach out to canvas and unite it with a variable
 // 2 variables are getting called with init function: canvas and world
@@ -62,6 +62,7 @@ function startGame() {
   clearAllIntervals();
   document.getElementById("resetBtn").style.display = "block";
   document.getElementById("pauseBtn").style.display = "block";
+  document.getElementById("infoBtn").style.display = "block";
   hideAllScreens();
   initLevel();
   init();
@@ -76,15 +77,18 @@ function resetGame() {
     world.stopGame();
     document.getElementById("pauseBtn").style.display = "none";
     gamePaused = false;
+    document.getElementById("infoBtn").style.display = "none"; 
+    infoOpen = false;
   }
+
   stopBackgroundMusic();
   document.getElementById("mobileControls").style.display = "none";
   document.getElementById("gameOverScreen").style.display = "none";
   document.getElementById("winScreen").style.display = "none";
   document.getElementById("startScreen").style.display = "block";
   document.getElementById("resetBtn").style.display = "none";
-  document.getElementById("muteMusicBtn").style.display = "block"; 
-  document.getElementById("muteSndBtn").style.display = "block"; 
+  document.getElementById("muteMusicBtn").style.display = "block";
+  document.getElementById("muteSndBtn").style.display = "block";
   document.getElementById("enter-fullscreen").style.display = "block";
 }
 
@@ -113,6 +117,7 @@ function showGameOver() {
   document.getElementById("mobileControls").style.display = "none";
   document.getElementById("gameOverScreen").style.display = "block";
   document.getElementById("pauseBtn").style.display = "none";
+  document.getElementById("infoBtn").style.display = "none";
 }
 
 function showWin() {
@@ -127,6 +132,7 @@ function showWin() {
   document.getElementById("mobileControls").style.display = "none";
   document.getElementById("winScreen").style.display = "block";
   document.getElementById("pauseBtn").style.display = "none";
+  document.getElementById("infoBtn").style.display = "none";
 }
 
 function restartGame() {
@@ -146,12 +152,25 @@ function restartGame() {
   document.getElementById("muteSndBtn").style.display = "block";
   document.getElementById("pauseBtn").style.display = "block";
   gamePaused = false;
+  document.getElementById("infoBtn").style.display = "block";
 }
 
 function hideAllScreens() {
   document.getElementById("startScreen").style.display = "none";
   document.getElementById("gameOverScreen").style.display = "none";
   document.getElementById("winScreen").style.display = "none";
+}
+
+function toggleInfo() {
+  document.activeElement.blur();
+  infoOpen = !infoOpen;
+  if (infoOpen) {
+    document.getElementById("infoModal").style.display = "flex";
+    if (!gamePaused) togglePause(); // ← Spiel automatisch pausieren
+  } else {
+    document.getElementById("infoModal").style.display = "none";
+    if (gamePaused) togglePause(); // ← Spiel automatisch fortsetzen
+  }
 }
 
 // #start-region mobile controls

@@ -93,8 +93,8 @@
 
 .pause-btn {
   position: absolute;
-  top: 60px;
-  right: 10px;   
+  top: 10px;
+  right: 60px;   
   background: rgba(0, 0, 0, 0.5);
   color: white;
   border: none;
@@ -120,6 +120,10 @@
   border-radius: 5px;
 }
 
+.mute-music:hover {
+  background: rgba(0, 0, 0, 0.8);
+}
+
 .mute-sound-effects {
   position: absolute;
   bottom: 10px;
@@ -130,6 +134,10 @@
   padding: 8px 10px;
   cursor: pointer;
   border-radius: 5px;
+}
+
+.mute-sound-effects:hover {
+  background: rgba(0, 0, 0, 0.8);
 }
 
 .fullscreen-hint {
@@ -190,16 +198,16 @@
 
   .mute-music {
     position: absolute;
-    top: 110px; 
-    right: 10px;
+    top: 10px; 
+    right: 320px;
     left: auto; 
     bottom: auto; 
   }
 
   .mute-sound-effects {
     position: absolute;
-    top: 160px; 
-    right: 10px;
+    top: 10px; 
+    right: 260px;
     left: auto;
     bottom: auto;
   }
@@ -207,6 +215,23 @@
   .fullscreen-btn {
     display: none; 
   }
+}
+
+.info-btn {
+  position: absolute;
+  top: 110px;
+  right: 10px;
+  background: rgba(0, 0, 0, 0.5);
+  color: white;
+  border: none;
+  padding: 8px 10px;
+  cursor: pointer;
+  border-radius: 5px;
+  display: none;
+}
+
+.info-btn:hover {
+  background: rgba(0, 0, 0, 0.8);
 }
 
 @media (max-width: 600px) {

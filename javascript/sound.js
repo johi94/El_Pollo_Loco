@@ -21,6 +21,7 @@ function stopBackgroundMusic() {
 
 function toggleMusic() {
   document.activeElement.blur();
+  if (gamePaused) return;
   if (backgroundMusic.paused) {
     backgroundMusic.play();
     document.getElementById("muteMusicBtn").textContent = "🎶";
@@ -36,6 +37,7 @@ function toggleMusic() {
 // #start-region sound-effects
 function toggleSoundEffects() {
   document.activeElement.blur();
+  if (gamePaused) return;
   soundEffectsMuted = !soundEffectsMuted;
   localStorage.setItem("soundEffectsMuted", soundEffectsMuted);
   if (soundEffectsMuted) {
