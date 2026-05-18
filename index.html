@@ -2,7 +2,7 @@
 <html lang="en" translate="no">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0 user-scalable=no" />
     <link rel="stylesheet" href="style.css" />
     <link rel="stylesheet" href="./fonts/fonts.css" />
     <link rel="stylesheet" href="./CSS/startscreen.css" />
@@ -36,6 +36,12 @@
     <script src="./javascript/sound.js"></script>
   </head>
   <body onload="loadSoundSettings(); initMobileControls();">
+   <div id="rotate-device-hint">
+    <div class="hint-content">
+     <div class="phone-icon">🔄📱</div>
+     <p>Please rotate your device to play!</p>
+    </div>
+   </div>
     <header class="headline">
       <img class="h1" src="./img/h1.png" alt="titel" />
       <img class="description" src="./img/h2.png" alt="description" />
@@ -43,12 +49,21 @@
     <main>
       <div id="canvas-container">
         <canvas id="canvas" width="720" height="480"> </canvas>
-         <button class="mute-music" id="muteMusicBtn" onclick="toggleMusic()">🎶</button>
-         <button class="mute-sound-effects" id="muteSndBtn" onclick="toggleSoundEffects()">🔊</button>
+         <button class="mute-music" id="muteMusicBtn" onclick="toggleMusic()">
+          <span class="icon-on">🎶</span>
+          <span class="icon-off">🔕</span>
+         </button>
+         <button class="mute-sound-effects" id="muteSndBtn" onclick="toggleSoundEffects()">
+          <span class="icon-on">🔊</span>
+          <span class="icon-off">🔇</span>
+         </button>
          <button class="info-btn" id="infoBtn" onclick="toggleInfo()">❓</button>
          <button class="fullscreen-btn" id= "enter-fullscreen" onclick="fullscreen()">⛶</button>
          <button class="reset-btn" id="resetBtn" onclick="resetGame()">↩</button>
-         <button class="pause-btn" id="pauseBtn" onclick="togglePause()">⏸</button>
+         <button class="pause-btn" id="pauseBtn" onclick="togglePause()">
+          <span class="icon-on">⏸</span>
+          <span class="icon-off">▶</span>
+         </button>
           <div class="start-screen" id="startScreen">
            <img src="./img/9_intro_outro_screens/start/startscreen_1.png" alt="Start Screen"/>
             <button class="start-game-btn" onclick="startGame()">Start Game</button>
@@ -80,23 +95,22 @@
               <button class="mobile-btn" id="btnThrow">🍶</button>
              </div>
             </div>
+             <div class="info-modal" id="infoModal" style="display:none">
+              <div class="info-modal-content">
+               <h2>Controls</h2>
+                <button class="close-modal-btn" onclick="toggleInfo()">✖</button>
+                 <ul>
+                  <li>⬅️ ➡️ &nbsp; Walk</li>
+                  <li>[SPACE] &nbsp; Jump</li>
+                  <li>D &nbsp; Throw bottle</li>
+                  <li>🐔 &nbsp; Jump on chicken to defeat them</li>
+                  <li>🍶 &nbsp; Collect bottles</li>
+                  <li>🪙 &nbsp; Collect coins</li>
+                 </ul>      
+              </div>
+             </div>
       </div>
-      
-         <img class="character" src="./img/pepe.png" alt="character" />
+       <img class="character" src="./img/pepe.png" alt="character" />
     </main>
-     <div class="info-modal" id="infoModal" style="display:none">
-      <div class="info-modal-content">
-        <h2>Controls</h2>
-          <ul>
-            <li>⬅️ ➡️ &nbsp; Walk</li>
-            <li>[SPACE] &nbsp; Jump</li>
-            <li>D &nbsp; Throw bottle</li>
-            <li>🐔 &nbsp; Jump on chicken to defeat them</li>
-            <li>🍶 &nbsp; Collect bottles</li>
-            <li>🪙 &nbsp; Collect coins</li>
-          </ul>
-            <button class="close-modal-btn" onclick="toggleInfo()">✖</button>
-      </div>
-     </div>
   </body>
 </html>

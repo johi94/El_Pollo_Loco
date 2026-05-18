@@ -56,6 +56,11 @@ document.addEventListener("keyup", (event) => {
     keyboard.D = false;
   }
 });
+
+// no scrolling during play
+document.getElementById("canvas").addEventListener("touchstart", (e) => {
+  e.preventDefault(); 
+}, { passive: false });
 // #end-region EventListeners
 
 function startGame() {
@@ -82,6 +87,8 @@ function resetGame() {
   }
 
   stopBackgroundMusic();
+  gamePaused = false;                                                    
+  document.getElementById("pauseBtn").classList.remove("paused");
   document.getElementById("mobileControls").style.display = "none";
   document.getElementById("gameOverScreen").style.display = "none";
   document.getElementById("winScreen").style.display = "none";
@@ -95,12 +102,11 @@ function resetGame() {
 function togglePause() {
   document.activeElement.blur();
   gamePaused = !gamePaused;
+  document.getElementById("pauseBtn").classList.toggle("paused"); 
   if (gamePaused) {
-    document.getElementById("pauseBtn").textContent = "▶";
     backgroundMusic.pause();
     if (world) world.stopAllSounds();
   } else {
-    document.getElementById("pauseBtn").textContent = "⏸";
     playBackgroundMusic();
   }
 }
@@ -141,6 +147,8 @@ function restartGame() {
     world.stopAllSounds();
     world.stopGame();
   }
+   gamePaused = false;                                             
+  document.getElementById("pauseBtn").classList.remove("paused"); 
   hideAllScreens();
   initLevel();
   init();
@@ -166,10 +174,10 @@ function toggleInfo() {
   infoOpen = !infoOpen;
   if (infoOpen) {
     document.getElementById("infoModal").style.display = "flex";
-    if (!gamePaused) togglePause(); // ← Spiel automatisch pausieren
+    if (!gamePaused) togglePause(); 
   } else {
     document.getElementById("infoModal").style.display = "none";
-    if (gamePaused) togglePause(); // ← Spiel automatisch fortsetzen
+    if (gamePaused) togglePause(); 
   }
 }
 

@@ -45,17 +45,46 @@ body {
 }
 
 .mute-music {
-    font-size: 20px;
+    font-size: 16px;
 }
 
 .mute-sound-effects {
-    font-size: 20px;
+    font-size: 16px;
 }
 
 .fullscreen-hint {
     font-size: 40px;
     font-weight: 500;
     letter-spacing: 3px;
+}
+
+.info-btn {
+  font-size: 16px;
+}
+
+.info-modal-content h2 {
+  font-size: 130px;
+  font-weight: 500;
+  letter-spacing: 5px;
+}
+
+.close-modal-btn {
+  font-size: 20px;
+}
+
+.info-modal-content ul {
+  font-size: 50px;
+  letter-spacing: 3px;
+}
+
+@media (max-width: 1000px) {
+  .info-modal-content h2 {
+  font-size: 80px;
+  }
+
+  .info-modal-content ul {
+  font-size: 40px;
+}
 }
 
 @media (max-width: 720px) {

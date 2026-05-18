@@ -22,13 +22,13 @@ function stopBackgroundMusic() {
 function toggleMusic() {
   document.activeElement.blur();
   if (gamePaused) return;
+  const btn = document.getElementById("muteMusicBtn");
+  btn.classList.toggle("muted");
   if (backgroundMusic.paused) {
     backgroundMusic.play();
-    document.getElementById("muteMusicBtn").textContent = "🎶";
     localStorage.setItem("musicMuted", "false");
   } else {
     backgroundMusic.pause();
-    document.getElementById("muteMusicBtn").textContent = "🔕";
     localStorage.setItem("musicMuted", "true");
   }
 }
@@ -38,20 +38,15 @@ function toggleMusic() {
 function toggleSoundEffects() {
   document.activeElement.blur();
   if (gamePaused) return;
+  const btn = document.getElementById("muteSndBtn");
+  btn.classList.toggle("muted");
   soundEffectsMuted = !soundEffectsMuted;
   localStorage.setItem("soundEffectsMuted", soundEffectsMuted);
-  if (soundEffectsMuted) {
-    document.getElementById("muteSndBtn").textContent = "🔇";
-  } else {
-    document.getElementById("muteSndBtn").textContent = "🔊";
-  }
   if (world) {
     world.level.enemies.forEach((enemy) => {
-      if (enemy.sound) {
-        enemy.sound.muted = soundEffectsMuted;
-      }
+      if (enemy.sound) enemy.sound.muted = soundEffectsMuted;
     });
-     world.character.soundIdle.muted = soundEffectsMuted;
+    world.character.soundIdle.muted = soundEffectsMuted;
     world.character.soundLongIdle.muted = soundEffectsMuted;
     world.character.soundWalk.muted = soundEffectsMuted;
     world.character.soundJump.muted = soundEffectsMuted;
@@ -77,21 +72,16 @@ function playGameWonSound() {
 // #start-region load from LocalStorage
 
 function loadSoundSettings() {
-  // music
   const musicMuted = localStorage.getItem("musicMuted") === "true";
   if (musicMuted) {
-    backgroundMusic.pause();
-    document.getElementById("muteMusicBtn").textContent = "🔕";
-  } else {
-    document.getElementById("muteMusicBtn").textContent = "🎶";
+    document.getElementById("muteMusicBtn").classList.add("muted");
+    backgroundMusic.muted = true;
   }
-  // soundeffects
+
   const savedSoundMuted = localStorage.getItem("soundEffectsMuted") === "true";
   soundEffectsMuted = savedSoundMuted;
   if (soundEffectsMuted) {
-    document.getElementById("muteSndBtn").textContent = "🔇";
-  } else {
-    document.getElementById("muteSndBtn").textContent = "🔊";
+    document.getElementById("muteSndBtn").classList.add("muted");
   }
 }
 
