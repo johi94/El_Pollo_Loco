@@ -58,9 +58,22 @@ document.addEventListener("keyup", (event) => {
 });
 
 // no scrolling during play
-document.getElementById("canvas").addEventListener("touchstart", (e) => {
-  e.preventDefault(); 
-}, { passive: false });
+document.getElementById("canvas").addEventListener(
+  "touchstart",
+  (e) => {
+    e.preventDefault();
+  },
+  { passive: false },
+);
+
+document.getElementById("infoModal").addEventListener("click", (e) => {
+  if (e.target === document.getElementById("infoModal")) toggleInfo();
+});
+
+document.getElementById("infoModal").addEventListener("cancel", (e) => {
+  e.preventDefault();
+  if (infoOpen) toggleInfo();
+});
 // #end-region EventListeners
 
 function startGame() {
@@ -82,12 +95,12 @@ function resetGame() {
     world.stopGame();
     document.getElementById("pauseBtn").style.display = "none";
     gamePaused = false;
-    document.getElementById("infoBtn").style.display = "none"; 
+    document.getElementById("infoBtn").style.display = "block";
     infoOpen = false;
   }
 
   stopBackgroundMusic();
-  gamePaused = false;                                                    
+  gamePaused = false;
   document.getElementById("pauseBtn").classList.remove("paused");
   document.getElementById("mobileControls").style.display = "none";
   document.getElementById("gameOverScreen").style.display = "none";
@@ -102,7 +115,7 @@ function resetGame() {
 function togglePause() {
   document.activeElement.blur();
   gamePaused = !gamePaused;
-  document.getElementById("pauseBtn").classList.toggle("paused"); 
+  document.getElementById("pauseBtn").classList.toggle("paused");
   if (gamePaused) {
     backgroundMusic.pause();
     if (world) world.stopAllSounds();
@@ -147,8 +160,8 @@ function restartGame() {
     world.stopAllSounds();
     world.stopGame();
   }
-   gamePaused = false;                                             
-  document.getElementById("pauseBtn").classList.remove("paused"); 
+  gamePaused = false;
+  document.getElementById("pauseBtn").classList.remove("paused");
   hideAllScreens();
   initLevel();
   init();
@@ -171,13 +184,14 @@ function hideAllScreens() {
 
 function toggleInfo() {
   document.activeElement.blur();
+  const modal = document.getElementById("infoModal");
   infoOpen = !infoOpen;
   if (infoOpen) {
-    document.getElementById("infoModal").style.display = "flex";
-    if (!gamePaused) togglePause(); 
+    modal.showModal();
+    if (!gamePaused && world) togglePause(); 
   } else {
-    document.getElementById("infoModal").style.display = "none";
-    if (gamePaused) togglePause(); 
+    modal.close();
+    if (gamePaused && world) togglePause(); 
   }
 }
 

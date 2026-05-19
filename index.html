@@ -11,29 +11,29 @@
     <link rel="stylesheet" href="./CSS/game_control_modal.css">
     <link rel="shortcut icon" href="./img/pepe.png" />
     <title>El pollo loco</title>
-    <script src="./javascript/intervals.js"></script>
-    <script src="./classes/drawable-object.class.js"></script>
-    <script src="./classes/movable-object.class.js"></script>
-    <script src="./classes/background-object.class.js"></script>
-    <script src="./classes/level.class.js"></script>
-    <script src="./classes/keyboard.class.js"></script>
-    <script src="./classes/throwable-object.class.js"></script>
-    <script src="./classes/character.class.js"></script>
-    <script src="./classes/chicken.class.js"></script>
-    <script src="./classes/smallchicken.class.js"></script>
-    <script src="./classes/endboss.class.js"></script>
-    <script src="./classes/cloud.class.js"></script>
-    <script src="./classes/coin.class.js"></script>
-    <script src="./classes/bottle.class.js"></script>
-    <script src="./classes/status-bar.class.js"></script>
-    <script src="./classes/status-bar-coins.class.js"></script>
-    <script src="./classes/status-bar-bottles.class.js"></script>
-    <script src="./classes/status-bar-endboss.class.js"></script>
-    <script src="./classes/world.class.js"></script>
-    <script src="./javascript/levels/level1.js"></script>
-    <script src="./javascript/game.js"></script>
-    <script src="./javascript/fullscreen.js"></script>
-    <script src="./javascript/sound.js"></script>
+    <script src="./javascript/intervals.js" defer></script>
+    <script src="./classes/drawable-object.class.js" defer></script>
+    <script src="./classes/movable-object.class.js" defer></script>
+    <script src="./classes/background-object.class.js" defer></script>
+    <script src="./classes/level.class.js" defer></script>
+    <script src="./classes/keyboard.class.js" defer></script>
+    <script src="./classes/throwable-object.class.js" defer></script>
+    <script src="./classes/character.class.js" defer></script>
+    <script src="./classes/chicken.class.js" defer></script>
+    <script src="./classes/smallchicken.class.js" defer></script>
+    <script src="./classes/endboss.class.js" defer></script>
+    <script src="./classes/cloud.class.js" defer></script>
+    <script src="./classes/coin.class.js" defer></script>
+    <script src="./classes/bottle.class.js" defer></script>
+    <script src="./classes/status-bar.class.js" defer></script>
+    <script src="./classes/status-bar-coins.class.js" defer></script>
+    <script src="./classes/status-bar-bottles.class.js" defer></script>
+    <script src="./classes/status-bar-endboss.class.js" defer></script>
+    <script src="./classes/world.class.js" defer></script>
+    <script src="./javascript/levels/level1.js" defer></script>
+    <script src="./javascript/game.js" defer></script>
+    <script src="./javascript/fullscreen.js" defer></script>
+    <script src="./javascript/sound.js" defer></script>
   </head>
   <body onload="loadSoundSettings(); initMobileControls();">
    <div id="rotate-device-hint">
@@ -96,22 +96,21 @@
               <button class="mobile-btn" id="btnThrow">🍶</button>
              </div>
             </div>
-             <div class="info-modal" id="infoModal" style="display:none">
-              <div class="info-modal-content">
-               <h2>Controls</h2>
-                <button class="close-modal-btn" onclick="toggleInfo()">✖</button>
-                 <ul>
-                  <li>⬅️ ➡️ &nbsp; Walk</li>
-                  <li>[SPACE] &nbsp; Jump</li>
-                  <li>D &nbsp; Throw bottle</li>
-                  <li>🐔 &nbsp; Jump on chicken to defeat them</li>
-                  <li>🍶 &nbsp; Collect bottles</li>
-                  <li>🪙 &nbsp; Collect coins</li>
-                 </ul>      
-              </div>
-             </div>
       </div>
     </main>
-    
+     <dialog id="infoModal">
+      <div class="info-modal-content">
+       <h2>Controls</h2>
+        <button class="close-modal-btn" onclick="toggleInfo()">✖</button>
+         <ul>
+          <li>⬅️ ➡️ &nbsp; Walk</li>
+          <li>[SPACE] &nbsp; Jump</li>
+          <li>D &nbsp; Throw bottle</li>
+          <li>🐔 &nbsp; Jump on chicken to defeat them</li>
+          <li>🍶 &nbsp; Collect bottles</li>
+          <li>🪙 &nbsp; Collect coins</li>
+         </ul>      
+      </div>
+     </dialog>
   </body>
 </html>

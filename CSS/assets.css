@@ -111,7 +111,7 @@
 .mute-music {
   position: absolute;
   bottom: 10px;
-  left: 10px;
+  left: 80px;
   background: rgba(0, 0, 0, 0.5);
   color: white;
   border: none;
@@ -127,7 +127,7 @@
 .mute-sound-effects {
   position: absolute;
   bottom: 10px;
-  left: 80px;
+  left: 150px;
   background: rgba(0, 0, 0, 0.5);
   color: white;
   border: none;
@@ -190,19 +190,22 @@
   font-size: 24px;
   cursor: pointer;
   color: white;
+  -webkit-touch-callout: none; 
+  user-select: none; 
 }
 
 .info-btn {
   position: absolute;
   bottom: 10px;
-  left: 150px;
+  left: 10px;
   background: rgba(0, 0, 0, 0.5);
   color: white;
   border: none;
   padding: 8px 10px;
   cursor: pointer;
   border-radius: 5px;
-  display: none; 
+  display: block;
+  z-index: 5;
 }
 
 .info-btn:hover {

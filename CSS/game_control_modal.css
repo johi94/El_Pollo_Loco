@@ -1,11 +1,14 @@
-.info-modal {
-  position: fixed;
-  inset: 0;
+#infoModal {
+  border: none;
+  border-radius: 12px;
+  padding: 0;
+  background: transparent;
+  width: 750px;
+  height: 300px;
+}
+
+#infoModal::backdrop {
   background: rgba(0, 0, 0, 0.7);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 10;
 }
 
 .info-modal-content {
@@ -14,29 +17,40 @@
   padding: 16px;
   text-align: center;
   position: relative;
-  min-width: 300px;
-  width: 800px;
-  height: 700px;
+  width: 700px;
+  height: 250px;
 }
 
 .info-modal-content h2 {
-  margin-top: 8px;
-  margin-bottom: 8px;
+  margin: 0;
   color: #f8a000;
 }
 
 .info-modal-content ul {
   list-style: none;
   padding: 0;
-  text-align: left;
-  line-height: 1.75;
+  text-align: center;
+  line-height: 1.5;
   margin-top: 8px;
+  margin-bottom: 0;
 }
 
 @media (max-width: 1000px) {
+#infoModal {
+    width: 720px;
+    
+  }
+}
+
+@media (max-width: 720px) {
+  #infoModal {
+    width: 550px;
+    height: 200px;
+  }
+
   .info-modal-content {
-    width: 600px;
-  height: 500px;
+    width: 500px;
+    height: 200px;
   }
 }
 

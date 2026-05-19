@@ -1,3 +1,5 @@
+let fullscreenHintTimeout;
+
 function enterFullscreen() {
   const canvas = document.getElementById('canvas-container');
   if (canvas.requestFullscreen) {
@@ -20,6 +22,7 @@ function exitFullscreen() {
 }
 
 function fullscreen() {
+  document.activeElement.blur();
   if (!document.fullscreenElement) {
     enterFullscreen();
   } else {
@@ -28,18 +31,16 @@ function fullscreen() {
 }
 
 // fullscreen hint
-function fullscreen() {
-  document.activeElement.blur();
-  if (!document.fullscreenElement) {
-    enterFullscreen();
-    setTimeout(() => {
-      document.getElementById('fullscreenHint').style.display = 'block'; 
+document.addEventListener("fullscreenchange", () => {
+  const hint = document.getElementById('fullscreenHint');
+  if (document.fullscreenElement) {
+    fullscreenHintTimeout = setTimeout(() => {
+      hint.style.display = 'block';
       setTimeout(() => {
-        document.getElementById('fullscreenHint').style.display = 'none'; 
-      }, 5000);
-    }, 5000); 
+        hint.style.display = 'none';
+      }, 2000);
+    }, 5000);
   } else {
-    exitFullscreen();
-    document.getElementById('fullscreenHint').style.display = 'none';
+    clearTimeout(fullscreenHintTimeout); 
   }
-}
+});

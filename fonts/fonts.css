@@ -1,61 +1,61 @@
 @font-face {
-    font-family: 'zabras';
-    src: url('./zabars.ttf') format('truetype'); 
+  font-family: "zabras";
+  src: url("./zabars.ttf") format("truetype");
 }
 
 body {
-    font-family: zabras;
-    font-size: 30px;
-    font-weight: 300;
-    font-style: oblique;
-    letter-spacing: 2px;
+  font-family: zabras;
+  font-size: 30px;
+  font-weight: 300;
+  font-style: oblique;
+  letter-spacing: 2px;
 }
 
 .start-game-btn {
-    font-family: zabras;
-    font-size: 35px;
-    font-weight: 500;
-    letter-spacing: 3px;
+  font-family: zabras;
+  font-size: 35px;
+  font-weight: 500;
+  letter-spacing: 3px;
 }
 
 .restart-btn {
-    font-family: zabras;
-    font-size: 25px;
-    font-weight: 500;
-    letter-spacing: 3px;
+  font-family: zabras;
+  font-size: 25px;
+  font-weight: 500;
+  letter-spacing: 3px;
 }
 
 .home-btn {
-    font-family: zabras;
-    font-size: 25px;
-    font-weight: 500;
-    letter-spacing: 3px;
+  font-family: zabras;
+  font-size: 25px;
+  font-weight: 500;
+  letter-spacing: 3px;
 }
 
 .fullscreen-btn {
-    font-size: 25px;
+  font-size: 25px;
 }
 
 .reset-btn {
-    font-size: 20px;
+  font-size: 20px;
 }
 
 .pause-btn {
-    font-size: 20px;
+  font-size: 20px;
 }
 
 .mute-music {
-    font-size: 16px;
+  font-size: 16px;
 }
 
 .mute-sound-effects {
-    font-size: 16px;
+  font-size: 16px;
 }
 
 .fullscreen-hint {
-    font-size: 40px;
-    font-weight: 500;
-    letter-spacing: 3px;
+  font-size: 40px;
+  font-weight: 500;
+  letter-spacing: 3px;
 }
 
 .info-btn {
@@ -63,7 +63,7 @@ body {
 }
 
 .info-modal-content h2 {
-  font-size: 130px;
+  font-size: 30px;
   font-weight: 500;
   letter-spacing: 5px;
 }
@@ -73,7 +73,7 @@ body {
 }
 
 .info-modal-content ul {
-  font-size: 50px;
+  font-size: 25px;
   letter-spacing: 3px;
 }
 
@@ -82,18 +82,17 @@ body {
   letter-spacing: 3px;
 }
 
-@media (max-width: 1000px) {
+/* @media (max-width: 1000px) {
   .info-modal-content h2 {
-  font-size: 80px;
+    font-size: 20px;
   }
 
   .info-modal-content ul {
-  font-size: 40px;
-}
-}
+    font-size: 16px;
+  }
+} */
 
 @media (max-width: 720px) {
-
   .restart-btn {
     font-size: 20px;
   }
@@ -101,26 +100,14 @@ body {
   .home-btn {
     font-size: 20px;
   }
-}
 
-@media (max-width: 600px) {
-
-  .restart-btn {
-    font-size: 18px;
+  .info-modal-content h2 {
+    font-size: 30px;
   }
 
-  .home-btn {
+  .info-modal-content ul {
     font-size: 18px;
   }
 }
 
-@media (max-width: 480px) {
-    .restart-btn {
-    font-size: 16px;
-  }
-
-  .home-btn {
-    font-size: 16px;
-  }
-}
 
