@@ -8,7 +8,7 @@ class World {
   statusBar = new StatusBar();
   statusBarCoins = new StatusBarCoins();
   statusBarBottles = new StatusBarBottles();
-  statusBarEndboss = new StatusBarEndboss(); 
+  statusBarEndboss = new StatusBarEndboss();
   endbossBarVisible = false;
   throwableObjects = [];
   bottleThrown = false;
@@ -83,7 +83,7 @@ class World {
         }
         this.statusBarCoins.setPercentage(this.character.coins);
         this.level.coins.splice(index, 1);
-        this.soundCoinCollect.volume = 0.3; 
+        this.soundCoinCollect.volume = 0.3;
         this.soundCoinCollect.currentTime = 0;
         this.soundCoinCollect.muted = soundEffectsMuted;
         this.soundCoinCollect.play();
@@ -100,7 +100,7 @@ class World {
         }
         this.statusBarBottles.setPercentage(this.character.bottles);
         this.level.bottles.splice(index, 1);
-        this.soundBottleCollect.volume = 0.3; 
+        this.soundBottleCollect.volume = 0.3;
         this.soundBottleCollect.currentTime = 0;
         this.soundBottleCollect.muted = soundEffectsMuted;
         this.soundBottleCollect.play();
@@ -109,19 +109,27 @@ class World {
   }
 
   checkThrowableCollisions() {
-  this.throwableObjects.forEach((bottle, bottleIndex) => {
-    this.level.enemies.forEach((enemy) => {
-      if (bottle.isColliding(enemy) && enemy instanceof Endboss && !bottle.splashing) {
-        enemy.hit();
-        this.endbossBarVisible = true;                              
-        this.statusBarEndboss.setPercentage(enemy.energy);         
-        bottle.splash();
-        setTimeout(() => {
-          this.throwableObjects.splice(bottleIndex, 1);
-        }, 600);
-      }
+    this.throwableObjects.forEach((bottle, bottleIndex) => {
+      this.level.enemies.forEach((enemy) => {
+        if (
+          bottle.isColliding(enemy) &&
+          !bottle.splashing &&
+          !enemy.chickenDead
+        ) {
+          if (enemy instanceof Endboss) {
+            enemy.hit();
+            this.endbossBarVisible = true;
+            this.statusBarEndboss.setPercentage(enemy.energy);
+          } else {
+            enemy.die();
+          }
+          bottle.splash();
+          setTimeout(() => {
+            this.throwableObjects.splice(bottleIndex, 1);
+          }, 600);
+        }
+      });
     });
-  });
   }
   // #end-region-collisions
 
@@ -214,9 +222,9 @@ class World {
     this.addToMap(this.statusBar);
     this.addToMap(this.statusBarCoins);
     this.addToMap(this.statusBarBottles);
-    if (this.endbossBarVisible) {              
-    this.addToMap(this.statusBarEndboss);
-  }
+    if (this.endbossBarVisible) {
+      this.addToMap(this.statusBarEndboss);
+    }
   }
   // #end-region draw objects on canvas
 
