@@ -202,8 +202,7 @@
   padding: 8px 10px;
   cursor: pointer;
   border-radius: 5px;
-  display: none;
-  
+  display: none; 
 }
 
 .info-btn:hover {
@@ -226,8 +225,21 @@
 }
 
 .impressum-link {
-  display: none;
-}
+    display: block;
+    position: absolute;
+    bottom: 5%;        
+    left: 50%;
+    transform: translateX(-50%);
+    color: rgba(255, 255, 255, 0.7);
+    text-decoration: none;
+    white-space: nowrap;
+  }
+
+  .impressum-link:hover {
+    color: white;
+    text-decoration: underline;
+  }
+
 
 @media (max-width: 720px) {
 
@@ -273,21 +285,6 @@
     display: none; 
   }
 
-  .impressum-link {
-    display: block;
-    position: absolute;
-    bottom: 5%;        
-    left: 50%;
-    transform: translateX(-50%);
-    color: rgba(255, 255, 255, 0.7);
-    text-decoration: none;
-    white-space: nowrap;
-  }
-
-  .impressum-link:hover {
-    color: white;
-    text-decoration: underline;
-  }
 }
 
 @media (max-width: 600px) {

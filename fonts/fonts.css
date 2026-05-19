@@ -78,7 +78,8 @@ body {
 }
 
 .impressum-link {
-  font-size: 16px;
+  font-size: 25px;
+  letter-spacing: 3px;
 }
 
 @media (max-width: 1000px) {
