@@ -10,7 +10,7 @@ backgroundMusic.volume = 0.3;
 function playBackgroundMusic() {
   const musicMuted = localStorage.getItem("musicMuted") === "true";
   if (!musicMuted) {
-  backgroundMusic.play();
+    backgroundMusic.play();
   }
 }
 
@@ -45,6 +45,10 @@ function toggleSoundEffects() {
   if (world) {
     world.level.enemies.forEach((enemy) => {
       if (enemy.sound) enemy.sound.muted = soundEffectsMuted;
+      if (enemy.soundWalk) enemy.soundWalk.muted = soundEffectsMuted;
+      if (enemy.attackSound) enemy.attackSound.muted = soundEffectsMuted;
+      if (enemy.soundHurt) enemy.soundHurt.muted = soundEffectsMuted;
+      if (enemy.soundDead) enemy.soundDead.muted = soundEffectsMuted;
     });
     world.character.soundIdle.muted = soundEffectsMuted;
     world.character.soundLongIdle.muted = soundEffectsMuted;

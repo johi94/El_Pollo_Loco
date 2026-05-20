@@ -65,6 +65,7 @@ canvas {
 }
 
 @media only screen and (max-width: 720px) and (orientation: portrait) {
+
   #rotate-device-hint {
     display: flex;
     position: fixed;
@@ -89,22 +90,27 @@ canvas {
 }
 
 @media only screen and (max-width: 720px) and (orientation: landscape) {
+
   header.headline {
     display: none;
   }
+
   body {
     margin: 0;
     padding: 0;
     overflow: hidden;
   }
+
   main {
     height: 100dvh;
     margin: 0;
     padding: 0;
   }
+
   #canvas-container {
     width: 100%;
     height: 100dvh;
+
   }
   canvas {
     width: 100%;
@@ -114,6 +120,7 @@ canvas {
 }
 
 @media (max-height: 700px) and (min-height: 481px) {
+
   header.headline {
     display: none;
   }
@@ -136,9 +143,11 @@ canvas {
 }
 
 @media only screen and (max-height: 480px) {
+  
   .headline {
     display: none;
   }
+
   canvas {
     height: 100dvh;
     width: 100%;

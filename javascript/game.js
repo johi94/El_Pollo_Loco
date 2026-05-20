@@ -89,21 +89,18 @@ function startGame() {
 }
 
 function resetGame() {
+  gamePaused = false;
   clearAllIntervals();
   if (world) {
     world.stopAllSounds();
     world.stopGame();
-    document.getElementById("pauseBtn").style.display = "none";
-    gamePaused = false;
-    
-    infoOpen = false;
+    world = null; 
   }
-
-  document.getElementById("infoBtn").style.display = "none";
-
+  infoOpen = false;
   stopBackgroundMusic();
-  gamePaused = false;
+  document.getElementById("pauseBtn").style.display = "none";
   document.getElementById("pauseBtn").classList.remove("paused");
+  document.getElementById("infoBtn").style.display = "none";
   document.getElementById("mobileControls").style.display = "none";
   document.getElementById("gameOverScreen").style.display = "none";
   document.getElementById("winScreen").style.display = "none";
@@ -128,7 +125,10 @@ function togglePause() {
 
 function showGameOver() {
   clearAllIntervals();
-  if (world) world.stopGame();
+  if (world) {
+    world.stopAllSounds(); 
+    world.stopGame();
+  }
   stopBackgroundMusic();
   playGameOverSound();
   document.getElementById("resetBtn").style.display = "none";
@@ -143,7 +143,10 @@ function showGameOver() {
 
 function showWin() {
   clearAllIntervals();
-  if (world) world.stopGame();
+  if (world) {
+    world.stopAllSounds(); 
+    world.stopGame();
+  }
   stopBackgroundMusic();
   playGameWonSound();
   document.getElementById("resetBtn").style.display = "none";
@@ -157,10 +160,12 @@ function showWin() {
 }
 
 function restartGame() {
+  gamePaused = false;
   clearAllIntervals();
   if (world) {
     world.stopAllSounds();
     world.stopGame();
+    world = null;
   }
   gamePaused = false;
   document.getElementById("pauseBtn").classList.remove("paused");
@@ -174,7 +179,6 @@ function restartGame() {
   document.getElementById("muteMusicBtn").style.display = "block";
   document.getElementById("muteSndBtn").style.display = "block";
   document.getElementById("pauseBtn").style.display = "block";
-  gamePaused = false;
   document.getElementById("infoBtn").style.display = "block";
 }
 
@@ -190,10 +194,10 @@ function toggleInfo() {
   infoOpen = !infoOpen;
   if (infoOpen) {
     modal.showModal();
-    if (!gamePaused && world) togglePause(); 
+    if (!gamePaused && world) togglePause();
   } else {
     modal.close();
-    if (gamePaused && world) togglePause(); 
+    if (gamePaused && world) togglePause(); // ← world-Check verhindert playBackgroundMusic ohne Spiel
   }
 }
 

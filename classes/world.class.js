@@ -71,6 +71,9 @@ class World {
       this.killEnemy(enemy);
     } else if (!this.character.isInvincible) {
       this.damageCharacter();
+      if (enemy instanceof Endboss) {
+        enemy.startAttack();
+      }
     }
   }
 
@@ -328,6 +331,18 @@ class World {
       if (enemy.soundWalk) {
         enemy.soundWalk.pause();
         enemy.soundWalk.currentTime = 0;
+      }
+      if (enemy.attackSound) {
+        enemy.attackSound.pause();
+        enemy.attackSound.currentTime = 0;
+      }
+      if (enemy.soundHurt) {
+        enemy.soundHurt.pause();
+        enemy.soundHurt.currentTime = 0;
+      }
+      if (enemy.soundDead) {
+        enemy.soundDead.pause();
+        enemy.soundDead.currentTime = 0;
       }
     });
     this.soundHurt.pause();
