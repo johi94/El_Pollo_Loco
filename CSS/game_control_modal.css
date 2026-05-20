@@ -3,8 +3,14 @@
   border-radius: 12px;
   padding: 0;
   background: transparent;
-  width: 750px;
-  height: 300px;
+  width: 700px;
+  height: 460px;
+  overflow: hidden;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  margin: 0;
 }
 
 #infoModal::backdrop {
@@ -17,8 +23,13 @@
   padding: 16px;
   text-align: center;
   position: relative;
-  width: 700px;
-  height: 250px;
+  width: 500px;
+  height: 300px;
+  position: absolute;   
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  box-sizing: border-box;
 }
 
 .info-modal-content h2 {
@@ -35,22 +46,9 @@
   margin-bottom: 0;
 }
 
-@media (max-width: 1000px) {
-#infoModal {
-    width: 720px;
-    
-  }
-}
-
-@media (max-width: 720px) {
+@media (max-width: 720px), (max-height: 480px) {
   #infoModal {
-    width: 550px;
-    height: 200px;
-  }
-
-  .info-modal-content {
-    width: 500px;
-    height: 200px;
+    width: 90vw;
+    height: 80vw;
   }
 }
-

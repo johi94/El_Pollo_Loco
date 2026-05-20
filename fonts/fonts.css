@@ -63,7 +63,7 @@ body {
 }
 
 .info-modal-content h2 {
-  font-size: 30px;
+  font-size: 40px;
   font-weight: 500;
   letter-spacing: 5px;
 }
@@ -82,16 +82,6 @@ body {
   letter-spacing: 3px;
 }
 
-/* @media (max-width: 1000px) {
-  .info-modal-content h2 {
-    font-size: 20px;
-  }
-
-  .info-modal-content ul {
-    font-size: 16px;
-  }
-} */
-
 @media (max-width: 720px) {
   .restart-btn {
     font-size: 20px;
@@ -99,14 +89,6 @@ body {
 
   .home-btn {
     font-size: 20px;
-  }
-
-  .info-modal-content h2 {
-    font-size: 30px;
-  }
-
-  .info-modal-content ul {
-    font-size: 18px;
   }
 }
 
