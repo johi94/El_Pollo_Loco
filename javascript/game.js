@@ -95,9 +95,11 @@ function resetGame() {
     world.stopGame();
     document.getElementById("pauseBtn").style.display = "none";
     gamePaused = false;
-    document.getElementById("infoBtn").style.display = "block";
+    
     infoOpen = false;
   }
+
+  document.getElementById("infoBtn").style.display = "none";
 
   stopBackgroundMusic();
   gamePaused = false;

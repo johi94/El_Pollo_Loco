@@ -94,7 +94,7 @@
 .pause-btn {
   position: absolute;
   top: 10px;
-  right: 60px;   
+  right: 60px;
   background: rgba(0, 0, 0, 0.5);
   color: white;
   border: none;
@@ -140,17 +140,33 @@
   background: rgba(0, 0, 0, 0.8);
 }
 
-.icon-off { display: none; }
-.icon-on  { display: inline; }
+.icon-off {
+  display: none;
+}
+.icon-on {
+  display: inline;
+}
 
-.muted .icon-on  { display: none; }
-.muted .icon-off { display: inline; }
+.muted .icon-on {
+  display: none;
+}
+.muted .icon-off {
+  display: inline;
+}
 
-.pause-btn .icon-off { display: none; }
-.pause-btn .icon-on  { display: inline; }
+.pause-btn .icon-off {
+  display: none;
+}
+.pause-btn .icon-on {
+  display: inline;
+}
 
-.pause-btn.paused .icon-on  { display: none; }
-.pause-btn.paused .icon-off { display: inline; }
+.pause-btn.paused .icon-on {
+  display: none;
+}
+.pause-btn.paused .icon-off {
+  display: inline;
+}
 
 .fullscreen-hint {
   display: none;
@@ -190,8 +206,8 @@
   font-size: 24px;
   cursor: pointer;
   color: white;
-  -webkit-touch-callout: none; 
-  user-select: none; 
+  -webkit-touch-callout: none;
+  user-select: none;
 }
 
 .info-btn {
@@ -206,11 +222,29 @@
   border-radius: 5px;
   display: block;
   z-index: 5;
+  display: none;
 }
 
 .info-btn:hover {
   background: rgba(0, 0, 0, 0.8);
 }
+
+.info-btn-startscreen {
+    position: absolute;
+    bottom: 10px;
+    left: 10px;
+    background: rgba(0, 0, 0, 0.5);
+    color: white;
+    border: none;
+    padding: 8px 10px;
+    cursor: pointer;
+    border-radius: 5px;
+    z-index: 5;
+  }
+
+  .info-btn-startscreen:hover {
+    background: rgba(0, 0, 0, 0.8);
+  }
 
 .close-modal-btn {
   position: absolute;
@@ -228,24 +262,22 @@
 }
 
 .impressum-link {
-    display: block;
-    position: absolute;
-    bottom: 5%;        
-    left: 50%;
-    transform: translateX(-50%);
-    color: rgba(255, 255, 255, 0.7);
-    text-decoration: none;
-    white-space: nowrap;
-  }
+  display: block;
+  position: absolute;
+  bottom: 5%;
+  left: 50%;
+  transform: translateX(-50%);
+  color: rgba(255, 255, 255, 0.7);
+  text-decoration: none;
+  white-space: nowrap;
+}
 
-  .impressum-link:hover {
-    color: white;
-    text-decoration: underline;
-  }
-
+.impressum-link:hover {
+  color: white;
+  text-decoration: underline;
+}
 
 @media (max-width: 720px) {
-
   .restart-btn {
     width: 250px;
     height: 70px;
@@ -262,15 +294,15 @@
 
   .mute-music {
     position: absolute;
-    top: 10px; 
+    top: 10px;
     right: 320px;
-    left: auto; 
-    bottom: auto; 
+    left: auto;
+    bottom: auto;
   }
 
   .mute-sound-effects {
     position: absolute;
-    top: 10px; 
+    top: 10px;
     right: 260px;
     left: auto;
     bottom: auto;
@@ -278,20 +310,19 @@
 
   .info-btn {
     position: absolute;
-    top: 10px; 
+    top: 10px;
     right: 200px;
     left: auto;
     bottom: auto;
+    
   }
 
   .fullscreen-btn {
-    display: none; 
+    display: none;
   }
-
 }
 
 @media (max-width: 600px) {
-
   .restart-btn {
     width: 200px;
     height: 60px;
@@ -306,7 +337,6 @@
 }
 
 @media (max-width: 480px) {
-
   .restart-btn {
     width: 130px;
     height: 40px;
