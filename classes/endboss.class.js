@@ -8,6 +8,7 @@ class Endboss extends MovableObject {
   animationIndex = 0;
   soundRoar = new Audio("audio/endboss_roar.mp3");
   roarSoundPlayed = false;
+  soundWalk = new Audio("audio/endboss_footsteps.mp3");
 
   offset = {
     top: 80,
@@ -96,12 +97,19 @@ class Endboss extends MovableObject {
 
   // #start-region animation endboss
   walkingAnimation() {
-    if (this.animationIndex < 10) {
-      this.playAnimation(this.IMAGES_WALKING);
-    } else {
-      this.playAnimation(this.IMAGES_ALERTNESS);
+  if (this.animationIndex < 10) {
+    this.playAnimation(this.IMAGES_WALKING);
+    if (this.soundWalk.paused) {
+      this.soundWalk.volume = 0.5;
+      this.soundWalk.muted = soundEffectsMuted;
+      this.soundWalk.play();
     }
+  } else {
+    this.playAnimation(this.IMAGES_ALERTNESS);
+    this.soundWalk.pause();
+    this.soundWalk.currentTime = 0;
   }
+}
 
   animateHurt() {
     let hurtInterval = addInterval(() => {

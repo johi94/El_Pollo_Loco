@@ -60,12 +60,6 @@ canvas {
   object-fit: fill;
 }
 
-.character {
-  margin-top: 5px;
-  height: 200px;
-  width: 200px;
-}
-
 #rotate-device-hint {
   display: none;
 }
@@ -119,16 +113,38 @@ canvas {
   }
 }
 
-@media only screen and (max-height: 480px) {
-  canvas {
-    height: 100dvh;
-  }
-  
-   header.headline {
+@media (max-height: 700px) and (min-height: 481px) {
+  header.headline {
     display: none;
   }
 
-   body {
+  main {
+    justify-content: flex-start;
+  }
+
+  #canvas-container {
+    width: 720px;
+    height: 480px;
+    max-height: calc(100dvh - 20px);
+  }
+
+  canvas {
+    width: 100%;
+    height: 100%;
+    object-fit: fill;
+  }
+}
+
+@media only screen and (max-height: 480px) {
+  .headline {
+    display: none;
+  }
+  canvas {
+    height: 100dvh;
+    width: 100%;
+  }
+
+  body {
     margin: 0;
     padding: 0;
     overflow: hidden;
