@@ -64,17 +64,7 @@ class Chicken extends MovableObject {
       }
     }, 200);
   }
-
-  // updateSound() {
-  //   if (this.isVisible() && !this.chickenDead) {
-  //     if (this.sound.paused) {
-  //       this.sound.play();
-  //     }
-  //   } else {
-  //     this.sound.pause();
-  //   }
-  // }
-
+  
   updateSound() {
   if (this.isVisible() && !this.chickenDead) {
     if (this.sound.paused) {

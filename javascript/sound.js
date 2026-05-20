@@ -38,52 +38,74 @@ function toggleMusic() {
 function toggleSoundEffects() {
   document.activeElement.blur();
   if (gamePaused) return;
-  const btn = document.getElementById("muteSndBtn");
-  btn.classList.toggle("muted");
+  document.getElementById("muteSndBtn").classList.toggle("muted");
   soundEffectsMuted = !soundEffectsMuted;
   localStorage.setItem("soundEffectsMuted", soundEffectsMuted);
-  if (world) {
-    world.level.enemies.forEach((enemy) => {
-      if (enemy.sound) enemy.sound.muted = soundEffectsMuted;
-      if (enemy.soundWalk) enemy.soundWalk.muted = soundEffectsMuted;
-      if (enemy.attackSound) enemy.attackSound.muted = soundEffectsMuted;
-      if (enemy.soundHurt) enemy.soundHurt.muted = soundEffectsMuted;
-      if (enemy.soundDead) enemy.soundDead.muted = soundEffectsMuted;
-    });
-    world.character.soundIdle.muted = soundEffectsMuted;
-    world.character.soundLongIdle.muted = soundEffectsMuted;
-    world.character.soundWalk.muted = soundEffectsMuted;
-    world.character.soundJump.muted = soundEffectsMuted;
-    world.soundHurt.muted = soundEffectsMuted;
-    world.soundDead.muted = soundEffectsMuted;
-    world.soundBottleCollect.muted = soundEffectsMuted;
-    world.soundCoinCollect.muted = soundEffectsMuted;
-    world.soundBottleThrow.muted = soundEffectsMuted;
-  }
+  if (world) applyMuteToWorld();
+}
+
+function applyMuteToWorld() {
+  muteEnemySounds();
+  muteCharacterSounds();
+  muteWorldSounds();
+}
+
+function muteEnemySounds() {
+  world.level.enemies.forEach((enemy) => {
+    if (enemy.sound) enemy.sound.muted = soundEffectsMuted;
+    if (enemy.soundWalk) enemy.soundWalk.muted = soundEffectsMuted;
+    if (enemy.attackSound) enemy.attackSound.muted = soundEffectsMuted;
+    if (enemy.soundHurt) enemy.soundHurt.muted = soundEffectsMuted;
+    if (enemy.soundDead) enemy.soundDead.muted = soundEffectsMuted;
+  });
+}
+
+function muteCharacterSounds() {
+  world.character.soundIdle.muted = soundEffectsMuted;
+  world.character.soundLongIdle.muted = soundEffectsMuted;
+  world.character.soundWalk.muted = soundEffectsMuted;
+  world.character.soundJump.muted = soundEffectsMuted;
+}
+
+function muteWorldSounds() {
+  world.soundHurt.muted = soundEffectsMuted;
+  world.soundDead.muted = soundEffectsMuted;
+  world.soundBottleCollect.muted = soundEffectsMuted;
+  world.soundCoinCollect.muted = soundEffectsMuted;
+  world.soundBottleThrow.muted = soundEffectsMuted;
+}
+
+function playGameSound(sound) {
+  sound.muted = soundEffectsMuted;
+  sound.play();
 }
 
 function playGameOverSound() {
-  soundGameOver.muted = soundEffectsMuted;
-  soundGameOver.play();
+  playGameSound(soundGameOver);
 }
 
 function playGameWonSound() {
-  soundGameWon.muted = soundEffectsMuted;
-  soundGameWon.play();
+  playGameSound(soundGameWon);
 }
 // #end-region sound-effects
 
 // #start-region load from LocalStorage
 
 function loadSoundSettings() {
+  loadMusicSetting();
+  loadSoundEffectsSetting();
+}
+
+function loadMusicSetting() {
   const musicMuted = localStorage.getItem("musicMuted") === "true";
   if (musicMuted) {
     document.getElementById("muteMusicBtn").classList.add("muted");
     backgroundMusic.muted = true;
   }
+}
 
-  const savedSoundMuted = localStorage.getItem("soundEffectsMuted") === "true";
-  soundEffectsMuted = savedSoundMuted;
+function loadSoundEffectsSetting() {
+  soundEffectsMuted = localStorage.getItem("soundEffectsMuted") === "true";
   if (soundEffectsMuted) {
     document.getElementById("muteSndBtn").classList.add("muted");
   }

@@ -1,13 +1,11 @@
-let canvas; // willhold reference to HTML-element
+let canvas;
 let world;
 let keyboard = new Keyboard();
 let infoOpen = false;
 
-// calls method to reach out to canvas and unite it with a variable
-// 2 variables are getting called with init function: canvas and world
 function init() {
-  canvas = document.getElementById("canvas"); // "grabs" element with id="canvas" and stores it in canvas variable
-  world = new World(canvas, keyboard); // world gets canvas as argument / new Object world gets canvas as variable
+  canvas = document.getElementById("canvas");
+  world = new World(canvas, keyboard);
 }
 
 // #start-region EventListeners
@@ -76,41 +74,98 @@ document.getElementById("infoModal").addEventListener("cancel", (e) => {
 });
 // #end-region EventListeners
 
+// #start-region helpers
+function setDisplay(id, value) {
+  document.getElementById(id).style.display = value;
+}
+
+function stopWorld() {
+  if (world) {
+    world.stopAllSounds();
+    world.stopGame();
+    world = null;
+  }
+}
+
+function bindMobileButton(id, key) {
+  document.getElementById(id).addEventListener("touchstart", (e) => {
+    e.preventDefault();
+    if (!gamePaused) keyboard[key] = true;
+  });
+  document.getElementById(id).addEventListener("touchend", () => {
+    keyboard[key] = false;
+  });
+}
+// #end-region helpers
+
+// #start-region game-flow
 function startGame() {
   clearAllIntervals();
-  document.getElementById("resetBtn").style.display = "block";
-  document.getElementById("pauseBtn").style.display = "block";
-  document.getElementById("infoBtn").style.display = "block";
   hideAllScreens();
   initLevel();
   init();
   playBackgroundMusic();
   showMobileControls();
+  showGameUI();
 }
 
 function resetGame() {
   gamePaused = false;
   clearAllIntervals();
-  if (world) {
-    world.stopAllSounds();
-    world.stopGame();
-    world = null; 
-  }
+  stopWorld();
   infoOpen = false;
   stopBackgroundMusic();
-  document.getElementById("pauseBtn").style.display = "none";
-  document.getElementById("pauseBtn").classList.remove("paused");
-  document.getElementById("infoBtn").style.display = "none";
-  document.getElementById("mobileControls").style.display = "none";
-  document.getElementById("gameOverScreen").style.display = "none";
-  document.getElementById("winScreen").style.display = "none";
-  document.getElementById("startScreen").style.display = "block";
-  document.getElementById("resetBtn").style.display = "none";
-  document.getElementById("muteMusicBtn").style.display = "block";
-  document.getElementById("muteSndBtn").style.display = "block";
-  document.getElementById("enter-fullscreen").style.display = "block";
+  resetPauseBtn();
+  showStartScreenUI();
 }
 
+function showStartScreenUI() {
+  setDisplay("pauseBtn", "none");
+  setDisplay("infoBtn", "none");
+  setDisplay("mobileControls", "none");
+  setDisplay("gameOverScreen", "none");
+  setDisplay("winScreen", "none");
+  setDisplay("startScreen", "block");
+  setDisplay("resetBtn", "none");
+  setDisplay("muteMusicBtn", "block");
+  setDisplay("muteSndBtn", "block");
+  setDisplay("enter-fullscreen", "block");
+}
+
+function resetPauseBtn() {
+  document.getElementById("pauseBtn").classList.remove("paused");
+}
+
+function restartGame() {
+  gamePaused = false;
+  clearAllIntervals();
+  stopWorld();
+  resetPauseBtn();
+  hideAllScreens();
+  initLevel();
+  init();
+  playBackgroundMusic();
+  showMobileControls();
+  showGameUI();
+}
+
+function showGameUI() {
+  setDisplay("resetBtn", "block");
+  setDisplay("enter-fullscreen", "block");
+  setDisplay("muteMusicBtn", "block");
+  setDisplay("muteSndBtn", "block");
+  setDisplay("pauseBtn", "block");
+  setDisplay("infoBtn", "block");
+}
+
+function hideAllScreens() {
+  setDisplay("startScreen", "none");
+  setDisplay("gameOverScreen", "none");
+  setDisplay("winScreen", "none");
+}
+// #end-region game-flow
+
+// #start-region game-state
 function togglePause() {
   document.activeElement.blur();
   gamePaused = !gamePaused;
@@ -124,69 +179,48 @@ function togglePause() {
 }
 
 function showGameOver() {
-  clearAllIntervals();
-  if (world) {
-    world.stopAllSounds(); 
-    world.stopGame();
-  }
-  stopBackgroundMusic();
+  endGame();
   playGameOverSound();
-  document.getElementById("resetBtn").style.display = "none";
-  document.getElementById("enter-fullscreen").style.display = "none";
-  document.getElementById("muteMusicBtn").style.display = "none";
-  document.getElementById("muteSndBtn").style.display = "none";
-  document.getElementById("mobileControls").style.display = "none";
-  document.getElementById("gameOverScreen").style.display = "block";
-  document.getElementById("pauseBtn").style.display = "none";
-  document.getElementById("infoBtn").style.display = "none";
+  setDisplay("gameOverScreen", "block");
 }
 
 function showWin() {
-  clearAllIntervals();
-  if (world) {
-    world.stopAllSounds(); 
-    world.stopGame();
-  }
-  stopBackgroundMusic();
+  endGame();
   playGameWonSound();
-  document.getElementById("resetBtn").style.display = "none";
-  document.getElementById("enter-fullscreen").style.display = "none";
-  document.getElementById("muteMusicBtn").style.display = "none";
-  document.getElementById("muteSndBtn").style.display = "none";
-  document.getElementById("mobileControls").style.display = "none";
-  document.getElementById("winScreen").style.display = "block";
-  document.getElementById("pauseBtn").style.display = "none";
-  document.getElementById("infoBtn").style.display = "none";
+  setDisplay("winScreen", "block");
 }
 
-function restartGame() {
-  gamePaused = false;
+function endGame() {
   clearAllIntervals();
-  if (world) {
-    world.stopAllSounds();
-    world.stopGame();
-    world = null;
+  stopWorld();
+  stopBackgroundMusic();
+  setDisplay("resetBtn", "none");
+  setDisplay("enter-fullscreen", "none");
+  setDisplay("muteMusicBtn", "none");
+  setDisplay("muteSndBtn", "none");
+  setDisplay("mobileControls", "none");
+  setDisplay("pauseBtn", "none");
+  setDisplay("infoBtn", "none");
+}
+// #end-region game-state
+
+// #start-region mobile controls
+
+function showMobileControls() {
+  if (window.innerWidth <= 720) {
+    setDisplay("mobileControls", "flex");
   }
-  gamePaused = false;
-  document.getElementById("pauseBtn").classList.remove("paused");
-  hideAllScreens();
-  initLevel();
-  init();
-  playBackgroundMusic();
-  showMobileControls();
-  document.getElementById("resetBtn").style.display = "block";
-  document.getElementById("enter-fullscreen").style.display = "block";
-  document.getElementById("muteMusicBtn").style.display = "block";
-  document.getElementById("muteSndBtn").style.display = "block";
-  document.getElementById("pauseBtn").style.display = "block";
-  document.getElementById("infoBtn").style.display = "block";
 }
 
-function hideAllScreens() {
-  document.getElementById("startScreen").style.display = "none";
-  document.getElementById("gameOverScreen").style.display = "none";
-  document.getElementById("winScreen").style.display = "none";
+function initMobileControls() {
+  setDisplay("mobileControls", "none");
+  bindMobileButton("btnLeft", "LEFT");
+  bindMobileButton("btnRight", "RIGHT");
+  bindMobileButton("btnJump", "SPACE");
+  bindMobileButton("btnThrow", "D");
 }
+
+// #end-region mobile controls
 
 function toggleInfo() {
   document.activeElement.blur();
@@ -197,49 +231,6 @@ function toggleInfo() {
     if (!gamePaused && world) togglePause();
   } else {
     modal.close();
-    if (gamePaused && world) togglePause(); 
+    if (gamePaused && world) togglePause();
   }
-}
-
-// #start-region mobile controls
-function showMobileControls() {
-  if (window.innerWidth <= 720) {
-    document.getElementById("mobileControls").style.display = "flex";
-  }
-}
-
-function initMobileControls() {
-  document.getElementById("mobileControls").style.display = "none";
-  document.getElementById("btnLeft").addEventListener("touchstart", (e) => {
-    e.preventDefault();
-    if (!gamePaused) keyboard.LEFT = true;
-  });
-  document.getElementById("btnLeft").addEventListener("touchend", () => {
-    keyboard.LEFT = false;
-  });
-
-  document.getElementById("btnRight").addEventListener("touchstart", (e) => {
-    e.preventDefault();
-    if (!gamePaused) keyboard.RIGHT = true;
-  });
-  document.getElementById("btnRight").addEventListener("touchend", () => {
-    keyboard.RIGHT = false;
-  });
-
-  document.getElementById("btnJump").addEventListener("touchstart", (e) => {
-    e.preventDefault();
-    if (!gamePaused) keyboard.SPACE = true;
-  });
-  document.getElementById("btnJump").addEventListener("touchend", () => {
-    keyboard.SPACE = false;
-  });
-
-  document.getElementById("btnThrow").addEventListener("touchstart", (e) => {
-    e.preventDefault();
-    if (!gamePaused) keyboard.D = true;
-  });
-  document.getElementById("btnThrow").addEventListener("touchend", () => {
-    keyboard.D = false;
-  });
-  // #end-region mobile controls
 }
