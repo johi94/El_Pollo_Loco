@@ -120,16 +120,22 @@ class Character extends MovableObject {
   movementCharacter() {
     if (this.isDead()) return;
     if (this.world.gameWon) return;
+    this.handleHorizontalMovement();
+    this.handleJump();
+  }
+
+  handleHorizontalMovement() {
     if (this.isMovingRight()) {
       this.moveRight();
-    }
-    if (this.isMovingLeft()) {
+    } else if (this.isMovingLeft()) {
       this.moveLeft();
-    }
-    if (!this.isMovingRight() && !this.isMovingLeft()) {
+    } else {
       this.soundWalk.pause();
       this.soundWalk.currentTime = 0;
     }
+  }
+
+  handleJump() {
     if (this.isJumping()) {
       this.soundWalk.pause();
       this.soundWalk.currentTime = 0;
@@ -217,25 +223,29 @@ class Character extends MovableObject {
   animateIdle() {
     addInterval(() => {
       if (this.isDead()) return;
-      let idleTime = (new Date().getTime() - this.lastMovement) / 1000;
-      if (idleTime > 15) {
-        this.playLongIdle();
-      } else if (idleTime > 1) {
-        this.playIdle();
-      } else {
-        this.stopIdleSounds();
-      }
+      this.handleIdleState();
     }, 600);
+  }
+
+  handleIdleState() {
+    const idleTime = (new Date().getTime() - this.lastMovement) / 1000;
+    if (idleTime > 15) {
+      this.playLongIdle();
+    } else if (idleTime > 1) {
+      this.playIdle();
+    } else {
+      this.stopIdleSounds();
+    }
   }
   // #end-region animation
 
-  //  #start-region soundeffetcs character
+  //  #start-region soundEffetcs character
   playSound(sound, volume = 0.3, resetTime = true) {
-  sound.volume = volume;
-  sound.muted = soundEffectsMuted;
-  if (resetTime) sound.currentTime = 0;
-  sound.play();
-}
+    sound.volume = volume;
+    sound.muted = soundEffectsMuted;
+    if (resetTime) sound.currentTime = 0;
+    sound.play();
+  }
 
   playLongIdle() {
     this.playAnimation(this.IMAGES_LONGIDLE);
@@ -247,11 +257,11 @@ class Character extends MovableObject {
   }
 
   playIdle() {
-  this.playAnimation(this.IMAGES_IDLE);
-  if (this.soundIdle.paused) {
-    this.playSound(this.soundIdle, 0.3, false); 
+    this.playAnimation(this.IMAGES_IDLE);
+    if (this.soundIdle.paused) {
+      this.playSound(this.soundIdle, 0.3, false);
+    }
   }
-}
 
   stopIdleSounds() {
     this.soundIdle.pause();
@@ -263,9 +273,9 @@ class Character extends MovableObject {
   playWalkSound() {
     if (this.soundWalk.paused && !this.isAboveGround()) {
       this.playSound(this.soundWalk, 0.3, false);
+    }
   }
-}
-  //  #send-region soundeffetcs character
+  //  #end-region soundEffetcs character
 
   setInvincible() {
     this.isInvincible = true;
@@ -273,4 +283,4 @@ class Character extends MovableObject {
       this.isInvincible = false;
     }, 500);
   }
-  }
+}
