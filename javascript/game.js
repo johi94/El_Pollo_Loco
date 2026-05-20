@@ -9,6 +9,7 @@ function init() {
 }
 
 // #start-region EventListeners
+
 document.addEventListener("keydown", (event) => {
   if (event.keyCode == 32) {
     keyboard.SPACE = true;
@@ -56,6 +57,7 @@ document.addEventListener("keyup", (event) => {
 });
 
 // no scrolling during play
+
 document.getElementById("canvas").addEventListener(
   "touchstart",
   (e) => {
@@ -72,9 +74,11 @@ document.getElementById("infoModal").addEventListener("cancel", (e) => {
   e.preventDefault();
   if (infoOpen) toggleInfo();
 });
+
 // #end-region EventListeners
 
 // #start-region helpers
+
 function setDisplay(id, value) {
   document.getElementById(id).style.display = value;
 }
@@ -96,9 +100,11 @@ function bindMobileButton(id, key) {
     keyboard[key] = false;
   });
 }
+
 // #end-region helpers
 
 // #start-region game-flow
+
 function startGame() {
   clearAllIntervals();
   hideAllScreens();
@@ -163,9 +169,11 @@ function hideAllScreens() {
   setDisplay("gameOverScreen", "none");
   setDisplay("winScreen", "none");
 }
+
 // #end-region game-flow
 
 // #start-region game-state
+
 function togglePause() {
   document.activeElement.blur();
   gamePaused = !gamePaused;
@@ -202,6 +210,7 @@ function endGame() {
   setDisplay("pauseBtn", "none");
   setDisplay("infoBtn", "none");
 }
+
 // #end-region game-state
 
 // #start-region mobile controls

@@ -4,6 +4,7 @@ const soundGameWon = new Audio("audio/you_win.mp3");
 let soundEffectsMuted = false;
 
 // #start-region background-music
+
 backgroundMusic.loop = true;
 backgroundMusic.volume = 0.3;
 
@@ -32,9 +33,11 @@ function toggleMusic() {
     localStorage.setItem("musicMuted", "true");
   }
 }
+
 // #end-region background-music
 
 // #start-region sound-effects
+
 function toggleSoundEffects() {
   document.activeElement.blur();
   if (gamePaused) return;
