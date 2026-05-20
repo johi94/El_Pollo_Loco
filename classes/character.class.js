@@ -166,10 +166,7 @@ class Character extends MovableObject {
   jump() {
     super.jump();
     this.lastMovement = new Date().getTime();
-    this.soundJump.volume = 0.3;
-    this.soundJump.muted = soundEffectsMuted;
-    this.soundJump.currentTime = 0;
-    this.soundJump.play();
+    this.playSound(this.soundJump, 0.3);
   }
 
   landingCharacter() {
@@ -233,25 +230,28 @@ class Character extends MovableObject {
   // #end-region animation
 
   //  #start-region soundeffetcs character
+  playSound(sound, volume = 0.3, resetTime = true) {
+  sound.volume = volume;
+  sound.muted = soundEffectsMuted;
+  if (resetTime) sound.currentTime = 0;
+  sound.play();
+}
+
   playLongIdle() {
     this.playAnimation(this.IMAGES_LONGIDLE);
     this.soundIdle.pause();
     this.soundIdle.currentTime = 0;
     if (this.soundLongIdle.paused) {
-      this.soundLongIdle.volume = 0.3;
-      this.soundLongIdle.muted = soundEffectsMuted;
-      this.soundLongIdle.play();
+      this.playSound(this.soundLongIdle, 0.3, false);
     }
   }
 
   playIdle() {
-    this.playAnimation(this.IMAGES_IDLE);
-    if (this.soundIdle.paused) {
-      this.soundIdle.volume = 0.3;
-      this.soundIdle.muted = soundEffectsMuted;
-      this.soundIdle.play();
-    }
+  this.playAnimation(this.IMAGES_IDLE);
+  if (this.soundIdle.paused) {
+    this.playSound(this.soundIdle, 0.3, false); 
   }
+}
 
   stopIdleSounds() {
     this.soundIdle.pause();
@@ -262,11 +262,9 @@ class Character extends MovableObject {
 
   playWalkSound() {
     if (this.soundWalk.paused && !this.isAboveGround()) {
-      this.soundWalk.volume = 0.3;
-      this.soundWalk.muted = soundEffectsMuted;
-      this.soundWalk.play();
-    }
+      this.playSound(this.soundWalk, 0.3, false);
   }
+}
   //  #send-region soundeffetcs character
 
   setInvincible() {
@@ -275,4 +273,4 @@ class Character extends MovableObject {
       this.isInvincible = false;
     }, 500);
   }
-}
+  }
