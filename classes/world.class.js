@@ -310,60 +310,49 @@ class World {
     this.soundHurt.play();
   }
 
-  stopAllSounds() {
-    this.level.enemies.forEach((enemy) => {
-      if (enemy.sound) {
-        enemy.sound.pause();
-        enemy.sound.currentTime = 0;
-      }
-      if (enemy.soundDead) {
-        enemy.soundDead.pause();
-        enemy.soundDead.currentTime = 0;
-      }
-      if (enemy.soundRoar) {
-        enemy.soundRoar.pause();
-        enemy.soundRoar.currentTime = 0;
-      }
-      if (enemy.soundAlert) {
-        enemy.soundAlert.pause();
-        enemy.soundAlert.currentTime = 0;
-      }
-      if (enemy.soundWalk) {
-        enemy.soundWalk.pause();
-        enemy.soundWalk.currentTime = 0;
-      }
-      if (enemy.attackSound) {
-        enemy.attackSound.pause();
-        enemy.attackSound.currentTime = 0;
-      }
-      if (enemy.soundHurt) {
-        enemy.soundHurt.pause();
-        enemy.soundHurt.currentTime = 0;
-      }
-      if (enemy.soundDead) {
-        enemy.soundDead.pause();
-        enemy.soundDead.currentTime = 0;
-      }
-    });
-    this.soundHurt.pause();
-    this.soundHurt.currentTime = 0;
-    this.soundDead.pause();
-    this.soundDead.currentTime = 0;
-    this.character.soundJump.pause();
-    this.character.soundJump.currentTime = 0;
-    this.character.soundWalk.pause();
-    this.character.soundWalk.currentTime = 0;
-    this.character.soundIdle.pause();
-    this.character.soundIdle.currentTime = 0;
-    this.character.soundLongIdle.pause();
-    this.character.soundLongIdle.currentTime = 0;
-    this.soundBottleThrow.pause();
-    this.throwableObjects.forEach((bottle) => {
-      if (bottle.soundSplash) {
-        bottle.soundSplash.pause();
-        bottle.soundSplash.currentTime = 0;
-      }
-    });
+  stopSound(sound) {
+  if (sound) {
+    sound.pause();
+    sound.currentTime = 0;
   }
+}
+
+  stopAllSounds() {
+  this.stopEnemySounds();
+  this.stopCharacterSounds();
+  this.stopWorldSounds();
+  this.stopThrowableSounds();
+}
+
+stopEnemySounds() {
+  this.level.enemies.forEach((enemy) => {
+    this.stopSound(enemy.sound);
+    this.stopSound(enemy.soundDead);
+    this.stopSound(enemy.soundRoar);
+    this.stopSound(enemy.soundAlert);
+    this.stopSound(enemy.soundWalk);
+    this.stopSound(enemy.attackSound);
+    this.stopSound(enemy.soundHurt);
+  });
+}
+
+stopCharacterSounds() {
+  this.stopSound(this.character.soundJump);
+  this.stopSound(this.character.soundWalk);
+  this.stopSound(this.character.soundIdle);
+  this.stopSound(this.character.soundLongIdle);
+}
+
+stopWorldSounds() {
+  this.stopSound(this.soundHurt);
+  this.stopSound(this.soundDead);
+  this.stopSound(this.soundBottleThrow);
+}
+
+stopThrowableSounds() {
+  this.throwableObjects.forEach((bottle) => {
+    this.stopSound(bottle.soundSplash);
+  });
+}
   // #end-region sounds
 }

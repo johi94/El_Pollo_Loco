@@ -13,6 +13,7 @@ class Endboss extends MovableObject {
   attackSound = new Audio("audio/chicken_boss.mp3");
   soundHurt = new Audio("audio/endboss_hurt_scream.mp3");
   soundDead = new Audio("audio/endboss_dead.mp3");
+  deadSoundPlayed = false;
 
   offset = {
     top: 80,
@@ -107,17 +108,15 @@ class Endboss extends MovableObject {
   // #start-region animation endboss
   walkingAnimation() {
   if (!this.hadfirstContact) {
-    this.playAnimation(this.IMAGES_WALKING); // ← vor erstem Kontakt normal stehen
+    this.playAnimation(this.IMAGES_WALKING); 
     return;
   }
 
   if (this.animationIndex < 10) {
-    // ← erst Alertness abspielen
     this.playAnimation(this.IMAGES_ALERTNESS);
     this.soundWalk.pause();
     this.soundWalk.currentTime = 0;
   } else {
-    // ← danach Walking + Verfolgung
     this.playAnimation(this.IMAGES_WALKING);
     this.moveTowardsCharacter();
     if (this.soundWalk.paused) {
@@ -167,7 +166,8 @@ startAttack() {
     if (this.isDead()) {
       this.soundWalk.pause();
       this.soundWalk.currentTime = 0;
-      if (this.soundDead.paused) {        
+      if (this.soundDead.paused && !this.deadSoundPlayed) { 
+        this.deadSoundPlayed = true;                         
         this.soundDead.currentTime = 0;
         this.soundDead.volume = 0.5;
         this.soundDead.muted = soundEffectsMuted;
@@ -177,6 +177,8 @@ startAttack() {
       if (!this.markedForDeletion) {
         setTimeout(() => {
           this.markedForDeletion = true;
+          this.soundDead.pause();
+          this.soundDead.currentTime = 0;
         }, 1000);
       }
     }

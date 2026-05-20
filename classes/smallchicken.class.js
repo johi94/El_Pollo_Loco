@@ -5,7 +5,7 @@ class Smallchicken extends MovableObject {
   chickenDead = false;
   markedForDeletion = false;
   sound = new Audio("audio/small_chicken.mp3");
-  soundDead = new Audio('audio/small_chicken_dead.mp3');
+  soundDead = new Audio("audio/small_chicken_dead.mp3");
 
   offset = {
     top: 0,
@@ -30,6 +30,10 @@ class Smallchicken extends MovableObject {
     this.sound.loop = true;
     this.sound.volume = 0.2;
     this.sound.muted = soundEffectsMuted;
+    const promise = this.sound.play();
+    if (promise !== undefined) {
+      promise.catch(() => {});
+    }
     this.animate();
   }
 
@@ -40,8 +44,8 @@ class Smallchicken extends MovableObject {
     this.sound.pause();
     this.sound.currentTime = 0;
     this.soundDead.volume = 0.5;
-    this.soundDead.muted = soundEffectsMuted; 
-    this.soundDead.play();                 
+    this.soundDead.muted = soundEffectsMuted;
+    this.soundDead.play();
     setTimeout(() => {
       this.markedForDeletion = true;
     }, 500);
@@ -62,18 +66,21 @@ class Smallchicken extends MovableObject {
   }
 
   updateSound() {
-  if (this.isVisible() && !this.chickenDead) {
-    if (this.sound.paused) {
-      this.sound.play();
+    if (this.isVisible() && !this.chickenDead) {
+      if (this.sound.paused) {
+        const promise = this.sound.play();
+        if (promise !== undefined) {
+          promise.catch(() => {});
+        }
+      }
+    } else {
+      this.sound.pause();
     }
-  } else {
-    this.sound.pause();
   }
-}
 
-isVisible() {
-  if (!world) return false;
-  const cameraX = -world.camera_x; 
-  return this.x > cameraX - 100 && this.x < cameraX + 820; 
-}
+  isVisible() {
+    if (!world) return false;
+    const cameraX = -world.camera_x;
+    return this.x > cameraX - 100 && this.x < cameraX + 820;
+  }
 }

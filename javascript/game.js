@@ -197,7 +197,7 @@ function toggleInfo() {
     if (!gamePaused && world) togglePause();
   } else {
     modal.close();
-    if (gamePaused && world) togglePause(); // ← world-Check verhindert playBackgroundMusic ohne Spiel
+    if (gamePaused && world) togglePause(); 
   }
 }
 

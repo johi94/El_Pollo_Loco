@@ -30,7 +30,10 @@ class Chicken extends MovableObject {
     this.sound.loop = true;
     this.sound.volume = 0.5;
     this.sound.muted = soundEffectsMuted;
-    this.sound.play();
+     const promise = this.sound.play();
+  if (promise !== undefined) {
+    promise.catch(() => {});
+  }
     this.animate();
   }
 
@@ -62,15 +65,28 @@ class Chicken extends MovableObject {
     }, 200);
   }
 
+  // updateSound() {
+  //   if (this.isVisible() && !this.chickenDead) {
+  //     if (this.sound.paused) {
+  //       this.sound.play();
+  //     }
+  //   } else {
+  //     this.sound.pause();
+  //   }
+  // }
+
   updateSound() {
-    if (this.isVisible() && !this.chickenDead) {
-      if (this.sound.paused) {
-        this.sound.play();
+  if (this.isVisible() && !this.chickenDead) {
+    if (this.sound.paused) {
+      const promise = this.sound.play();
+      if (promise !== undefined) {
+        promise.catch(() => {});
       }
-    } else {
-      this.sound.pause();
     }
+  } else {
+    this.sound.pause();
   }
+}
 
   isVisible() {
     if (!world) return false;
