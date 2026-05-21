@@ -30,7 +30,6 @@ function fullscreen() {
   }
 }
 
-// fullscreen hint
 document.addEventListener("fullscreenchange", () => {
   const hint = document.getElementById('fullscreenHint');
   if (document.fullscreenElement) {

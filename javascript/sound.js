@@ -4,7 +4,6 @@ const soundGameWon = new Audio("audio/you_win.mp3");
 let soundEffectsMuted = false;
 
 // #start-region background-music
-
 backgroundMusic.loop = true;
 backgroundMusic.volume = 0.3;
 
@@ -33,11 +32,9 @@ function toggleMusic() {
     localStorage.setItem("musicMuted", "true");
   }
 }
-
 // #end-region background-music
 
 // #start-region sound-effects
-
 function toggleSoundEffects() {
   document.activeElement.blur();
   if (gamePaused) return;
@@ -93,7 +90,6 @@ function playGameWonSound() {
 // #end-region sound-effects
 
 // #start-region load from LocalStorage
-
 function loadSoundSettings() {
   loadMusicSetting();
   loadSoundEffectsSetting();
@@ -113,5 +109,4 @@ function loadSoundEffectsSetting() {
     document.getElementById("muteSndBtn").classList.add("muted");
   }
 }
-
 // #end-region load from LocalStorage
