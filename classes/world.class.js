@@ -136,6 +136,7 @@ class World {
   }
   // #end-region-collisions
 
+  // #start-region combat
   killEnemy(enemy) {
     enemy.die();
     this.character.speedY = 15;
@@ -157,6 +158,7 @@ class World {
       (enemy) => !enemy.markedForDeletion,
     );
   }
+  // #end-region combat
 
   // #start-region throwable-object
   checkThrowObjects() {
@@ -243,13 +245,13 @@ class World {
       this.flipImage(movableObject);
     }
     movableObject.draw(this.ctx);
-    movableObject.drawFrame(this.ctx);
     if (movableObject.otherDirection) {
       this.flipImageBack(movableObject);
     }
   }
   // #end-region add objects to map
 
+  // #start-region rendering
   flipImage(movableObject) {
     this.ctx.save();
     this.ctx.translate(movableObject.width, 0);
@@ -261,7 +263,9 @@ class World {
     movableObject.x = movableObject.x * -1;
     this.ctx.restore();
   }
+  // #start-region rendering
 
+  // #start-region game-state
   checkGameOver() {
     if (this.character.markedForDeletion && !this.gameOverShown) {
       this.gameOverShown = true;
@@ -282,7 +286,9 @@ class World {
       setTimeout(() => showWin(), 1000);
     }
   }
+  // #end-region game-state
 
+  // #start-region intervals
   addInterval(fn, time) {
     let id = setInterval(fn, time);
     this.intervals.push(id);
@@ -294,6 +300,7 @@ class World {
     this.intervals = [];
     cancelAnimationFrame(this.animationFrame);
   }
+  // #end-region intervals
 
   // #start-region sounds
   playDeadSound() {

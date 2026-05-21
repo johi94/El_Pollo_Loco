@@ -33,10 +33,10 @@ class ThrowableObject extends MovableObject {
   throw() {
   this.speedY = 30;
   this.applyGravity();
-  setInterval(() => {
+  addInterval(() => {
     if (!this.splashing) this.x += 10; 
   }, 25);
-  setInterval(() => {
+  addInterval(() => {
     if (this.splashing) {
       this.playAnimation(this.BOTTLE_SPLASH);  
     } else {
