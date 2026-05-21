@@ -1,12 +1,36 @@
+/**
+ * @class MovableObject
+ * @extends DrawableObject
+ * @description Base class for all movable game objects. Provides shared logic
+ * for movement, gravity, collision detection, animation and health management.
+ */
 class MovableObject extends DrawableObject {
-  speed = 0.15; // movement speed of clouds and chickens
+
+  /** @type {number} The horizontal movement speed */
+  speed = 0.15; 
+
+  /** @type {boolean} Whether the object is moving in the opposite direction */
   otherDirection = false;
+
+  /** @type {number} The vertical speed used for jumping and gravity */
   speedY = 0;
+
+  /** @type {number} The gravity acceleration applied each frame */
   acceleration = 2.5;
+
+  /** @type {number} The current energy/health of the object (0-100) */
   energy = 100;
+
+  /** @type {number} Timestamp of the last hit received */
   lastHit = 0;
+
+  /** @type {number} Duration in seconds the object remains in hurt state after a hit */
   hurtDuration = 0.5;
 
+  /**
+   * @type {{top: number, bottom: number, left: number, right: number}}
+   * @description Collision offset to fine-tune the hitbox
+   */
   offset = {
     top: 0,
     bottom: 0,
@@ -14,6 +38,10 @@ class MovableObject extends DrawableObject {
     right: 0,
   };
 
+  /**
+   * @description Applies gravity to the object by reducing speedY each frame.
+   * Only applies when the object is above ground or moving upward.
+   */
   applyGravity() {
     addInterval(() => {
       if (this.isAboveGround() || this.speedY > 0) {
@@ -23,6 +51,11 @@ class MovableObject extends DrawableObject {
     }, 1000 / 25);
   }
 
+  /**
+   * @description Checks whether the object is currently above the ground level.
+   * ThrowableObjects always return true so they keep falling.
+   * @returns {boolean} True if the object is above the ground
+   */
   isAboveGround() {
     if (this instanceof ThrowableObject) {
       // throwableObjects should always fall
@@ -32,6 +65,12 @@ class MovableObject extends DrawableObject {
     }
   }
 
+  /**
+   * @description Checks whether this object is colliding with another movable object
+   * using offset-adjusted bounding box collision detection.
+   * @param {MovableObject} movableObject - The object to check collision against
+   * @returns {boolean} True if the two objects are colliding
+   */
   isColliding(movableObject) {
      return (
     this.x + this.width - this.offset.right > movableObject.x + movableObject.offset.left &&
@@ -41,6 +80,10 @@ class MovableObject extends DrawableObject {
   );
   }
 
+  /**
+   * @description Reduces the object's energy by 20 on hit.
+   * Only applies if the object is not currently in hurt state.
+   */
   hit() {
     if (this.isHurt()) return;
     this.energy -= 20;
@@ -51,16 +94,28 @@ class MovableObject extends DrawableObject {
     }
   }
 
+  /**
+   * @description Checks whether the object is currently in hurt state.
+   * @returns {boolean} True if the object was hit within the hurt duration
+   */
   isHurt() {
     let timepassed = new Date().getTime() - this.lastHit;
     timepassed = timepassed / 1000;
     return timepassed < this.hurtDuration;
   }
 
+  /**
+   * @description Checks whether the object has no energy left.
+   * @returns {boolean} True if energy is zero
+   */
   isDead() {
     return this.energy == 0;
   }
 
+  /**
+   * @description Advances the animation by one frame from the given image array.
+   * @param {string[]} images - The array of image paths to animate through
+   */
   playAnimation(images) {
     let index = this.currentImage % images.length;
     let path = images[index];
@@ -68,14 +123,23 @@ class MovableObject extends DrawableObject {
     this.currentImage++;
   }
 
+  /**
+   * @description Moves the object to the left by its speed value.
+   */
   moveLeft() {
     this.x -= this.speed;
   }
 
+  /**
+   * @description Moves the object to the right by its speed value.
+   */
   moveRight() {
     this.x += this.speed;
   }
 
+  /**
+   * @description Makes the object jump by setting a positive vertical speed.
+   */
   jump() {
     this.speedY = 30;
   }

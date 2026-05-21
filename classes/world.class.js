@@ -1,75 +1,75 @@
 /**
  * @class World
- * @description Manages the game world including rendering, collisions, 
+ * @description Manages the game world including rendering, collisions,
  * game state and all game objects.
  */
 class World {
   /** @type {Character} The player character */
   character = new Character();
-   
+
   /** @type {Level} The current level */
   level = level1;
-  
+
   /** @type {HTMLCanvasElement} The game canvas */
   canvas;
-  
+
   /** @type {CanvasRenderingContext2D} The 2D rendering context */
   ctx;
-   
+
   /** @type {Keyboard} The keyboard input handler */
   keyboard;
-  
+
   /** @type {number} Camera offset on the x-axis */
   camera_x = 0;
-  
+
   /** @type {StatusBar} Health status bar */
   statusBar = new StatusBar();
-  
+
   /** @type {StatusBarCoins} Coin status bar */
   statusBarCoins = new StatusBarCoins();
-  
+
   /** @type {StatusBarBottles} Bottle status bar */
   statusBarBottles = new StatusBarBottles();
-  
+
   /** @type {StatusBarEndboss} Endboss health status bar */
   statusBarEndboss = new StatusBarEndboss();
-  
+
   /** @type {boolean} Whether the endboss health bar is visible */
   endbossBarVisible = false;
-  
+
   /** @type {ThrowableObject[]} Array of currently thrown bottles */
   throwableObjects = [];
-  
+
   /** @type {boolean} Cooldown flag to prevent rapid bottle throwing */
   bottleThrown = false;
-  
+
   /** @type {boolean} Whether the game over screen has been shown */
   gameOverShown = false;
-  
+
   /** @type {boolean} Whether the win screen has been shown */
   winShown = false;
-  
+
   /** @type {boolean} Whether the game has been won */
   gameWon = false;
-  
+
   /** @type {boolean} Whether the death sound has already been played */
   deadSoundPlayed = false;
-  
+
   /** @type {number[]} Array of active interval IDs for this world */
   intervals = [];
-  
+
   /** @type {number} The current animation frame request ID */
   animationFrame;
-  
+
   /** @type {Audio} Sound played when collecting a bottle */
   soundBottleCollect = new Audio("audio/bottle_pickup.mp3");
-  
+
   /** @type {Audio} Sound played when collecting a coin */
   soundCoinCollect = new Audio("audio/collect_coin.mp3");
-  
+
   /** @type {Audio} Sound played when the character is hurt */
   soundHurt = new Audio("audio/pepe_hurt.mp3");
-  
+
   /** @type {Audio} Sound played when the character dies */
   soundDead = new Audio("audio/pepe_dead.mp3");
   /** @type {Audio} Sound played when throwing a bottle */
@@ -81,7 +81,7 @@ class World {
    * @param {Keyboard} keyboard - The keyboard input handler
    */
   constructor(canvas, keyboard) {
-    this.ctx = canvas.getContext("2d"); 
+    this.ctx = canvas.getContext("2d");
     this.canvas = canvas;
     this.keyboard = keyboard;
     this.draw();
@@ -101,7 +101,7 @@ class World {
   }
 
   /**
-   * @description Starts the main game loop. Checks collisions, 
+   * @description Starts the main game loop. Checks collisions,
    * throwable objects and game state every 50ms.
    */
   run() {
@@ -138,7 +138,7 @@ class World {
     });
   }
 
-   /**
+  /**
    * @description Handles the outcome of a character-enemy collision.
    * Kills the enemy if jumped on, otherwise damages the character.
    * @param {MovableObject} enemy - The enemy that was collided with
@@ -336,7 +336,7 @@ class World {
   }
 
   /**
-   * @description Draws all dynamic game objects (clouds, coins, bottles, 
+   * @description Draws all dynamic game objects (clouds, coins, bottles,
    * character, enemies, throwables) with camera offset applied.
    */
   drawGameObjects() {
@@ -351,7 +351,7 @@ class World {
   }
 
   /**
-   * @description Draws all status bars. The endboss bar is only shown 
+   * @description Draws all status bars. The endboss bar is only shown
    * after first contact.
    */
   drawStatusBars() {
@@ -496,63 +496,63 @@ class World {
    * @param {Audio} sound - The audio object to stop
    */
   stopSound(sound) {
-  if (sound) {
-    sound.pause();
-    sound.currentTime = 0;
+    if (sound) {
+      sound.pause();
+      sound.currentTime = 0;
+    }
   }
-}
 
-/**
+  /**
    * @description Stops all sounds in the game world.
    */
   stopAllSounds() {
-  this.stopEnemySounds();
-  this.stopCharacterSounds();
-  this.stopWorldSounds();
-  this.stopThrowableSounds();
-}
+    this.stopEnemySounds();
+    this.stopCharacterSounds();
+    this.stopWorldSounds();
+    this.stopThrowableSounds();
+  }
 
-/**
+  /**
    * @description Stops all sounds associated with enemies.
    */
-stopEnemySounds() {
-  this.level.enemies.forEach((enemy) => {
-    this.stopSound(enemy.sound);
-    this.stopSound(enemy.soundDead);
-    this.stopSound(enemy.soundRoar);
-    this.stopSound(enemy.soundAlert);
-    this.stopSound(enemy.soundWalk);
-    this.stopSound(enemy.attackSound);
-    this.stopSound(enemy.soundHurt);
-  });
-}
+  stopEnemySounds() {
+    this.level.enemies.forEach((enemy) => {
+      this.stopSound(enemy.sound);
+      this.stopSound(enemy.soundDead);
+      this.stopSound(enemy.soundRoar);
+      this.stopSound(enemy.soundAlert);
+      this.stopSound(enemy.soundWalk);
+      this.stopSound(enemy.attackSound);
+      this.stopSound(enemy.soundHurt);
+    });
+  }
 
-/**
+  /**
    * @description Stops all sounds associated with the player character.
    */
-stopCharacterSounds() {
-  this.stopSound(this.character.soundJump);
-  this.stopSound(this.character.soundWalk);
-  this.stopSound(this.character.soundIdle);
-  this.stopSound(this.character.soundLongIdle);
-}
+  stopCharacterSounds() {
+    this.stopSound(this.character.soundJump);
+    this.stopSound(this.character.soundWalk);
+    this.stopSound(this.character.soundIdle);
+    this.stopSound(this.character.soundLongIdle);
+  }
 
-/**
+  /**
    * @description Stops all sounds owned directly by the world.
    */
-stopWorldSounds() {
-  this.stopSound(this.soundHurt);
-  this.stopSound(this.soundDead);
-  this.stopSound(this.soundBottleThrow);
-}
+  stopWorldSounds() {
+    this.stopSound(this.soundHurt);
+    this.stopSound(this.soundDead);
+    this.stopSound(this.soundBottleThrow);
+  }
 
-/**
+  /**
    * @description Stops all sounds from currently active throwable objects.
    */
-stopThrowableSounds() {
-  this.throwableObjects.forEach((bottle) => {
-    this.stopSound(bottle.soundSplash);
-  });
-}
+  stopThrowableSounds() {
+    this.throwableObjects.forEach((bottle) => {
+      this.stopSound(bottle.soundSplash);
+    });
+  }
   // #end-region sounds
 }

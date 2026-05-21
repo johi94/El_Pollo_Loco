@@ -1,21 +1,66 @@
+/**
+ * @class Character
+ * @extends MovableObject
+ * @description Represents the player character Pepe. Handles movement, jumping,
+ * animations, sound effects and idle states.
+ */
 class Character extends MovableObject {
+
+  /** @type {number} The y position of the character */
   y = 80;
+
+  /** @type {number} The width of the character */
   width = 130;
+
+  /** @type {number} The height of the character */
   height = 250;
+
+  /** @type {number} The horizontal movement speed */
   speed = 10;
+
+  /** @type {number} The current energy/health of the character (0-100) */
   energy = 100;
+
+  /** @type {number} The current coin count (0-100) */
   coins = 0;
+
+  /** @type {number} The current bottle count (0-100) */
   bottles = 0;
+
+  /** @type {number} Duration in seconds the character remains in hurt state after a hit */
   hurtDuration = 1;
-  wasInAir = false; // after "landing" picture idle
+
+   /** @type {boolean} Whether the character was in the air in the previous frame */
+  wasInAir = false; 
+
+  /** @type {boolean} Whether the character should be removed from the level */
   markedForDeletion = false;
+
+  /** @type {boolean} Whether the character is currently invincible after stomping an enemy */
   isInvincible = false;
-  lastMovement = new Date().getTime(); // getTime for IDLE
+
+  /** @type {number} Timestamp of the last movement input */
+  lastMovement = new Date().getTime(); 
+
+  /** @type {Audio} Sound played when the character jumps */
   soundJump = new Audio("audio/jump.mp3");
+
+  /** @type {Audio} Sound played while the character is walking */
   soundWalk = new Audio("audio/pepe_walk.mp3");
+
+  /** @type {Audio} Sound played during short idle state */
   soundIdle = new Audio("audio/pepe_idle_humming.mp3");
+
+  /** @type {Audio} Sound played during long idle state */
   soundLongIdle = new Audio("audio/pepe_snoring.mp3");
 
+   /** @type {World} Reference to the game world */
+  world;
+
+  /**
+   * @type {{top: number, bottom: number, left: number, right: number}}
+   * @description Collision offset to fine-tune the hitbox
+   */
   offset = {
     top: 120,
     bottom: 5,
@@ -23,6 +68,7 @@ class Character extends MovableObject {
     right: 30,
   };
 
+  /** @type {string[]} Animation frames for the walking state */
   IMAGES_WALKING = [
     "img/2_character_pepe/2_walk/W-21.png",
     "img/2_character_pepe/2_walk/W-22.png",
@@ -32,6 +78,7 @@ class Character extends MovableObject {
     "img/2_character_pepe/2_walk/W-26.png",
   ];
 
+  /** @type {string[]} Animation frames for the jumping state */
   IMAGES_JUMPING = [
     "img/2_character_pepe/3_jump/J-31.png",
     "img/2_character_pepe/3_jump/J-32.png",
@@ -44,6 +91,7 @@ class Character extends MovableObject {
     "img/2_character_pepe/3_jump/J-39.png",
   ];
 
+  /** @type {string[]} Animation frames for the death state */
   IMAGES_DEAD = [
     "img/2_character_pepe/5_dead/D-51.png",
     "img/2_character_pepe/5_dead/D-52.png",
@@ -54,12 +102,14 @@ class Character extends MovableObject {
     "img/2_character_pepe/5_dead/D-57.png",
   ];
 
+  /** @type {string[]} Animation frames for the hurt state */
   IMAGES_HURT = [
     "img/2_character_pepe/4_hurt/H-41.png",
     "img/2_character_pepe/4_hurt/H-42.png",
     "img/2_character_pepe/4_hurt/H-43.png",
   ];
 
+  /** @type {string[]} Animation frames for the short idle state */
   IMAGES_IDLE = [
     "img/2_character_pepe/1_idle/idle/I-1.png",
     "img/2_character_pepe/1_idle/idle/I-2.png",
@@ -73,6 +123,7 @@ class Character extends MovableObject {
     "img/2_character_pepe/1_idle/idle/I-10.png",
   ];
 
+  /** @type {string[]} Animation frames for the long idle state */
   IMAGES_LONGIDLE = [
     "img/2_character_pepe/1_idle/long_idle/I-11.png",
     "img/2_character_pepe/1_idle/long_idle/I-12.png",
@@ -86,8 +137,10 @@ class Character extends MovableObject {
     "img/2_character_pepe/1_idle/long_idle/I-20.png",
   ];
 
-  world;
-
+  /**
+   * @constructor
+   * @description Loads all animation images, applies gravity and starts the animation loop.
+   */
   constructor() {
     super().loadImage("img/2_character_pepe/1_idle/idle/I-1.png");
     this.loadImages(this.IMAGES_WALKING);
@@ -101,6 +154,10 @@ class Character extends MovableObject {
   }
 
   // #start-region animation
+
+  /**
+   * @description Starts all animation and movement intervals for the character.
+   */
   animate() {
     addInterval(() => {
       this.movementCharacter();
@@ -117,6 +174,10 @@ class Character extends MovableObject {
     this.animateIdle();
   }
 
+  /**
+   * @description Handles all movement input for the current frame.
+   * Skips movement if the character is dead or the game is won.
+   */
   movementCharacter() {
     if (this.isDead()) return;
     if (this.world.gameWon) return;
@@ -124,6 +185,10 @@ class Character extends MovableObject {
     this.handleJump();
   }
 
+  /**
+   * @description Handles left and right movement based on keyboard input.
+   * Pauses the walk sound when no horizontal key is pressed.
+   */
   handleHorizontalMovement() {
     if (this.isMovingRight()) {
       this.moveRight();
@@ -135,6 +200,9 @@ class Character extends MovableObject {
     }
   }
 
+  /**
+   * @description Triggers a jump if the space key is pressed and the character is on the ground.
+   */
   handleJump() {
     if (this.isJumping()) {
       this.soundWalk.pause();
@@ -143,10 +211,17 @@ class Character extends MovableObject {
     }
   }
 
+  /**
+   * @description Checks whether the character should move right.
+   * @returns {boolean} True if the right key is pressed and the level end has not been reached
+   */
   isMovingRight() {
     return this.world.keyboard.RIGHT && this.x < this.world.level.level_end_x;
   }
 
+  /**
+   * @description Moves the character to the right and plays the walk sound.
+   */
   moveRight() {
     super.moveRight();
     this.otherDirection = false;
@@ -154,10 +229,17 @@ class Character extends MovableObject {
     this.playWalkSound();
   }
 
+  /**
+   * @description Checks whether the character should move left.
+   * @returns {boolean} True if the left key is pressed and the left boundary has not been reached
+   */
   isMovingLeft() {
     return this.world.keyboard.LEFT && this.x > -600;
   }
 
+  /**
+   * @description Moves the character to the left and plays the walk sound.
+   */
   moveLeft() {
     super.moveLeft();
     this.otherDirection = true;
@@ -165,16 +247,27 @@ class Character extends MovableObject {
     this.playWalkSound();
   }
 
+  /**
+   * @description Checks whether the character should jump.
+   * @returns {boolean} True if space is pressed and the character is on the ground
+   */
   isJumping() {
     return this.world.keyboard.SPACE && !this.isAboveGround();
   }
 
+  /**
+   * @description Makes the character jump and plays the jump sound.
+   */
   jump() {
     super.jump();
     this.lastMovement = new Date().getTime();
     this.playSound(this.soundJump, 0.3);
   }
 
+  /**
+   * @description Detects when the character lands after being in the air
+   * and resets the animation to the idle frame.
+   */
   landingCharacter() {
     if (this.isDead()) return;
     if (this.wasInAir && !this.isAboveGround()) {
@@ -185,6 +278,10 @@ class Character extends MovableObject {
     this.wasInAir = this.isAboveGround();
   }
 
+  /**
+   * @description Plays the jumping or walking animation based on the current state.
+   * Skips animation if the game is won.
+   */
   animationCharacter() {
     if (this.world.gameWon) return;
     if (this.isAboveGround()) {
@@ -194,6 +291,10 @@ class Character extends MovableObject {
     }
   }
 
+  /**
+   * @description Plays the death animation frame by frame and marks the
+   * character for deletion when the animation finishes.
+   */
   animateDead() {
     let deadFrame = 0;
     let deadInterval = addInterval(() => {
@@ -211,6 +312,9 @@ class Character extends MovableObject {
     }, 300);
   }
 
+  /**
+   * @description Plays the hurt animation when the character has been hit.
+   */
   animateHurt() {
     addInterval(() => {
       if (this.isDead()) return;
@@ -220,6 +324,9 @@ class Character extends MovableObject {
     }, 500);
   }
 
+  /**
+   * @description Starts the idle animation interval and delegates to the idle state handler.
+   */
   animateIdle() {
     addInterval(() => {
       if (this.isDead()) return;
@@ -227,6 +334,10 @@ class Character extends MovableObject {
     }, 600);
   }
 
+  /**
+   * @description Determines the current idle state based on time since last movement
+   * and plays the appropriate animation and sound.
+   */
   handleIdleState() {
     const idleTime = (new Date().getTime() - this.lastMovement) / 1000;
     if (idleTime > 15) {
@@ -237,9 +348,17 @@ class Character extends MovableObject {
       this.stopIdleSounds();
     }
   }
+
   // #end-region animation
 
   //  #start-region soundEffetcs character
+
+  /**
+   * @description Plays a sound at the given volume, optionally resetting playback.
+   * @param {Audio} sound - The audio object to play
+   * @param {number} [volume=0.3] - The volume level (0.0 to 1.0)
+   * @param {boolean} [resetTime=true] - Whether to reset playback to the beginning
+   */
   playSound(sound, volume = 0.3, resetTime = true) {
     sound.volume = volume;
     sound.muted = soundEffectsMuted;
@@ -247,6 +366,10 @@ class Character extends MovableObject {
     sound.play();
   }
 
+  /**
+   * @description Plays the long idle animation and sound when the character
+   * has been inactive for more than 15 seconds.
+   */
   playLongIdle() {
     this.playAnimation(this.IMAGES_LONGIDLE);
     this.soundIdle.pause();
@@ -256,6 +379,10 @@ class Character extends MovableObject {
     }
   }
 
+  /**
+   * @description Plays the short idle animation and sound when the character
+   * has been inactive for more than 1 second.
+   */
   playIdle() {
     this.playAnimation(this.IMAGES_IDLE);
     if (this.soundIdle.paused) {
@@ -263,6 +390,9 @@ class Character extends MovableObject {
     }
   }
 
+  /**
+   * @description Stops all idle sounds and resets their playback position.
+   */
   stopIdleSounds() {
     this.soundIdle.pause();
     this.soundIdle.currentTime = 0;
@@ -270,13 +400,21 @@ class Character extends MovableObject {
     this.soundLongIdle.currentTime = 0;
   }
 
+  /**
+   * @description Plays the walk sound if the character is on the ground and the sound is paused.
+   */
   playWalkSound() {
     if (this.soundWalk.paused && !this.isAboveGround()) {
       this.playSound(this.soundWalk, 0.3, false);
     }
   }
+
   //  #end-region soundEffetcs character
 
+   /**
+   * @description Makes the character temporarily invincible for 500ms
+   * after stomping an enemy.
+   */
   setInvincible() {
     this.isInvincible = true;
     setTimeout(() => {
