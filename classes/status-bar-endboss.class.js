@@ -15,7 +15,11 @@ class StatusBarEndboss extends StatusBarBase {
     "img/7_statusbars/2_statusbar_endboss/orange/orange80.png",
     "img/7_statusbars/2_statusbar_endboss/orange/orange100.png",
   ];
-
+  
+  /**
+ * @constructor
+ * @description Loads all endboss health images and initializes the bar at full health.
+ */
   constructor() {
     super();
     this.loadImages(this.images);

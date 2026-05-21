@@ -15,7 +15,11 @@ class StatusBar extends StatusBarBase {
     "img/7_statusbars/1_statusbar/2_statusbar_health/green/80.png",
     "img/7_statusbars/1_statusbar/2_statusbar_health/green/100.png",
   ];
-
+  
+  /**
+ * @constructor
+ * @description Loads all health images and initializes the bar at full health.
+ */
   constructor() {
     super();
     this.loadImages(this.images);

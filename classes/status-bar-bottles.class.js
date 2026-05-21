@@ -14,7 +14,11 @@ class StatusBarBottles extends StatusBarBase {
     "img/7_statusbars/1_statusbar/3_statusbar_bottle/orange/80.png",
     "img/7_statusbars/1_statusbar/3_statusbar_bottle/orange/100.png",
   ];
-
+  
+  /**
+ * @constructor
+ * @description Loads all bottle images and initializes the bar at zero bottles.
+ */
   constructor() {
     super();
     this.loadImages(this.images);

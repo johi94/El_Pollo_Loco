@@ -1,27 +1,39 @@
-class Smallchicken extends MovableObject {
+/**
+ * @class Smallchicken
+ * @extends BaseChicken
+ * @description Represents a small chicken enemy. Faster than a regular chicken.
+ */
+class Smallchicken extends BaseChicken {
+
+  /** @type {number} The y position of the small chicken */
   y = 360;
+
+  /** @type {number} The width of the small chicken */
   width = 60;
+
+  /** @type {number} The height of the small chicken */
   height = 60;
-  chickenDead = false;
-  markedForDeletion = false;
+
+  /** @type {Audio} Looping sound played while the small chicken is alive and visible */
   sound = new Audio("audio/small_chicken.mp3");
+
+  /** @type {Audio} Sound played when the small chicken dies */
   soundDead = new Audio("audio/small_chicken_dead.mp3");
 
-  offset = {
-    top: 0,
-    bottom: 0,
-    left: 5,
-    right: 5,
-  };
-
+  /** @type {string[]} Animation frames for the walking animation */
   IMAGES_WALKING = [
     "img/3_enemies_chicken/chicken_small/1_walk/1_w.png",
     "img/3_enemies_chicken/chicken_small/1_walk/2_w.png",
     "img/3_enemies_chicken/chicken_small/1_walk/3_w.png",
   ];
 
+  /** @type {string} Image shown when the small chicken is dead */
   IMAGE_DEAD = "img/3_enemies_chicken/chicken_small/2_dead/dead.png";
 
+  /**
+   * @constructor
+   * @param {number} [x=1000 + Math.random() * 200] - The initial x position
+   */
   constructor(x = 1000 + Math.random() * 200) {
     super().loadImage(this.IMAGES_WALKING[0]);
     this.loadImages(this.IMAGES_WALKING);
@@ -35,52 +47,5 @@ class Smallchicken extends MovableObject {
       promise.catch(() => {});
     }
     this.animate();
-  }
-
-  die() {
-    this.chickenDead = true;
-    this.loadImage(this.IMAGE_DEAD);
-    this.speed = 0;
-    this.sound.pause();
-    this.sound.currentTime = 0;
-    this.soundDead.volume = 0.5;
-    this.soundDead.muted = soundEffectsMuted;
-    this.soundDead.play();
-    setTimeout(() => {
-      this.markedForDeletion = true;
-    }, 500);
-  }
-
-  animate() {
-    addInterval(() => {
-      if (!this.chickenDead) {
-        this.moveLeft();
-      }
-      this.updateSound();
-    }, 1000 / 60);
-    addInterval(() => {
-      if (!this.chickenDead) {
-        this.playAnimation(this.IMAGES_WALKING);
-      }
-    }, 200);
-  }
-
-  updateSound() {
-    if (this.isVisible() && !this.chickenDead) {
-      if (this.sound.paused) {
-        const promise = this.sound.play();
-        if (promise !== undefined) {
-          promise.catch(() => {});
-        }
-      }
-    } else {
-      this.sound.pause();
-    }
-  }
-
-  isVisible() {
-    if (!world) return false;
-    const cameraX = -world.camera_x;
-    return this.x > cameraX - 100 && this.x < cameraX + 820;
   }
 }

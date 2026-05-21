@@ -5,8 +5,10 @@
  * rotates during flight and splashes on impact with an enemy or the ground.
  */
 class ThrowableObject extends MovableObject {
+
   /** @type {boolean} Whether the bottle is currently in splash state */
   splashing = false;
+
   /** @type {Audio} Sound played when the bottle splashes */
   soundSplash = new Audio("audio/bottle_splash.mp3");
 
@@ -17,6 +19,7 @@ class ThrowableObject extends MovableObject {
     "img/6_salsa_bottle/bottle_rotation/3_bottle_rotation.png",
     "img/6_salsa_bottle/bottle_rotation/4_bottle_rotation.png",
   ];
+  
   /** @type {string[]} Animation frames for the bottle splash effect */
   BOTTLE_SPLASH = [
     "img/6_salsa_bottle/bottle_rotation/bottle_splash/1_bottle_splash.png",

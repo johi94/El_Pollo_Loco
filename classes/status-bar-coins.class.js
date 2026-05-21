@@ -14,7 +14,11 @@ class StatusBarCoins extends StatusBarBase {
     "img/7_statusbars/1_statusbar/1_statusbar_coin/blue/80.png",
     "img/7_statusbars/1_statusbar/1_statusbar_coin/blue/100.png",
   ];
-
+  
+  /**
+ * @constructor
+ * @description Loads all coin images and initializes the bar at zero coins.
+ */
   constructor() {
     super();
     this.loadImages(this.images);
