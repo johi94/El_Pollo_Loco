@@ -1,5 +1,12 @@
-class StatusBarCoins extends DrawableObject {
-  COINS_BAR_IMAGES = [
+/**
+ * @class StatusBarCoins
+ * @extends StatusBarBase
+ * @description Displays the player's current coin count as a status bar image.
+ */
+class StatusBarCoins extends StatusBarBase {
+
+  /** @type {string[]} Images representing coin count from 0% to 100% */
+  images = [
     "img/7_statusbars/1_statusbar/1_statusbar_coin/blue/0.png",
     "img/7_statusbars/1_statusbar/1_statusbar_coin/blue/20.png",
     "img/7_statusbars/1_statusbar/1_statusbar_coin/blue/40.png",
@@ -8,37 +15,13 @@ class StatusBarCoins extends DrawableObject {
     "img/7_statusbars/1_statusbar/1_statusbar_coin/blue/100.png",
   ];
 
-  percentage = 0;
-
   constructor() {
     super();
-    this.loadImages(this.COINS_BAR_IMAGES);
+    this.loadImages(this.images);
     this.x = 0;
     this.y = 60;
     this.width = 250;
     this.height = 60;
     this.setPercentage(0);
-  }
-
-  setPercentage(percentage) {
-    this.percentage = percentage;
-    let path = this.COINS_BAR_IMAGES[this.resolveImageIndex()];
-    this.img = this.imageCache[path];
-  }
-
-  resolveImageIndex() {
-    if (this.percentage == 100) {
-      return 5;
-    } else if (this.percentage >= 80) {
-      return 4;
-    } else if (this.percentage >= 60) {
-      return 3;
-    } else if (this.percentage >= 40) {
-      return 2;
-    } else if (this.percentage >= 20) {
-      return 1;
-    } else {
-      return 0;
-    }
   }
 }
