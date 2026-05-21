@@ -23,6 +23,8 @@ function playBackgroundMusic() {
   const musicMuted = localStorage.getItem("musicMuted") === "true";
   if (!musicMuted) {
     backgroundMusic.play();
+  } else {
+    document.getElementById("muteMusicBtn").classList.add("muted");
   }
 }
 
