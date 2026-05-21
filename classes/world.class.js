@@ -554,5 +554,6 @@ class World {
       this.stopSound(bottle.soundSplash);
     });
   }
+  
   // #end-region sounds
 }
