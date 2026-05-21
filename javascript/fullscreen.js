@@ -61,3 +61,17 @@ document.addEventListener("fullscreenchange", () => {
     clearTimeout(fullscreenHintTimeout); 
   }
 });
+
+/**
+ * Automatically enters fullscreen when the device is rotated to landscape
+ * on touch devices with a screen width of 1180px or less.
+ */
+window.addEventListener("orientationchange", () => {
+  setTimeout(() => {
+    const isLandscape = window.innerWidth > window.innerHeight;
+    const isTouchDevice = window.innerWidth <= 1180;
+    if (isLandscape && isTouchDevice && !document.fullscreenElement) {
+      enterFullscreen();
+    }
+  }, 300);
+});

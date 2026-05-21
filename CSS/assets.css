@@ -277,7 +277,7 @@
   text-decoration: underline;
 }
 
-@media (max-width: 720px) {
+@media (max-width: 1180px) {
   .restart-btn {
     width: 250px;
     height: 70px;

@@ -185,7 +185,9 @@ function showStartScreenUI() {
   setDisplay("resetBtn", "none");
   setDisplay("muteMusicBtn", "block");
   setDisplay("muteSndBtn", "block");
-  setDisplay("enter-fullscreen", "block");
+  if (window.innerWidth > 1180) {
+    setDisplay("enter-fullscreen", "block");
+  }
 }
 
 /**
@@ -216,7 +218,11 @@ function restartGame() {
  */
 function showGameUI() {
   setDisplay("resetBtn", "block");
-  setDisplay("enter-fullscreen", "block");
+  if (window.innerWidth > 1180) {
+    setDisplay("enter-fullscreen", "block");
+  } else {
+    setDisplay("enter-fullscreen", "none");
+  }
   setDisplay("muteMusicBtn", "block");
   setDisplay("muteSndBtn", "block");
   setDisplay("pauseBtn", "block");
@@ -292,10 +298,10 @@ function endGame() {
 // #start-region mobile controls
 
 /**
- * Shows the mobile controls if the screen width is 720px or less.
+ * Shows the mobile controls if the screen width is 1180px or less.
  */
 function showMobileControls() {
-  if (window.innerWidth <= 720) {
+  if (window.innerWidth <= 1180) {
     setDisplay("mobileControls", "flex");
   }
 }
