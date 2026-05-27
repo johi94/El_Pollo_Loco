@@ -44,12 +44,15 @@ function fullscreen() {
 
 /**
  * Listens for fullscreen state changes.
- * Shows a hint to the user after 5 seconds in fullscreen mode,
+ * On non-touch devices, shows a hint to the user after 5 seconds in fullscreen mode,
  * then hides it again after 2 seconds.
  * Clears the timeout if the user exits fullscreen before the hint appears.
+ * Has no effect on touch devices.
  */
 document.addEventListener("fullscreenchange", () => {
   const hint = document.getElementById('fullscreenHint');
+  const isTouchDevice = navigator.maxTouchPoints > 0;
+  if (isTouchDevice) return;
   if (document.fullscreenElement) {
     fullscreenHintTimeout = setTimeout(() => {
       hint.style.display = 'block';
@@ -58,7 +61,7 @@ document.addEventListener("fullscreenchange", () => {
       }, 2000);
     }, 5000);
   } else {
-    clearTimeout(fullscreenHintTimeout); 
+    clearTimeout(fullscreenHintTimeout);
   }
 });
 

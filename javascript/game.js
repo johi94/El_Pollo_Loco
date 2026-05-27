@@ -21,12 +21,13 @@ function init() {
 
 // #start-region EventListeners
 
-/** 
+/**
  * Sets the corresponding keyboard state to true when a key is pressed.
  * Also updates the character's lastMovement timestamp when D is pressed.
  */
 document.addEventListener("keydown", (event) => {
   if (event.keyCode == 32) {
+    event.preventDefault();
     keyboard.SPACE = true;
   }
   if (event.keyCode == 37) {
@@ -187,7 +188,9 @@ function showStartScreenUI() {
   setDisplay("resetBtn", "none");
   setDisplay("muteMusicBtn", "block");
   setDisplay("muteSndBtn", "block");
-  if (window.innerWidth > 1180) {
+  setDisplay("impressumBtn", "none");
+  const isTouchDevice = navigator.maxTouchPoints > 0;
+  if (!isTouchDevice) {
     setDisplay("enter-fullscreen", "block");
   }
 }
@@ -220,7 +223,8 @@ function restartGame() {
  */
 function showGameUI() {
   setDisplay("resetBtn", "block");
-  if (window.innerWidth > 1180) {
+  const isTouchDevice = navigator.maxTouchPoints > 0;
+  if (!isTouchDevice) {
     setDisplay("enter-fullscreen", "block");
   } else {
     setDisplay("enter-fullscreen", "none");
@@ -229,6 +233,7 @@ function showGameUI() {
   setDisplay("muteSndBtn", "block");
   setDisplay("pauseBtn", "block");
   setDisplay("infoBtn", "block");
+  setDisplay("impressumBtn", "block");
 }
 
 /**
@@ -293,6 +298,7 @@ function endGame() {
   setDisplay("mobileControls", "none");
   setDisplay("pauseBtn", "none");
   setDisplay("infoBtn", "none");
+  setDisplay("impressumBtn", "none");
 }
 
 // #end-region game-state
@@ -300,11 +306,14 @@ function endGame() {
 // #start-region mobile controls
 
 /**
- * Shows the mobile controls if the screen width is 1180px or less.
+ * Shows the mobile controls and enters fullscreen if the device supports touch input,
+ * regardless of screen width.
  */
 function showMobileControls() {
-  if (window.innerWidth <= 1180) {
+  const isTouchDevice = navigator.maxTouchPoints > 0;
+  if (isTouchDevice) {
     setDisplay("mobileControls", "flex");
+    enterFullscreen();
   }
 }
 
@@ -582,8 +591,14 @@ function preloadAssets(callback) {
   setDisplay("loadingScreen", "flex");
   paths.forEach((path) => {
     const img = new Image();
-    img.onload = () => { loaded++; updateLoadingProgress(loaded, total, callback); };
-    img.onerror = () => { loaded++; updateLoadingProgress(loaded, total, callback); };
+    img.onload = () => {
+      loaded++;
+      updateLoadingProgress(loaded, total, callback);
+    };
+    img.onerror = () => {
+      loaded++;
+      updateLoadingProgress(loaded, total, callback);
+    };
     img.src = path;
   });
 }
@@ -597,7 +612,8 @@ function preloadAssets(callback) {
  */
 function updateLoadingProgress(loaded, total, callback) {
   const percent = Math.round((loaded / total) * 100);
-  document.getElementById("loadingProgress").textContent = `Loading... ${percent}%`;
+  document.getElementById("loadingProgress").textContent =
+    `Loading... ${percent}%`;
   if (loaded === total) {
     setDisplay("loadingScreen", "none");
     callback();
@@ -628,9 +644,16 @@ function toggleInfo() {
  * If the image fails to load, it is hidden and the h1 fallback text is shown instead.
  */
 function initHeadlineFallback() {
-  const img = document.getElementById('titelImg');
-  img.addEventListener('error', () => {
-    img.style.display = 'none';
-    document.getElementById('headline-fallback').style.display = 'block';
+  const img = document.getElementById("titelImg");
+  img.addEventListener("error", () => {
+    img.style.display = "none";
+    document.getElementById("headline-fallback").style.display = "block";
   });
+}
+
+/**
+ * Opens the impressum page in a new browser tab.
+ */
+function openImpressum() {
+  window.open("impressum.html", "_blank");
 }

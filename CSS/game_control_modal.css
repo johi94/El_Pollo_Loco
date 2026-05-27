@@ -48,7 +48,7 @@
 
 @media (max-width: 720px), (max-height: 480px) {
   #infoModal {
-    width: 90vw;
-    height: 80vw;
+    width: 90dvw;
+    height: 80dvw;
   }
 }

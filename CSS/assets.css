@@ -91,6 +91,22 @@
   background: rgba(0, 0, 0, 0.8);
 }
 
+.impressum-btn {
+  position: absolute;
+  top: 10px;
+  right: 110px;
+  background: rgba(0, 0, 0, 0.5);
+  color: white;
+  border: none;
+  padding: 8px 10px;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+.impressum-btn:hover {
+  background: rgba(0, 0, 0, 0.8);
+}
+
 .pause-btn {
   position: absolute;
   top: 10px;
@@ -304,17 +320,7 @@
   font-size: 24px;
 }
 
-@media (max-width: 1180px) {
-  .restart-btn {
-    width: 250px;
-    height: 70px;
-  }
-
-  .home-btn {
-    width: 250px;
-    height: 70px;
-  }
-
+@media (pointer: coarse) {
   .mobile-controls {
     display: flex;
   }
@@ -323,7 +329,7 @@
     position: absolute;
     top: 10px;
     right: 320px;
-    left: auto;
+    left: auto;  
     bottom: auto;
   }
 
@@ -341,7 +347,6 @@
     right: 200px;
     left: auto;
     bottom: auto;
-    
   }
 
   .fullscreen-btn {
