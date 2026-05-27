@@ -37,7 +37,7 @@
     <script src="./javascript/fullscreen.js" defer></script>
     <script src="./javascript/sound.js" defer></script>
   </head>
-  <body onload="loadSoundSettings(); initMobileControls();">
+  <body onload="loadSoundSettings(); initMobileControls(); initHeadlineFallback();">
    <div id="rotate-device-hint">
     <div class="hint-content">
      <div class="phone-icon">🔄📱</div>
@@ -45,7 +45,8 @@
     </div>
    </div>
     <header class="headline">
-      <img class="h1" src="./img/h1.png" alt="titel" />
+      <h1 id="headline-fallback">El Pollo Loco</h1>
+      <img class="titel" id="titelImg" src="./img/h1.png" alt="Image with title EL POLLO LOCO" />
       <img class="description" src="./img/h2.png" alt="description" />
     </header>
     <main>

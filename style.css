@@ -14,7 +14,7 @@ body {
   justify-content: center;
 }
 
-.h1 {
+.titel {
   height: 200px;
   width: 260px;
 }
@@ -22,6 +22,12 @@ body {
 .description {
   height: 200px;
   width: 200px;
+}
+
+header h1 {
+  display: none;
+  color: #f8a000;
+  text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.5);
 }
 
 main {

@@ -11,6 +11,10 @@ body {
   letter-spacing: 2px;
 }
 
+h1 {
+  font-size: 50px;
+  letter-spacing: 3px;
+}
 .start-game-btn {
   font-family: zabras;
   font-size: 35px;

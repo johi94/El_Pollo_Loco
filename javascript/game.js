@@ -622,3 +622,15 @@ function toggleInfo() {
     if (gamePaused && world) togglePause();
   }
 }
+
+/**
+ * Initializes a fallback for the headline title image.
+ * If the image fails to load, it is hidden and the h1 fallback text is shown instead.
+ */
+function initHeadlineFallback() {
+  const img = document.getElementById('titelImg');
+  img.addEventListener('error', () => {
+    img.style.display = 'none';
+    document.getElementById('headline-fallback').style.display = 'block';
+  });
+}
