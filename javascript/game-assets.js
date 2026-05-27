@@ -256,18 +256,23 @@ function preloadAssets(callback) {
   const total = paths.length;
   setDisplay("startScreen", "none");
   setDisplay("loadingScreen", "flex");
-  paths.forEach((path) => {
-    const img = new Image();
-    img.onload = () => {
-      loaded++;
-      updateLoadingProgress(loaded, total, callback);
-    };
-    img.onerror = () => {
-      loaded++;
-      updateLoadingProgress(loaded, total, callback);
-    };
-    img.src = path;
-  });
+  paths.forEach((path) => loadSingleAsset(path, () => {
+    loaded++;
+    updateLoadingProgress(loaded, total, callback);
+  }));
+}
+
+/**
+ * Loads a single image asset and calls the callback when done,
+ * regardless of whether the image loaded successfully or failed.
+ * @param {string} path - The image path to load
+ * @param {Function} callback - Called when the image has loaded or failed
+ */
+function loadSingleAsset(path, callback) {
+  const img = new Image();
+  img.onload = callback;
+  img.onerror = callback;
+  img.src = path;
 }
 
 /**

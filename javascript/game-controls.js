@@ -8,7 +8,6 @@ function showMobileControls() {
   const isTouchDevice = navigator.maxTouchPoints > 0;
   if (isTouchDevice) {
     setDisplay("mobileControls", "flex");
-    enterFullscreen();
   }
 }
 
