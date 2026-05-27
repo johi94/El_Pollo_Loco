@@ -16,16 +16,11 @@ backgroundMusic.loop = true;
 backgroundMusic.volume = 0.3;
 
 /**
- * Plays the background music if it has not been muted by the user.
- * Reads the mute state from localStorage.
+ * Plays the background music and applies the mute state from localStorage.
  */
 function playBackgroundMusic() {
-  const musicMuted = localStorage.getItem("musicMuted") === "true";
-  if (!musicMuted) {
-    backgroundMusic.play();
-  } else {
-    document.getElementById("muteMusicBtn").classList.add("muted");
-  }
+  backgroundMusic.muted = localStorage.getItem("musicMuted") === "true";
+  backgroundMusic.play();
 }
 
 /**
@@ -45,14 +40,15 @@ function toggleMusic() {
   if (gamePaused) return;
   const btn = document.getElementById("muteMusicBtn");
   btn.classList.toggle("muted");
-  if (backgroundMusic.paused) {
-    backgroundMusic.play();
+  if (backgroundMusic.muted) {
+    backgroundMusic.muted = false;
     localStorage.setItem("musicMuted", "false");
   } else {
-    backgroundMusic.pause();
+    backgroundMusic.muted = true;
     localStorage.setItem("musicMuted", "true");
   }
 }
+
 
 // #end-region background-music
 
@@ -151,13 +147,13 @@ function loadSoundSettings() {
 }
 
 /**
- * Loads the music mute state from localStorage and applies it to the button and audio object.
+ * Loads the music mute state from localStorage and applies it to the button.
+ * Does not modify the audio object directly — playBackgroundMusic handles that.
  */
 function loadMusicSetting() {
   const musicMuted = localStorage.getItem("musicMuted") === "true";
   if (musicMuted) {
     document.getElementById("muteMusicBtn").classList.add("muted");
-    backgroundMusic.muted = true;
   }
 }
 
