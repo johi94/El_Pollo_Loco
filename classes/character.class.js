@@ -5,7 +5,6 @@
  * animations, sound effects and idle states.
  */
 class Character extends MovableObject {
-
   /** @type {number} The y position of the character */
   y = 80;
 
@@ -30,8 +29,8 @@ class Character extends MovableObject {
   /** @type {number} Duration in seconds the character remains in hurt state after a hit */
   hurtDuration = 1;
 
-   /** @type {boolean} Whether the character was in the air in the previous frame */
-  wasInAir = false; 
+  /** @type {boolean} Whether the character was in the air in the previous frame */
+  wasInAir = false;
 
   /** @type {boolean} Whether the character should be removed from the level */
   markedForDeletion = false;
@@ -40,7 +39,7 @@ class Character extends MovableObject {
   isInvincible = false;
 
   /** @type {number} Timestamp of the last movement input */
-  lastMovement = new Date().getTime(); 
+  lastMovement = new Date().getTime();
 
   /** @type {Audio} Sound played when the character jumps */
   soundJump = new Audio("audio/jump.mp3");
@@ -54,7 +53,7 @@ class Character extends MovableObject {
   /** @type {Audio} Sound played during long idle state */
   soundLongIdle = new Audio("audio/pepe_snoring.mp3");
 
-   /** @type {World} Reference to the game world */
+  /** @type {World} Reference to the game world */
   world;
 
   /**
@@ -335,17 +334,17 @@ class Character extends MovableObject {
   }
 
   /**
-   * @description Determines the current idle state based on time since last movement
+   * Determines the current idle state based on time since last movement
    * and plays the appropriate animation and sound.
+   * Switches to long idle after 15 seconds of inactivity,
+   * otherwise plays the default idle animation immediately.
    */
   handleIdleState() {
     const idleTime = (new Date().getTime() - this.lastMovement) / 1000;
     if (idleTime > 15) {
       this.playLongIdle();
-    } else if (idleTime > 1) {
-      this.playIdle();
     } else {
-      this.stopIdleSounds();
+      this.playIdle();
     }
   }
 
@@ -411,7 +410,7 @@ class Character extends MovableObject {
 
   //  #end-region soundEffetcs character
 
-   /**
+  /**
    * @description Makes the character temporarily invincible for 500ms
    * after stomping an enemy.
    */
