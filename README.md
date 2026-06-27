@@ -3,9 +3,9 @@
 A 2D jump-and-run game built with vanilla JavaScript and the HTML5 Canvas.
 Run, jump, throw bottles and defeat the angry chickens — including the endboss!
 
-🔗 **Live Demo:** [your-link.de](#)
+🔗 **Live Demo:** [pollo-loco.jonas-hildebrand.de](https://pollo-loco.jonas-hildebrand.de/)
 
-![Screenshot](screenshot.png)
+![Screenshot](img/screenshot.png)
 
 ## 🎮 How to play
 - **← / →** — move
