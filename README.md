@@ -5,7 +5,7 @@ Run, jump, throw bottles and defeat the angry chickens — including the endboss
 
 🔗 **Live Demo:** [pollo-loco.jonas-hildebrand.de](https://pollo-loco.jonas-hildebrand.de/)
 
-![Screenshot](img/screenshot.png)
+![Screenshot](img/pollo_loco.png)
 
 ## 🎮 How to play
 - **← / →** — move
