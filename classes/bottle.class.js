@@ -26,11 +26,11 @@ class Bottle extends DrawableObject {
    */
   constructor(x, y, imageIndex = 0) {
     super();
+    this.width = 100;
+    this.height = 80;
     this.loadImages(this.BOTTLE_IMAGES);
     this.img = this.imageCache[this.BOTTLE_IMAGES[imageIndex]];
     this.x = x;
     this.y = y;
-    this.width = 100;
-    this.height = 80;
   }
 }

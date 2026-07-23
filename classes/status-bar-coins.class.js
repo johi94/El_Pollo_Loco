@@ -21,11 +21,11 @@ class StatusBarCoins extends StatusBarBase {
  */
   constructor() {
     super();
+    this.width = 250;
+    this.height = 60;
     this.loadImages(this.images);
     this.x = 0;
     this.y = 60;
-    this.width = 250;
-    this.height = 60;
     this.setPercentage(0);
   }
 }

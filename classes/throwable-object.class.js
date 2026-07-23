@@ -36,36 +36,36 @@ class ThrowableObject extends MovableObject {
    * @param {number} y - The initial y position of the bottle
    */
   constructor(x, y) {
-    super().loadImage(
-      "img/6_salsa_bottle/bottle_rotation/1_bottle_rotation.png",
-    );
+    super();
+    this.height = 100;
+    this.width = 80;
+    this.loadImage("img/6_salsa_bottle/bottle_rotation/1_bottle_rotation.png");
     this.loadImages(this.BOTTLE_ROTATION);
     this.loadImages(this.BOTTLE_SPLASH);
     this.x = x;
     this.y = y;
-    this.height = 100;
-    this.width = 80;
-    this.throw();
+    this.speedY = 30;
   }
 
   /**
-   * @description Launches the bottle by applying gravity, moving it forward
-   * and playing the rotation or splash animation depending on state.
+   * @description Advances the bottle's flight: applies gravity, moves it
+   * forward and plays the rotation or splash animation depending on state.
+   * Called once per frame from the world's central game loop.
+   * @param {number} dt - The elapsed time since the last frame in milliseconds
    */
-  throw() {
-  this.speedY = 30;
-  this.applyGravity();
-  addInterval(() => {
-    if (!this.splashing) this.x += 10; 
-  }, 25);
-  addInterval(() => {
-    if (this.splashing) {
-      this.playAnimation(this.BOTTLE_SPLASH);  
-    } else {
-      this.playAnimation(this.BOTTLE_ROTATION);
-    }
-  }, 100);
-}
+  update(dt) {
+    this.updateGravity(dt);
+    tickTimer(this.timers, "move", 25, dt, () => {
+      if (!this.splashing) this.x += 10;
+    });
+    tickTimer(this.timers, "animation", 100, dt, () => {
+      if (this.splashing) {
+        this.playAnimation(this.BOTTLE_SPLASH);
+      } else {
+        this.playAnimation(this.BOTTLE_ROTATION);
+      }
+    });
+  }
 
 /**
    * @description Triggers the splash state on impact. Resets the animation,

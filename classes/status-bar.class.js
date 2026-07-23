@@ -22,11 +22,11 @@ class StatusBar extends StatusBarBase {
  */
   constructor() {
     super();
+    this.width = 250;
+    this.height = 60;
     this.loadImages(this.images);
     this.x = 0;
     this.y = 0;
-    this.width = 250;
-    this.height = 60;
     this.setPercentage(100);
   }
 }

@@ -42,10 +42,5 @@ class Chicken extends BaseChicken {
     this.sound.loop = true;
     this.sound.volume = 0.5;
     this.sound.muted = soundEffectsMuted;
-    const promise = this.sound.play();
-    if (promise !== undefined) {
-      promise.catch(() => {});
-    }
-    this.animate();
   }
 }

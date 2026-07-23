@@ -22,11 +22,11 @@ class Coin extends DrawableObject {
    */
   constructor(x, y) {
     super();
+    this.width = 180;
+    this.height = 180;
     this.loadImages(this.COIN_IMAGES);
     this.img = this.imageCache[this.COIN_IMAGES[0]];
     this.x = x;
     this.y = y;
-    this.width = 180;
-    this.height = 180;
   }
 }

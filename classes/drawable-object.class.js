@@ -28,12 +28,46 @@ class DrawableObject {
   currentImage = 0;
 
   /**
-   * @description Loads a single image from the given path and sets it as the current image.
+   * @type {Object.<string, HTMLCanvasElement>}
+   * @description Class-wide cache of images pre-scaled to a target size, keyed by
+   * "path__WxH". Drawing a pre-scaled canvas 1:1 avoids the per-frame resampling
+   * cost of ctx.drawImage() scaling a much larger source image down every frame.
+   */
+  static scaledImageCache = {};
+
+  /**
+   * @description Returns a canvas containing the given image pre-scaled to the
+   * requested size, creating and caching it on first use. The canvas is returned
+   * immediately and filled in once the source image has loaded.
+   * @param {string} path - The file path of the image to load
+   * @param {number} width - The target width in pixels
+   * @param {number} height - The target height in pixels
+   * @returns {HTMLCanvasElement} A canvas pre-scaled to width x height
+   */
+  getScaledImage(path, width, height) {
+    const key = `${path}__${width}x${height}`;
+    if (DrawableObject.scaledImageCache[key]) {
+      return DrawableObject.scaledImageCache[key];
+    }
+    const canvas = document.createElement("canvas");
+    canvas.width = width;
+    canvas.height = height;
+    DrawableObject.scaledImageCache[key] = canvas;
+    const source = new Image();
+    source.onload = () => {
+      canvas.getContext("2d").drawImage(source, 0, 0, width, height);
+    };
+    source.src = path;
+    return canvas;
+  }
+
+  /**
+   * @description Loads a single image from the given path, pre-scaled to the
+   * object's current width/height, and sets it as the current image.
    * @param {string} path - The file path of the image to load
    */
   loadImage(path) {
-    this.img = new Image(); // this.img = document.getElementByID('image') <img id="image">
-    this.img.src = path;
+    this.img = this.getScaledImage(path, this.width, this.height);
   }
 
   /**
@@ -45,14 +79,13 @@ class DrawableObject {
   }
 
   /**
-   * @description Preloads an array of images and stores them in the image cache.
+   * @description Preloads an array of images, pre-scaled to the object's current
+   * width/height, and stores them in the image cache.
    * @param {string[]} array - The file paths of the images to preload
    */
   loadImages(array) {
     array.forEach((path) => {
-      let img = new Image();
-      img.src = path;
-      this.imageCache[path] = img;
+      this.imageCache[path] = this.getScaledImage(path, this.width, this.height);
     });
   }
 }

@@ -42,10 +42,5 @@ class Smallchicken extends BaseChicken {
     this.sound.loop = true;
     this.sound.volume = 0.2;
     this.sound.muted = soundEffectsMuted;
-    const promise = this.sound.play();
-    if (promise !== undefined) {
-      promise.catch(() => {});
-    }
-    this.animate();
   }
 }

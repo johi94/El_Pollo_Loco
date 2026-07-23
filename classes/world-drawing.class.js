@@ -4,14 +4,22 @@
 Object.assign(World.prototype, {
 
   /**
-   * @description Main render loop. Clears the canvas and redraws all game objects each frame.
+   * @description Main game loop. Advances all game state by the elapsed time
+   * since the last frame (unless paused), then clears the canvas and redraws
+   * all game objects. Driven by a single requestAnimationFrame chain instead
+   * of many independent setIntervals, so movement/animation stay in sync with
+   * rendering and don't rely on browser timer precision.
+   * @param {number} [timestamp] - The frame timestamp provided by requestAnimationFrame
    */
-  draw() {
+  draw(timestamp = performance.now()) {
+    const dt = this.lastFrameTime ? Math.min(timestamp - this.lastFrameTime, 100) : 0;
+    this.lastFrameTime = timestamp;
+    if (!gamePaused) this.update(dt);
     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
     this.drawBackground();
     this.drawGameObjects();
     this.drawStatusBars();
-    this.animationFrame = requestAnimationFrame(() => this.draw());
+    this.animationFrame = requestAnimationFrame((ts) => this.draw(ts));
   },
 
   /**
@@ -25,17 +33,32 @@ Object.assign(World.prototype, {
 
   /**
    * @description Draws all dynamic game objects (clouds, coins, bottles,
-   * character, enemies, throwables) with camera offset applied.
+   * character, enemies, throwables) with camera offset applied. Objects far
+   * outside the visible camera range are skipped to avoid unnecessary draw calls.
    */
   drawGameObjects() {
     this.ctx.translate(this.camera_x, 0);
-    this.addObjectsToMap(this.level.clouds);
-    this.addObjectsToMap(this.level.coins);
-    this.addObjectsToMap(this.level.bottles);
+    this.addObjectsToMap(this.level.clouds.filter((o) => this.isOnScreen(o)));
+    this.addObjectsToMap(this.level.coins.filter((o) => this.isOnScreen(o)));
+    this.addObjectsToMap(this.level.bottles.filter((o) => this.isOnScreen(o)));
     this.addToMap(this.character);
-    this.addObjectsToMap(this.level.enemies);
-    this.addObjectsToMap(this.throwableObjects);
+    this.addObjectsToMap(this.level.enemies.filter((o) => this.isOnScreen(o)));
+    this.addObjectsToMap(this.throwableObjects.filter((o) => this.isOnScreen(o)));
     this.ctx.translate(-this.camera_x, 0);
+  },
+
+  /**
+   * @description Checks whether an object is within (or near) the visible
+   * camera range, used to skip drawing objects that are far off-screen.
+   * @param {DrawableObject} obj - The object to check
+   * @returns {boolean} True if the object is on or near screen
+   */
+  isOnScreen(obj) {
+    const cameraX = -this.camera_x;
+    return (
+      obj.x + obj.width > cameraX - 100 &&
+      obj.x < cameraX + this.canvas.width + 100
+    );
   },
 
   /**
