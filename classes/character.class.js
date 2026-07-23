@@ -148,29 +148,38 @@ class Character extends MovableObject {
     this.loadImages(this.IMAGES_HURT);
     this.loadImages(this.IMAGES_IDLE);
     this.loadImages(this.IMAGES_LONGIDLE);
-    this.applyGravity();
-    this.animate();
   }
 
   // #start-region animation
 
   /**
-   * @description Starts all animation and movement intervals for the character.
+   * @description Advances all movement, animation and gravity state for the
+   * character by the given elapsed time. Called once per frame from the world's
+   * central game loop instead of relying on independent setIntervals.
+   * @param {number} dt - The elapsed time since the last frame in milliseconds
    */
-  animate() {
-    addInterval(() => {
+  update(dt) {
+    this.updateGravity(dt);
+    tickTimer(this.timers, "move", 1000 / 60, dt, () => {
       this.movementCharacter();
       this.landingCharacter();
       this.world.camera_x = -this.x + 100;
-    }, 1000 / 60);
-
-    addInterval(() => {
+    });
+    tickTimer(this.timers, "animation", 100, dt, () => {
       if (this.isDead()) return;
       this.animationCharacter();
-    }, 100);
-    this.animateDead();
-    this.animateHurt();
-    this.animateIdle();
+    });
+    tickTimer(this.timers, "dead", 300, dt, () => this.tickDeadAnimation());
+    tickTimer(this.timers, "hurt", 500, dt, () => {
+      if (this.isDead()) return;
+      if (this.isHurt()) {
+        this.playAnimation(this.IMAGES_HURT);
+      }
+    });
+    tickTimer(this.timers, "idle", 600, dt, () => {
+      if (this.isDead()) return;
+      this.handleIdleState();
+    });
   }
 
   /**
@@ -292,45 +301,19 @@ class Character extends MovableObject {
 
   /**
    * @description Plays the death animation frame by frame and marks the
-   * character for deletion when the animation finishes.
+   * character for deletion when the animation finishes. Safe to call
+   * repeatedly after finishing; it just keeps showing the last dead frame.
    */
-  animateDead() {
-    let deadFrame = 0;
-    let deadInterval = addInterval(() => {
-      if (this.isDead()) {
-        if (deadFrame < this.IMAGES_DEAD.length) {
-          this.img = this.imageCache[this.IMAGES_DEAD[deadFrame]];
-          deadFrame++;
-        } else {
-          this.img =
-            this.imageCache[this.IMAGES_DEAD[this.IMAGES_DEAD.length - 1]];
-          this.markedForDeletion = true;
-          clearInterval(deadInterval);
-        }
-      }
-    }, 300);
-  }
-
-  /**
-   * @description Plays the hurt animation when the character has been hit.
-   */
-  animateHurt() {
-    addInterval(() => {
-      if (this.isDead()) return;
-      if (this.isHurt()) {
-        this.playAnimation(this.IMAGES_HURT);
-      }
-    }, 500);
-  }
-
-  /**
-   * @description Starts the idle animation interval and delegates to the idle state handler.
-   */
-  animateIdle() {
-    addInterval(() => {
-      if (this.isDead()) return;
-      this.handleIdleState();
-    }, 600);
+  tickDeadAnimation() {
+    if (!this.isDead()) return;
+    if (this.deadFrame === undefined) this.deadFrame = 0;
+    if (this.deadFrame < this.IMAGES_DEAD.length) {
+      this.img = this.imageCache[this.IMAGES_DEAD[this.deadFrame]];
+      this.deadFrame++;
+    } else {
+      this.img = this.imageCache[this.IMAGES_DEAD[this.IMAGES_DEAD.length - 1]];
+      this.markedForDeletion = true;
+    }
   }
 
   /**

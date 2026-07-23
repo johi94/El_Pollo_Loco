@@ -38,17 +38,22 @@ class MovableObject extends DrawableObject {
     right: 0,
   };
 
+  /** @type {Object.<string, number>} Accumulated time per fixed-step timer, keyed by name */
+  timers = {};
+
   /**
-   * @description Applies gravity to the object by reducing speedY each frame.
+   * @description Applies gravity to the object by reducing speedY in fixed
+   * steps of 1000/25ms, accumulated from the per-frame delta time.
    * Only applies when the object is above ground or moving upward.
+   * @param {number} dt - The elapsed time since the last frame in milliseconds
    */
-  applyGravity() {
-    addInterval(() => {
+  updateGravity(dt) {
+    tickTimer(this.timers, "gravity", 1000 / 25, dt, () => {
       if (this.isAboveGround() || this.speedY > 0) {
         this.y -= this.speedY;
         this.speedY -= this.acceleration;
       }
-    }, 1000 / 25);
+    });
   }
 
   /**

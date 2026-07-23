@@ -62,6 +62,12 @@ class World {
   /** @type {number} The current animation frame request ID */
   animationFrame;
 
+  /** @type {number|null} Timestamp of the previous frame, used to compute delta time */
+  lastFrameTime = null;
+
+  /** @type {Object.<string, number>} Accumulated time per fixed-step timer, keyed by name */
+  timers = {};
+
   /** @type {Audio} Sound played when collecting a bottle */
   soundBottleCollect = new Audio("audio/bottle_pickup.mp3");
 
@@ -86,9 +92,8 @@ class World {
     this.ctx = canvas.getContext("2d");
     this.canvas = canvas;
     this.keyboard = keyboard;
-    this.draw();
     this.setWorld();
-    this.run();
+    this.draw();
   }
 
   /**
@@ -100,19 +105,6 @@ class World {
     this.level.enemies.forEach((enemy) => {
       enemy.world = this;
     });
-  }
-
-  /**
-   * @description Starts the main game loop. Checks collisions,
-   * throwable objects and game state every 50ms.
-   */
-  run() {
-    this.addInterval(() => {
-      this.checkCollisions();
-      this.checkThrowObjects();
-      this.checkGameOver();
-      this.checkWin();
-    }, 50);
   }
 
   /**

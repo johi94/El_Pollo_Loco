@@ -120,18 +120,19 @@ class Endboss extends MovableObject {
     this.loadImages(this.IMAGES_HURT);
     this.loadImages(this.IMAGES_DEAD);
     this.x = 2600;
-    this.animate();
     this.speed = 8;
   }
 
   // #start-region animation
 
   /**
-   * @description Starts all animation intervals for the endboss including
-   * the main loop, hurt and death animations.
+   * @description Advances the endboss's main animation/behaviour, hurt and
+   * death states by the given elapsed time. Called once per frame from the
+   * world's central game loop.
+   * @param {number} dt - The elapsed time since the last frame in milliseconds
    */
-  animate() {
-    addInterval(() => {
+  update(dt) {
+    tickTimer(this.timers, "main", 200, dt, () => {
       this.checkFirstContact();
       if (this.isDead()) return;
       if (this.isAttacking) {
@@ -140,9 +141,21 @@ class Endboss extends MovableObject {
         this.walkingAnimation();
       }
       this.animationIndex++;
-    }, 200);
-    this.animateHurt();
-    this.animateDead();
+    });
+    tickTimer(this.timers, "hurt", 600, dt, () => {
+      if (this.isDead()) return;
+      if (this.isHurt()) {
+        this.playAnimation(this.IMAGES_HURT);
+        if (this.soundHurt.paused) {
+          this.playSound(this.soundHurt, 0.5);
+        }
+      }
+    });
+    tickTimer(this.timers, "dead", 400, dt, () => {
+      if (this.isDead()) {
+        this.handleDeathSequence();
+      }
+    });
   }
 
   /**
@@ -222,34 +235,6 @@ class Endboss extends MovableObject {
         this.x -= this.speed;
       }
     }
-  }
-
-  /**
-   * @description Starts the hurt animation interval. Plays the hurt sound
-   * when the endboss is hit.
-   */
-  animateHurt() {
-    addInterval(() => {
-      if (this.isDead()) return;
-      if (this.isHurt()) {
-        this.playAnimation(this.IMAGES_HURT);
-        if (this.soundHurt.paused) {
-          this.playSound(this.soundHurt, 0.5);
-        }
-      }
-    }, 600);
-  }
-
-  /**
-   * @description Starts the death animation interval. Triggers the full
-   * death sequence when the endboss energy reaches zero.
-   */
-  animateDead() {
-    addInterval(() => {
-      if (this.isDead()) {
-        this.handleDeathSequence();
-      }
-    }, 400);
   }
 
   /**

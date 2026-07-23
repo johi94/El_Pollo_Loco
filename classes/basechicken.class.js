@@ -43,20 +43,22 @@ class BaseChicken extends MovableObject {
   }
 
   /**
-   * @description Starts the movement and animation intervals for the chicken.
+   * @description Advances movement and animation state for the chicken by the
+   * given elapsed time. Called once per frame from the world's central game loop.
+   * @param {number} dt - The elapsed time since the last frame in milliseconds
    */
-  animate() {
-    addInterval(() => {
+  update(dt) {
+    tickTimer(this.timers, "move", 1000 / 60, dt, () => {
       if (!this.chickenDead) {
         this.moveLeft();
       }
       this.updateSound();
-    }, 1000 / 60);
-    addInterval(() => {
+    });
+    tickTimer(this.timers, "animation", 200, dt, () => {
       if (!this.chickenDead) {
         this.playAnimation(this.IMAGES_WALKING);
       }
-    }, 200);
+    });
   }
 
   /**

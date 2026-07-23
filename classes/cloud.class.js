@@ -28,19 +28,19 @@ class Cloud extends MovableObject {
   constructor(x) {
     super().loadImage(this.CLOUD_IMAGES[0]);
     this.x = x;
-    this.animate();
   }
 
   /**
    * @description Moves the cloud continuously to the left.
    * Resets to x position 2600 when the cloud moves off the left edge of the screen.
+   * @param {number} dt - The elapsed time since the last frame in milliseconds
    */
-  animate() {
-    addInterval(() => {
+  update(dt) {
+    tickTimer(this.timers, "move", 1000 / 60, dt, () => {
       this.moveLeft();
       if (this.x < -this.width) {
         this.x = 2600;
       }
-    }, 1000 / 60);
+    });
   }
 }

@@ -4,6 +4,26 @@
 Object.assign(World.prototype, {
 
   /**
+   * @description Advances the whole world by one frame: updates the character,
+   * clouds, enemies and throwable objects, then runs collision/state checks
+   * on their original ~50ms cadence. Called once per frame from the central
+   * requestAnimationFrame loop in draw() instead of many independent setIntervals.
+   * @param {number} dt - The elapsed time since the last frame in milliseconds
+   */
+  update(dt) {
+    this.character.update(dt);
+    this.level.clouds.forEach((cloud) => cloud.update(dt));
+    this.level.enemies.forEach((enemy) => enemy.update(dt));
+    this.throwableObjects.forEach((bottle) => bottle.update(dt));
+    tickTimer(this.timers, "collisions", 50, dt, () => {
+      this.checkCollisions();
+      this.checkThrowObjects();
+      this.checkGameOver();
+      this.checkWin();
+    });
+  },
+
+  /**
    * @description Kills an enemy and makes the character bounce upward.
    * @param {MovableObject} enemy - The enemy to kill
    */
