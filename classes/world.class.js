@@ -89,7 +89,7 @@ class World {
    * @param {Keyboard} keyboard - The keyboard input handler
    */
   constructor(canvas, keyboard) {
-    this.ctx = canvas.getContext("2d");
+    this.ctx = canvas.getContext("2d", { alpha: false });
     this.canvas = canvas;
     this.keyboard = keyboard;
     this.setWorld();
