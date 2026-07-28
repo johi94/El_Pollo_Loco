@@ -28,37 +28,44 @@ class DrawableObject {
   currentImage = 0;
 
   /**
-   * @type {Object.<string, HTMLCanvasElement>}
+   * @type {Object.<string, {bitmap: ImageBitmap|null}>}
    * @description Class-wide cache of images pre-scaled to a target size, keyed by
-   * "path__WxH". Drawing a pre-scaled canvas 1:1 avoids the per-frame resampling
-   * cost of ctx.drawImage() scaling a much larger source image down every frame.
+   * "path__WxH". Each entry holds an ImageBitmap rather than a detached
+   * &lt;canvas&gt;, since Safari/WebKit draws ImageBitmap sources far more
+   * efficiently than canvas-to-canvas drawImage(), avoiding a software-rendering
+   * fallback that otherwise shows up as frame jank on macOS/iOS.
    */
   static scaledImageCache = {};
 
   /**
-   * @description Returns a canvas containing the given image pre-scaled to the
-   * requested size, creating and caching it on first use. The canvas is returned
-   * immediately and filled in once the source image has loaded.
+   * @description Returns a cache entry holding the given image pre-scaled to the
+   * requested size as an ImageBitmap, creating and caching it on first use. The
+   * entry is returned immediately with `bitmap: null` and filled in once the
+   * source image has loaded and been decoded.
    * @param {string} path - The file path of the image to load
    * @param {number} width - The target width in pixels
    * @param {number} height - The target height in pixels
-   * @returns {HTMLCanvasElement} A canvas pre-scaled to width x height
+   * @returns {{bitmap: ImageBitmap|null}} A cache entry pre-scaled to width x height
    */
   getScaledImage(path, width, height) {
     const key = `${path}__${width}x${height}`;
     if (DrawableObject.scaledImageCache[key]) {
       return DrawableObject.scaledImageCache[key];
     }
-    const canvas = document.createElement("canvas");
-    canvas.width = width;
-    canvas.height = height;
-    DrawableObject.scaledImageCache[key] = canvas;
+    const entry = { bitmap: null };
+    DrawableObject.scaledImageCache[key] = entry;
     const source = new Image();
     source.onload = () => {
-      canvas.getContext("2d").drawImage(source, 0, 0, width, height);
+      createImageBitmap(source, {
+        resizeWidth: width,
+        resizeHeight: height,
+        resizeQuality: "medium",
+      }).then((bitmap) => {
+        entry.bitmap = bitmap;
+      });
     };
     source.src = path;
-    return canvas;
+    return entry;
   }
 
   /**
@@ -72,10 +79,13 @@ class DrawableObject {
 
   /**
    * @description Draws the current image onto the canvas at the object's position and size.
+   * No-op if the underlying ImageBitmap hasn't finished decoding yet.
    * @param {CanvasRenderingContext2D} ctx - The 2D rendering context to draw on
    */
   draw(ctx) {
-    ctx.drawImage(this.img, this.x, this.y, this.width, this.height);
+    if (this.img && this.img.bitmap) {
+      ctx.drawImage(this.img.bitmap, this.x, this.y, this.width, this.height);
+    }
   }
 
   /**
