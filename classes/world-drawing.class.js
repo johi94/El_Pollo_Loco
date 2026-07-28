@@ -24,10 +24,13 @@ Object.assign(World.prototype, {
 
   /**
    * @description Draws all background objects with camera offset applied.
+   * Objects far outside the visible camera range are skipped, same as
+   * the dynamic game objects, since each background layer is a full
+   * canvas-sized draw and only ~2 of the level's segments are ever visible.
    */
   drawBackground() {
     this.ctx.translate(this.camera_x, 0);
-    this.addObjectsToMap(this.level.backgroundObjects);
+    this.addObjectsToMap(this.level.backgroundObjects.filter((o) => this.isOnScreen(o)));
     this.ctx.translate(-this.camera_x, 0);
   },
 
