@@ -8,10 +8,14 @@ Object.assign(World.prototype, {
    * since the last frame (unless paused), then clears the canvas and redraws
    * all game objects. Driven by a single requestAnimationFrame chain instead
    * of many independent setIntervals, so movement/animation stay in sync with
-   * rendering and don't rely on browser timer precision.
+   * rendering and don't rely on browser timer precision. Throttled to
+   * `frameInterval` (30fps) so update+redraw work doesn't run at the display's
+   * full native refresh rate, which is 120Hz+ on ProMotion MacBooks.
    * @param {number} [timestamp] - The frame timestamp provided by requestAnimationFrame
    */
   draw(timestamp = performance.now()) {
+    this.animationFrame = requestAnimationFrame((ts) => this.draw(ts));
+    if (this.lastFrameTime && timestamp - this.lastFrameTime < this.frameInterval) return;
     const dt = this.lastFrameTime ? Math.min(timestamp - this.lastFrameTime, 100) : 0;
     this.lastFrameTime = timestamp;
     if (!gamePaused) this.update(dt);
@@ -19,7 +23,6 @@ Object.assign(World.prototype, {
     this.drawBackground();
     this.drawGameObjects();
     this.drawStatusBars();
-    this.animationFrame = requestAnimationFrame((ts) => this.draw(ts));
   },
 
   /**

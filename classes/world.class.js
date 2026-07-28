@@ -65,6 +65,16 @@ class World {
   /** @type {number|null} Timestamp of the previous frame, used to compute delta time */
   lastFrameTime = null;
 
+  /**
+   * @type {number}
+   * @description Minimum time in ms between processed frames, capping the
+   * render/update rate at 30fps. requestAnimationFrame still fires at the
+   * display's native rate (e.g. 120Hz on ProMotion MacBooks), so without this
+   * cap every update+redraw runs twice as often as on a 60Hz screen for no
+   * visual benefit.
+   */
+  frameInterval = 1000 / 30;
+
   /** @type {Object.<string, number>} Accumulated time per fixed-step timer, keyed by name */
   timers = {};
 
